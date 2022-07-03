@@ -63,6 +63,20 @@ client_secret = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET")
 if client_secret != "":
     sigstore_python_args.extend(["--oidc-client-secret", client_secret])
 
+if os.getenv("GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES", "false") != "false":
+    sigstore_python_args.append("--no-default-files")
+
+output_signature = os.getenv("GHA_SIGSTORE_PYTHON_OUTPUT_SIGNATURE")
+if output_signature != "":
+    sigstore_python_args.extend(["--output-signature", output_signature])
+
+output_certificate = os.getenv("GHA_SIGSTORE_PYTHON_OUTPUT_CERTIFICATE")
+if output_certificate != "":
+    sigstore_python_args.extend(["--output-certificate", output_certificate])
+
+if os.getenv("GHA_SIGSTORE_PYTHON_OVERWRITE", "false") != "false":
+    sigstore_python_args.append("--overwrite")
+
 fulcio_url = os.getenv("GHA_SIGSTORE_PYTHON_FULCIO_URL")
 if fulcio_url != "":
     sigstore_python_args.extend(["--fulcio-url", fulcio_url])
@@ -71,9 +85,20 @@ rekor_url = os.getenv("GHA_SIGSTORE_PYTHON_REKOR_URL")
 if rekor_url != "":
     sigstore_python_args.extend(["--rekor-url", rekor_url])
 
+ctfe = os.getenv("GHA_SIGSTORE_PYTHON_CTFE")
+if ctfe != "":
+    sigstore_python_args.extend(["--ctfe", ctfe])
+
+rekor_root_pubkey = os.getenv("GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY")
+if rekor_root_pubkey != "":
+    sigstore_python_args.extend(["--rekor-root-pubkey", rekor_root_pubkey])
+
 oidc_issuer = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_ISSUER")
 if oidc_issuer != "":
     sigstore_python_args.extend(["--oidc-issuer", oidc_issuer])
+
+if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
+    sigstore_python_args.append("--staging")
 
 for input_ in inputs:
     # Forbid things that look like flags. This isn't a security boundary; just
