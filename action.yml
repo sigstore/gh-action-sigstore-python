@@ -26,7 +26,6 @@ inputs:
     description: "the OpenID Connect issuer to use"
     required: false
     default: ""
-outputs:
 runs:
   using: "composite"
   steps:

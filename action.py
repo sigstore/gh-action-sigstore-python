@@ -103,19 +103,6 @@ if status.returncode == 0:
 else:
     _log("❌ sigstore-python failed to sign package")
 
-    with open("/tmp/sigstore-python-output.txt", "r") as io:
-        output = io.read()
-
-        # This is really nasty: our output contains multiple lines,
-        # so we can't naively stuff it into an output (since this is all done
-        # in-channel as a special command on stdout).
-        print(f"::set-output name=output::{b64encode(output.encode()).decode()}")
-
-        _summary("```")
-        _log(output)
-        _summary("```")
-
-
 _summary(
     """
 <details>
