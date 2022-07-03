@@ -152,6 +152,7 @@ Example:
   ```yaml
   - uses: trailofbits/gh-action-sigstore-python@v0.0.1
     with:
+      inputs: file.txt
       internal-be-careful-debug: true
   ```
 
