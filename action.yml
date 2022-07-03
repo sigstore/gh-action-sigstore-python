@@ -1,0 +1,49 @@
+name: "gh-action-sigstore-python"
+author: "Alex Cameron <alex.cameron@trailofbits.com>"
+description: "Use sigstore-python to sign Python packages"
+inputs:
+  inputs:
+    description: "the files to sign, whitespace separated"
+    required: true
+    default: ""
+  oidc-client-id:
+    description: "the custom OpenID Connect client ID to use during OAuth2"
+    required: false
+    default: ""
+  oidc-client-secret:
+    description: "the custom OpenID Connect client secret to use during OAuth2"
+    required: false
+    default: ""
+  fulcio-url:
+    description: "the Fulcio instance to use"
+    required: false
+    default: ""
+  rekor-url:
+    description: "the Rekor instance to use"
+    required: false
+    default: ""
+  oidc-issuer:
+    description: "the OpenID Connect issuer to use"
+    required: false
+    default: ""
+outputs:
+runs:
+  using: "composite"
+  steps:
+    - name: Set up sigstore-python
+      run: |
+        # NOTE: Sourced, not executed as a script.
+        source "${{ github.action_path }}/setup/setup.bash"
+      shell: bash
+
+    - name: Run sigstore-python
+      id: sigstore-python
+      run: |
+        ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
+      env:
+        GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID: "${{ inputs.oidc-client-id }}"
+        GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET: "${{ inputs.oidc-client-secret }}"
+        GHA_SIGSTORE_PYTHON_FULCIO_URL: "${{ inputs.fulcio-url }}"
+        GHA_SIGSTORE_PYTHON_REKOR_URL: "${{ inputs.rekor-url }}"
+        GHA_SIGSTORE_PYTHON_OIDC_ISSUER: "${{ inputs.oidc-issuer }}"
+      shell: bash
