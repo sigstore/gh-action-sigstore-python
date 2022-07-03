@@ -19,3 +19,13 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
+
+  selftest-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+          staging: true
