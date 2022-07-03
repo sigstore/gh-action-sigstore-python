@@ -8,7 +8,6 @@
 import os
 import subprocess
 import sys
-from base64 import b64encode
 from pathlib import Path
 
 _OUTPUTS = [sys.stderr]
