@@ -1,0 +1,39 @@
+name: Self-test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sign artifact and publish signature
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+      - name: Verify artifact signature
+        run: |
+          sigstore verify --certificate ./test/artifact.txt.crt --signature ./test/artifact.txt.sig ./test/artifact.txt
+
+  selftest-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sign artifact and publish signature
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+          staging: true
+      - name: Verify artifact signature
+        run: |
+          sigstore verify --certificate ./test/artifact.txt.crt --signature ./test/artifact.txt.sig --staging ./test/artifact.txt

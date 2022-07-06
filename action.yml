@@ -1,0 +1,88 @@
+name: "gh-action-sigstore-python"
+author: "Alex Cameron <alex.cameron@trailofbits.com>"
+description: "Use sigstore-python to sign Python packages"
+inputs:
+  inputs:
+    description: "the files to sign, whitespace separated"
+    required: true
+    default: ""
+  oidc-client-id:
+    description: "the custom OpenID Connect client ID to use during OAuth2"
+    required: false
+    default: ""
+  oidc-client-secret:
+    description: "the custom OpenID Connect client secret to use during OAuth2"
+    required: false
+    default: ""
+  no-default-files:
+    description: "don't emit the default output files ({input}.sig and {input}.crt)"
+    required: false
+    default: false
+  output-signature:
+    description: "write a single signature to the given file; does not work with multiple input files"
+    required: false
+    default: ""
+  output-certificate:
+    description: "write a single certificate to the given file; does not work with multiple input files"
+    required: false
+    default: ""
+  overwrite:
+    description: "overwrite preexisting signature and certificate outputs, if present"
+    required: false
+    default: false
+  fulcio-url:
+    description: "the Fulcio instance to use (conflicts with `staging`)"
+    required: false
+    default: ""
+  rekor-url:
+    description: "the Rekor instance to use (conflicts with `staging`)"
+    required: false
+    default: ""
+  ctfe:
+    description: "a PEM-encoded public key for the CT log (conflicts with `staging`)"
+    required: false
+    default: ""
+  rekor-root-pubkey:
+    description: "a PEM-encoded root public key for Rekor itself (conflicts with `staging`)"
+    required: false
+    default: ""
+  oidc-issuer:
+    description: "the OpenID Connect issuer to use"
+    required: false
+    default: ""
+  staging:
+    description: "use sigstore's staging instances, instead of the default production instances"
+    required: false
+    default: false
+  internal-be-careful-debug:
+    description: "run with debug logs (default false)"
+    required: false
+    default: false
+runs:
+  using: "composite"
+  steps:
+    - name: Set up sigstore-python
+      run: |
+        # NOTE: Sourced, not executed as a script.
+        source "${{ github.action_path }}/setup/setup.bash"
+      shell: bash
+
+    - name: Run sigstore-python
+      id: sigstore-python
+      run: |
+        ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
+      env:
+        GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES: "${{ inputs.no-default-files }}"
+        GHA_SIGSTORE_PYTHON_OUTPUT_SIGNATURE: "${{ inputs.output-signature }}"
+        GHA_SIGSTORE_PYTHON_OUTPUT_CERTIFICATE: "${{ inputs.output-certificate }}"
+        GHA_SIGSTORE_PYTHON_OVERWRITE: "${{ inputs.overwrite }}"
+        GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID: "${{ inputs.oidc-client-id }}"
+        GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET: "${{ inputs.oidc-client-secret }}"
+        GHA_SIGSTORE_PYTHON_FULCIO_URL: "${{ inputs.fulcio-url }}"
+        GHA_SIGSTORE_PYTHON_REKOR_URL: "${{ inputs.rekor-url }}"
+        GHA_SIGSTORE_PYTHON_CTFE: "${{ inputs.ctfe }}"
+        GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY: "${{ inputs.rekor-root-pubkey }}"
+        GHA_SIGSTORE_PYTHON_OIDC_ISSUER: "${{ inputs.oidc-issuer }}"
+        GHA_SIGSTORE_PYTHON_STAGING: "${{ inputs.staging }}"
+        GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
+      shell: bash
