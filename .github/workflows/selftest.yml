@@ -19,6 +19,8 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
+      - run: |
+          sigstore verify --certificate ./test/artifact.crt --signature ./test/artifact.sig
 
   selftest-staging:
     runs-on: ubuntu-latest
@@ -29,3 +31,5 @@ jobs:
         with:
           inputs: ./test/artifact.txt
           staging: true
+      - run: |
+          sigstore verify --certificate ./test/artifact.crt --signature ./test/artifact.sig --staging
