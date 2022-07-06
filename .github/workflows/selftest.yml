@@ -20,7 +20,7 @@ jobs:
         with:
           inputs: ./test/artifact.txt
       - run: |
-          sigstore verify --certificate ./test/artifact.crt --signature ./test/artifact.sig
+          sigstore verify --certificate ./test/artifact.txt.crt --signature ./test/artifact.txt.sig ./test/artifact.txt
 
   selftest-staging:
     runs-on: ubuntu-latest
@@ -32,4 +32,4 @@ jobs:
           inputs: ./test/artifact.txt
           staging: true
       - run: |
-          sigstore verify --certificate ./test/artifact.crt --signature ./test/artifact.sig --staging
+          sigstore verify --certificate ./test/artifact.txt.crt --signature ./test/artifact.txt.sig --staging ./test/artifact.txt
