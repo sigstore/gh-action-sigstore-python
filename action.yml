@@ -17,7 +17,7 @@ inputs:
   no-default-files:
     description: "don't emit the default output files ({input}.sig and {input}.crt)"
     required: false
-    default: ""
+    default: false
   output-signature:
     description: "write a single signature to the given file; does not work with multiple input files"
     required: false
@@ -29,7 +29,7 @@ inputs:
   overwrite:
     description: "overwrite preexisting signature and certificate outputs, if present"
     required: false
-    default: ""
+    default: false
   fulcio-url:
     description: "the Fulcio instance to use (conflicts with `staging`)"
     required: false
@@ -53,7 +53,7 @@ inputs:
   staging:
     description: "use sigstore's staging instances, instead of the default production instances"
     required: false
-    default: ""
+    default: false
   internal-be-careful-debug:
     description: "run with debug logs (default false)"
     required: false
