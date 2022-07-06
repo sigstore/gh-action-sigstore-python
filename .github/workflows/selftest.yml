@@ -19,7 +19,6 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
-          internal-be-careful-debug: true
       - run: |
           sigstore verify --certificate ./test/artifact.txt.crt --signature ./test/artifact.txt.sig ./test/artifact.txt
 
