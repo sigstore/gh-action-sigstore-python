@@ -42,11 +42,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Sign artifact and publish signature
+      - name: Sign artifacts and publish signatures
         uses: ./
         id: sigstore-python
         with:
           inputs: ./test/*.txt
-      - name: Verify artifact signature
+      - name: Verify artifact signatures
         run: |
-          sigstore verify ./test/*.txt
+          sigstore verify ./test/artifact.txt ./test/artifact1.txt ./test/artifact2.txt
