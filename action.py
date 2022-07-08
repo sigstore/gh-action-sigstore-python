@@ -8,6 +8,7 @@
 import os
 import subprocess
 import sys
+from glob import glob
 from pathlib import Path
 
 _OUTPUTS = [sys.stderr]
@@ -106,9 +107,13 @@ for input_ in inputs:
     if str(input_).startswith("-"):
         _fatal_help(f"input {input_} looks like a flag")
 
-    if not input_.is_file():
-        _fatal_help(f"input {input_} does not look like a file")
-    sigstore_python_args.append(input_)
+    files = glob(input_)
+
+    for file_ in files:
+        if not file_.is_file():
+            _fatal_help(f"input {file_} does not look like a file")
+
+    sigstore_python_args.extend(files)
 
 _debug(f"running: sigstore-python {[str(a) for a in sigstore_python_args]}")
 
