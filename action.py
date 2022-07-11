@@ -8,6 +8,7 @@
 import os
 import subprocess
 import sys
+from glob import glob
 from pathlib import Path
 
 _OUTPUTS = [sys.stderr]
@@ -43,7 +44,7 @@ def _fatal_help(msg):
     sys.exit(1)
 
 
-inputs = [Path(p).resolve() for p in sys.argv[1].split()]
+inputs = sys.argv[1].split()
 summary = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 
 # The arguments we pass into `sigstore-python` get built up in this list.
@@ -103,12 +104,16 @@ if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
 for input_ in inputs:
     # Forbid things that look like flags. This isn't a security boundary; just
     # a way to prevent (less motivated) users from breaking the action on themselves.
-    if str(input_).startswith("-"):
+    if input_.startswith("-"):
         _fatal_help(f"input {input_} looks like a flag")
 
-    if not input_.is_file():
-        _fatal_help(f"input {input_} does not look like a file")
-    sigstore_python_args.append(input_)
+    files = [Path(f).resolve() for f in glob(input_)]
+
+    for file_ in files:
+        if not file_.is_file():
+            _fatal_help(f"input {file_} does not look like a file")
+
+    sigstore_python_args.extend(files)
 
 _debug(f"running: sigstore-python {[str(a) for a in sigstore_python_args]}")
 

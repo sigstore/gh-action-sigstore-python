@@ -37,3 +37,16 @@ jobs:
       - name: Verify artifact signature
         run: |
           sigstore verify --certificate ./test/artifact.txt.crt --signature ./test/artifact.txt.sig --staging ./test/artifact.txt
+
+  selftest-glob:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sign artifacts and publish signatures
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/*.txt
+      - name: Verify artifact signatures
+        run: |
+          sigstore verify ./test/artifact.txt ./test/artifact1.txt ./test/artifact2.txt

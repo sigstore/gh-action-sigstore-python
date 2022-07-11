@@ -50,6 +50,14 @@ To sign one or more files:
     inputs: file0.txt file1.txt file2.txt
 ```
 
+The `inputs` argument also supports file globbing:
+
+```yaml
+- uses: trailofbits/gh-action-sigstore-python@v0.0.1
+  with:
+    inputs: ./path/to/inputs/*.txt
+```
+
 ### `oidc-client-id`
 
 **Default**: `sigstore`
