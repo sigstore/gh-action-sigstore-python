@@ -32,6 +32,16 @@ jobs:
           inputs: file.txt
 ```
 
+Your workflow must have permission to request the OIDC token to authenticate with. This can be done
+by having a top-level `permission` setting for your workflow.
+
+```yaml
+permissions:
+  id-token: write
+```
+
+More information about permission settings can be found [here](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#adding-permissions-settings).
+
 ## Configuration
 
 `gh-action-sigstore-python` takes a variety of configuration inputs, most of which are
