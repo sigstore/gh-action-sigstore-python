@@ -142,10 +142,6 @@ if sign_status.returncode == 0:
 else:
     _log("❌ sigstore-python failed to sign package")
 
-import time
-
-time.sleep(60)
-
 _debug(f"verifying: sigstore-python {[str(a) for a in sigstore_python_verify_args]}")
 
 verify_status = None
