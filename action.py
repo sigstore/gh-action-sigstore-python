@@ -144,7 +144,7 @@ else:
 
 import time
 
-time.sleep(10)
+time.sleep(60)
 
 _debug(f"verifying: sigstore-python {[str(a) for a in sigstore_python_verify_args]}")
 
