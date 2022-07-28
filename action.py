@@ -142,6 +142,10 @@ if sign_status.returncode == 0:
 else:
     _log("❌ sigstore-python failed to sign package")
 
+import time
+
+time.sleep(1)
+
 verify_status = None
 if sign_status.returncode == 0:
     verify_status = subprocess.run(
