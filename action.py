@@ -143,7 +143,7 @@ else:
     _log("❌ sigstore-python failed to sign package")
 
 verify_status = None
-if sign_status.return_code == 0:
+if sign_status.returncode == 0:
     verify_status = subprocess.run(
         _sigstore_python_verify(*sigstore_python_verify_args),
         text=True,
