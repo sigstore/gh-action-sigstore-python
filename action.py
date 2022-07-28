@@ -144,7 +144,7 @@ else:
 
 import time
 
-time.sleep(1)
+time.sleep(10)
 
 verify_status = None
 if sign_status.returncode == 0:
