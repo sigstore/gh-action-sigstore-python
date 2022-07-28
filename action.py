@@ -125,7 +125,7 @@ for input_ in inputs:
     sigstore_python_sign_args.extend(files)
     sigstore_python_verify_args.extend(files)
 
-_debug(f"running: sigstore-python {[str(a) for a in sigstore_python_sign_args]}")
+_debug(f"signing: sigstore-python {[str(a) for a in sigstore_python_sign_args]}")
 
 sign_status = subprocess.run(
     _sigstore_python_sign(*sigstore_python_sign_args),
@@ -145,6 +145,8 @@ else:
 import time
 
 time.sleep(10)
+
+_debug(f"verifying: sigstore-python {[str(a) for a in sigstore_python_verify_args]}")
 
 verify_status = None
 if sign_status.returncode == 0:
