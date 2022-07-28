@@ -181,6 +181,7 @@ _summary(
 if verify_status is not None:
     _summary(
         """
+<details>
 <summary>
     Raw `sigstore-python verify` output
 </summary>
