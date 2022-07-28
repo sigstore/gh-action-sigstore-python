@@ -175,6 +175,7 @@ _log(sign_status.stdout)
 _summary(
     """
 ```
+</details>
     """
 )
 if verify_status is not None:
@@ -191,13 +192,9 @@ if verify_status is not None:
     _summary(
         """
 ```
+</details>
         """
     )
-_summary(
-    """
-</details>
-    """
-)
 
 if sign_status.returncode != 0:
     assert verify_status is None
