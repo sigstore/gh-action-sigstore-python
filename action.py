@@ -183,6 +183,8 @@ if verify_status is not None:
 <summary>
     Raw `sigstore-python verify` output
 </summary>
+
+```
         """
     )
     _log(verify_status.stdout)
