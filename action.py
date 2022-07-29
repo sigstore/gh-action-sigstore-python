@@ -58,8 +58,8 @@ sigstore_python_verify_args = []
 # The environment variables that we apply to `sigstore-python`.
 sigstore_python_env = {}
 
-# Flag to check whether we want to disable the verify step.
-disable_verify = False
+# Flag to check whether we want enable the verify step.
+enable_verify = True
 
 if _DEBUG:
     sigstore_python_env["SIGSTORE_LOGLEVEL"] = "DEBUG"
@@ -115,7 +115,7 @@ if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
     sigstore_python_verify_args.append("--staging")
 
 if os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_ENABLE", "false") == "false":
-    disable_verify = True
+    enable_verify = False
 
 verify_cert_email = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL")
 if verify_cert_email != "":
@@ -153,10 +153,12 @@ if sign_status.returncode == 0:
 else:
     _log("❌ sigstore-python failed to sign package")
 
-_debug(f"verifying: sigstore-python {[str(a) for a in sigstore_python_verify_args]}")
-
 verify_status = None
-if sign_status.returncode == 0:
+if sign_status.returncode == 0 and enable_verify:
+    _debug(
+        f"verifying: sigstore-python {[str(a) for a in sigstore_python_verify_args]}"
+    )
+
     verify_status = subprocess.run(
         _sigstore_python_verify(*sigstore_python_verify_args),
         text=True,
@@ -164,10 +166,13 @@ if sign_status.returncode == 0:
         stderr=subprocess.STDOUT,
         env={**os.environ, **sigstore_python_env},
     )
+
     _debug(verify_status.stdout)
 
 if verify_status is None:
-    _log("❌ sigstore-python verification skipped due to failed signing")
+    # Don't add anything to the summary if verification is disabled.
+    if enable_verify:
+        _log("❌ sigstore-python verification skipped due to failed signing")
 elif verify_status.returncode == 0:
     _log("🎉 sigstore-python verification exited successfully")
 else:
