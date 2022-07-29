@@ -58,6 +58,9 @@ sigstore_python_verify_args = []
 # The environment variables that we apply to `sigstore-python`.
 sigstore_python_env = {}
 
+# Flag to check whether we want to disable the verify step.
+disable_verify = False
+
 if _DEBUG:
     sigstore_python_env["SIGSTORE_LOGLEVEL"] = "DEBUG"
 
@@ -105,10 +108,18 @@ if rekor_root_pubkey != "":
 oidc_issuer = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_ISSUER")
 if oidc_issuer != "":
     sigstore_python_sign_args.extend(["--oidc-issuer", oidc_issuer])
+    sigstore_python_verify_args.extend(["--oidc-issuer", oidc_issuer])
 
 if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
     sigstore_python_sign_args.append("--staging")
     sigstore_python_verify_args.append("--staging")
+
+if os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_ENABLE", "false") == "false":
+    disable_verify = True
+
+verify_cert_email = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL")
+if verify_cert_email != "":
+    sigstore_python_verify_args.extend(["--cert-email", verify_cert_email])
 
 for input_ in inputs:
     # Forbid things that look like flags. This isn't a security boundary; just
