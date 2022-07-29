@@ -18,11 +18,11 @@ inputs:
     description: "don't emit the default output files ({input}.sig and {input}.crt)"
     required: false
     default: false
-  output-signature:
+  signature:
     description: "write a single signature to the given file; does not work with multiple input files"
     required: false
     default: ""
-  output-certificate:
+  certificate:
     description: "write a single certificate to the given file; does not work with multiple input files"
     required: false
     default: ""
@@ -81,8 +81,8 @@ runs:
         ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
       env:
         GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES: "${{ inputs.no-default-files }}"
-        GHA_SIGSTORE_PYTHON_OUTPUT_SIGNATURE: "${{ inputs.output-signature }}"
-        GHA_SIGSTORE_PYTHON_OUTPUT_CERTIFICATE: "${{ inputs.output-certificate }}"
+        GHA_SIGSTORE_PYTHON_SIGNATURE: "${{ inputs.signature }}"
+        GHA_SIGSTORE_PYTHON_CERTIFICATE: "${{ inputs.certificate }}"
         GHA_SIGSTORE_PYTHON_OVERWRITE: "${{ inputs.overwrite }}"
         GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID: "${{ inputs.oidc-client-id }}"
         GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET: "${{ inputs.oidc-client-secret }}"
