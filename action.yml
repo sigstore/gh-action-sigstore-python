@@ -86,3 +86,8 @@ runs:
         GHA_SIGSTORE_PYTHON_STAGING: "${{ inputs.staging }}"
         GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: "signing-artifacts-${{ github.job }}"
+        path: "${{ env.GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS }}"

@@ -53,6 +53,9 @@ sigstore_python_args = []
 # The environment variables that we apply to `sigstore-python`.
 sigstore_python_env = {}
 
+# The signing artifacts we've generated.
+signing_artifact_paths = []
+
 if _DEBUG:
     sigstore_python_env["SIGSTORE_LOGLEVEL"] = "DEBUG"
 
@@ -112,6 +115,7 @@ for input_ in inputs:
     for file_ in files:
         if not file_.is_file():
             _fatal_help(f"input {file_} does not look like a file")
+        signing_artifact_paths.extend([f"{file_}.crt", f"{file_}.sig"])
 
     sigstore_python_args.extend(files)
 
@@ -149,5 +153,26 @@ _summary(
 </details>
     """
 )
+
+# Now signal to the remaining steps that we've generated the following signing artifacts.
+#
+# Find the path to the GitHub env file.
+gh_env = os.getenv("GITHUB_ENV")
+assert gh_env is not None
+
+# The GitHub env file is append only.
+with open(gh_env, "a") as f:
+    # Multiline outputs must match the following syntax:
+    #
+    # {name}<<{delimiter}
+    # {value}
+    # {delimiter}
+    f.write(
+        "GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS<<EOF"
+        + os.linesep
+        + " ".join(signing_artifact_paths)
+        + os.linesep
+        + "EOF"
+    )
 
 sys.exit(status.returncode)
