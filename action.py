@@ -170,7 +170,7 @@ with open(gh_env, "a") as f:
     f.write(
         "GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS<<EOF"
         + os.linesep
-        + " ".join(signing_artifact_paths)
+        + os.linesep.join(signing_artifact_paths)
         + os.linesep
         + "EOF"
     )
