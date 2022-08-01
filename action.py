@@ -82,15 +82,15 @@ if os.getenv("GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES", "false") != "false":
     )
     enable_verify = False
 
-output_signature = os.getenv("GHA_SIGSTORE_PYTHON_OUTPUT_SIGNATURE")
-if output_signature != "":
-    sigstore_python_sign_args.extend(["--signature", output_signature])
-    sigstore_python_verify_args.extend(["--signature", output_signature])
+signature = os.getenv("GHA_SIGSTORE_PYTHON_SIGNATURE")
+if signature != "":
+    sigstore_python_sign_args.extend(["--signature", signature])
+    sigstore_python_verify_args.extend(["--signature", signature])
 
-output_certificate = os.getenv("GHA_SIGSTORE_PYTHON_OUTPUT_CERTIFICATE")
-if output_certificate != "":
-    sigstore_python_sign_args.extend(["--certificate", output_certificate])
-    sigstore_python_verify_args.extend(["--certificate", output_certificate])
+certificate = os.getenv("GHA_SIGSTORE_PYTHON_CERTIFICATE")
+if certificate != "":
+    sigstore_python_sign_args.extend(["--certificate", certificate])
+    sigstore_python_verify_args.extend(["--certificate", certificate])
 
 if os.getenv("GHA_SIGSTORE_PYTHON_OVERWRITE", "false") != "false":
     sigstore_python_sign_args.append("--overwrite")
