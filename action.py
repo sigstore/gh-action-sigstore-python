@@ -135,7 +135,7 @@ if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
     sigstore_sign_args.append("--staging")
     sigstore_verify_args.append("--staging")
 
-if os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_ENABLE", "false") == "false":
+if os.getenv("GHA_SIGSTORE_PYTHON_VERIFY", "false") == "false":
     enable_verify = False
 
 verify_cert_email = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL")

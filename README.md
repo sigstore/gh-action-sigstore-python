@@ -108,7 +108,7 @@ The `no-default-files` setting controls whether the default output files (`{inpu
 `{input.crt}`) are emitted.
 
 These output files are necessary for verification so turning this setting on will automatically set
-`verify-enable` to `false`.
+`verify` to `false`.
 
 Example:
 
@@ -254,7 +254,7 @@ Example:
 **Default**: `https://oauth2.sigstore.dev/auth`
 
 The `oidc-issuer` setting controls the OpenID Connect issuer to retrieve the OpenID Connect token
-from. If `verify-enable` is on, the issuer extension of the signing certificate will also get
+from. If `verify` is on, the issuer extension of the signing certificate will also get
 checked to ensure that it matches.
 
 Example:
@@ -282,11 +282,11 @@ Example:
     staging: true
 ```
 
-### `verify-enable`
+### `verify`
 
 **Default**: `true`
 
-The `verify-enable` setting controls whether or not the generated signatures and certificates are
+The `verify` setting controls whether or not the generated signatures and certificates are
 verified with the `sigstore verify` subcommand after all files have been signed.
 
 This is not strictly necessary but can act as a smoke test to ensure that all signing artifacts were
@@ -299,7 +299,7 @@ Example:
 - uses: trailofbits/gh-action-sigstore-python@v0.0.2
   with:
     inputs: file.txt
-    verify-enable: false
+    verify: false
 ```
 
 ### `verify-cert-email`
@@ -310,7 +310,7 @@ The `verify-cert-email` setting controls whether to verify the Subject Alternati
 signing certificate after signing has taken place. If it is set, `sigstore-python` will compare the
 certificate's SAN against the provided value.
 
-This setting only applies if `verify-enable` is set to `true`.
+This setting only applies if `verify` is set to `true`.
 
 ```yaml
 - uses: trailofbits/gh-action-sigstore-python@v0.0.2
