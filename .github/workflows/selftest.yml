@@ -41,3 +41,15 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/*.txt
+
+  selftest-upload-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sign artifact and publish signature
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+          staging: true
+          upload-signing-artifacts: true

@@ -292,6 +292,7 @@ verified with the `sigstore verify` subcommand after all files have been signed.
 This is not strictly necessary but can act as a smoke test to ensure that all signing artifacts were
 generated properly and the signature was properly submitted to Rekor.
 
+
 Example:
 
 ```yaml
@@ -316,6 +317,51 @@ This setting only applies if `verify-enable` is set to `true`.
   with:
     inputs: file.txt
     verify-cert-email: john.smith@example.com
+```
+
+### `upload-signing-artifacts`
+
+**Default**: `false`
+
+The `upload-signing-artifacts` setting controls whether or not `sigstore-python` creates
+[workflow artifacts](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)
+for the outputs produced by signing operations.
+
+By default, no workflow artifacts are uploaded. When enabled, the default
+workflow artifact retention period is used.
+
+Example:
+
+```yaml
+- uses: trailofbits/gh-action-sigstore-python@v0.0.2
+  with:
+    inputs: file.txt
+    upload-signing-artifacts: true
+```
+
+### `release-signing-artifacts`
+
+**Default**: `false`
+
+The `release-signing-artifacts` setting controls whether or not `sigstore-python`
+uploads signing artifacts to the release that triggered this run.
+
+By default, no release assets are uploaded.
+
+Requires the [`contents: write` permission](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token).
+
+Example:
+
+```yaml
+permissions:
+  contents: write
+
+# ...
+
+- uses: trailofbits/gh-action-sigstore-python@v0.0.2
+  with:
+    inputs: file.txt
+    release-signing-artifacts: true
 ```
 
 ### Internal options
