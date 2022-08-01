@@ -165,18 +165,19 @@ _summary(
 #
 # In GitHub Actions, environment variables can be made to persist across
 # workflow steps by appending to the file at `GITHUB_ENV`.
-with Path(os.getenv("GITHUB_ENV")).open("a") as gh_env:
-    # Multiline values must match the following syntax:
-    #
-    # {name}<<{delimiter}
-    # {value}
-    # {delimiter}
-    gh_env.write(
-        "GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS<<EOF"
-        + os.linesep
-        + os.linesep.join(signing_artifact_paths)
-        + os.linesep
-        + "EOF"
-    )
+if "--no-default-files" not in sigstore_python_args:
+    with Path(os.getenv("GITHUB_ENV")).open("a") as gh_env:
+        # Multiline values must match the following syntax:
+        #
+        # {name}<<{delimiter}
+        # {value}
+        # {delimiter}
+        gh_env.write(
+            "GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS<<EOF"
+            + os.linesep
+            + os.linesep.join(signing_artifact_paths)
+            + os.linesep
+            + "EOF"
+        )
 
 sys.exit(status.returncode)
