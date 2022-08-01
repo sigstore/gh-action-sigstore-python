@@ -54,10 +54,15 @@ inputs:
     description: "use sigstore's staging instances, instead of the default production instances"
     required: false
     default: false
+  upload-signing-artifacts:
+    description: "upload all signing artifacts as workflow artifacts"
+    required: false
+    default: false
   internal-be-careful-debug:
     description: "run with debug logs (default false)"
     required: false
     default: false
+
 runs:
   using: "composite"
   steps:
@@ -86,3 +91,9 @@ runs:
         GHA_SIGSTORE_PYTHON_STAGING: "${{ inputs.staging }}"
         GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash
+
+    - uses: actions/upload-artifact@v3
+      if: ${{ inputs.upload-signing-artifacts == 'true' }}
+      with:
+        name: "signing-artifacts-${{ github.job }}"
+        path: "${{ env.GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS }}"

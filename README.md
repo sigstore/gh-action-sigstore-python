@@ -278,6 +278,26 @@ Example:
     staging: true
 ```
 
+### `upload-signing-artifacts`
+
+**Default**: `false`
+
+The `upload-signing-artifacts` setting controls whether or not `sigstore-python` creates
+[workflow artifacts](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts)
+for the outputs produced by signing operations.
+
+By default, no workflow artifacts are uploaded. When enabled, the default
+workflow artifact retention period is used.
+
+Example:
+
+```yaml
+- uses: trailofbits/gh-action-sigstore-python@v0.0.2
+  with:
+    inputs: file.txt
+    upload-signing-artifacts: true
+```
+
 ### Internal options
 <details>
   <summary>⚠️ Internal options ⚠️</summary>
