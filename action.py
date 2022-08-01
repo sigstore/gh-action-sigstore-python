@@ -96,14 +96,14 @@ if certificate != "":
     sigstore_sign_args.extend(["--certificate", certificate])
     sigstore_verify_args.extend(["--certificate", certificate])
 
-output_signature = os.getenv("GHA_SIGSTORE_PYTHON_OUTPUT_SIGNATURE")
+output_signature = os.getenv("GHA_SIGSTORE_PYTHON_SIGNATURE")
 if output_signature != "":
-    sigstore_sign_args.extend(["--output-signature", output_signature])
+    sigstore_sign_args.extend(["--signature", output_signature])
     signing_artifact_paths.append(output_signature)
 
-output_certificate = os.getenv("GHA_SIGSTORE_PYTHON_OUTPUT_CERTIFICATE")
+output_certificate = os.getenv("GHA_SIGSTORE_PYTHON_CERTIFICATE")
 if output_certificate != "":
-    sigstore_sign_args.extend(["--output-certificate", output_certificate])
+    sigstore_sign_args.extend(["--certificate", output_certificate])
     signing_artifact_paths.append(output_certificate)
 
 if os.getenv("GHA_SIGSTORE_PYTHON_OVERWRITE", "false") != "false":
