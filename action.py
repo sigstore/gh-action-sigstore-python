@@ -77,7 +77,9 @@ if os.getenv("GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES", "false") != "false":
 
     # If we don't write the certificate and signature to the disk, we're unable
     # to verify afterwards.
-    _debug("disabling verification due to the `no-default-files` setting being provided")
+    _debug(
+        "disabling verification due to the `no-default-files` setting being provided"
+    )
     enable_verify = False
 
 signature = os.getenv("GHA_SIGSTORE_PYTHON_SIGNATURE")
