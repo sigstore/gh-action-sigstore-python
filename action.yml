@@ -91,3 +91,8 @@ runs:
       with:
         name: "signing-artifacts-${{ github.job }}"
         path: "${{ env.GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS }}"
+
+    - uses: softprops/upload-action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/v')
+      with:
+        files: "${{ env.GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS }}"
