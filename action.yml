@@ -93,7 +93,7 @@ runs:
       shell: bash
 
     - uses: actions/upload-artifact@v3
-      if: ${{ inputs.upload-signing-artifacts }}
+      if: ${{ inputs.upload-signing-artifacts == 'true' }}
       with:
         name: "signing-artifacts-${{ github.job }}"
         path: "${{ env.GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS }}"
