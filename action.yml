@@ -58,6 +58,10 @@ inputs:
     description: "upload all signing artifacts as workflow artifacts"
     required: false
     default: false
+  release-signing-artifacts:
+    description: "attach all signing artifacts as release assets"
+    required: false
+    default: false
   internal-be-careful-debug:
     description: "run with debug logs (default false)"
     required: false
@@ -93,12 +97,12 @@ runs:
       shell: bash
 
     - uses: actions/upload-artifact@v3
-      if: ${{ inputs.upload-signing-artifacts == 'true' }}
+      if: inputs.upload-signing-artifacts == 'true'
       with:
         name: "signing-artifacts-${{ github.job }}"
         path: "${{ env.GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS }}"
 
     - uses: softprops/action-gh-release@v1
-      if: github.event_name == 'release' && github.event.action == 'created'
+      if: inputs.release-signing-artifacts == 'true' && github.event_name == 'release' && github.event.action == 'created'
       with:
         files: "${{ env.GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS }}"
