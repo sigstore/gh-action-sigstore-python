@@ -107,6 +107,9 @@ Example:
 The `no-default-files` setting controls whether the default output files (`{input}.sig` and
 `{input.crt}`) are emitted.
 
+These output files are necessary for verification so turning this setting on will automatically set
+`verify` to `false`.
+
 Example:
 
 ```yaml
@@ -116,12 +119,12 @@ Example:
     no-default-files: true
 ```
 
-### `output-signature`
+### `signature`
 
 **Default**: Empty (signature files will get named as `{input}.sig`)
 
-The `output-signature` setting controls the name of the output signature file. This setting does
-not work when signing multiple input files.
+The `signature` setting controls the name of the output signature file. This setting does not work
+when signing multiple input files.
 
 Example:
 
@@ -129,7 +132,7 @@ Example:
 - uses: trailofbits/gh-action-sigstore-python@v0.0.2
   with:
     inputs: file.txt
-    output-signature: custom-signature-filename.sig
+    signature: custom-signature-filename.sig
 ```
 
 However, this example is invalid:
@@ -138,15 +141,15 @@ However, this example is invalid:
 - uses: trailofbits/gh-action-sigstore-python@v0.0.2
   with:
     inputs: file0.txt file1.txt file2.txt
-    output-signature: custom-signature-filename.sig
+    signature: custom-signature-filename.sig
 ```
 
-### `output-certificate`
+### `certificate`
 
 **Default**: Empty (certificate files will get named as `{input}.crt`)
 
-The `output-certificate` setting controls the name of the output certificate file. This setting does
-not work when signing multiple input files.
+The `certificate` setting controls the name of the output certificate file. This setting does not
+work when signing multiple input files.
 
 Example:
 
@@ -154,7 +157,7 @@ Example:
 - uses: trailofbits/gh-action-sigstore-python@v0.0.2
   with:
     inputs: file.txt
-    output-certificate: custom-certificate-filename.crt
+    certificate: custom-certificate-filename.crt
 ```
 
 However, this example is invalid:
@@ -163,7 +166,7 @@ However, this example is invalid:
 - uses: trailofbits/gh-action-sigstore-python@v0.0.2
   with:
     inputs: file0.txt file1.txt file2.txt
-    output-certificate: custom-certificate-filename.crt
+    certificate: custom-certificate-filename.crt
 ```
 
 ### `overwrite`
@@ -251,7 +254,8 @@ Example:
 **Default**: `https://oauth2.sigstore.dev/auth`
 
 The `oidc-issuer` setting controls the OpenID Connect issuer to retrieve the OpenID Connect token
-from.
+from. If `verify` is on, the issuer extension of the signing certificate will also get
+checked to ensure that it matches.
 
 Example:
 
@@ -276,6 +280,43 @@ Example:
   with:
     inputs: file.txt
     staging: true
+```
+
+### `verify`
+
+**Default**: `true`
+
+The `verify` setting controls whether or not the generated signatures and certificates are
+verified with the `sigstore verify` subcommand after all files have been signed.
+
+This is not strictly necessary but can act as a smoke test to ensure that all signing artifacts were
+generated properly and the signature was properly submitted to Rekor.
+
+
+Example:
+
+```yaml
+- uses: trailofbits/gh-action-sigstore-python@v0.0.2
+  with:
+    inputs: file.txt
+    verify: false
+```
+
+### `verify-cert-email`
+
+**Default**: Empty
+
+The `verify-cert-email` setting controls whether to verify the Subject Alternative Name (SAN) of the
+signing certificate after signing has taken place. If it is set, `sigstore-python` will compare the
+certificate's SAN against the provided value.
+
+This setting only applies if `verify` is set to `true`.
+
+```yaml
+- uses: trailofbits/gh-action-sigstore-python@v0.0.2
+  with:
+    inputs: file.txt
+    verify-cert-email: john.smith@example.com
 ```
 
 ### `upload-signing-artifacts`

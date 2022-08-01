@@ -18,11 +18,11 @@ inputs:
     description: "don't emit the default output files ({input}.sig and {input}.crt)"
     required: false
     default: false
-  output-signature:
+  signature:
     description: "write a single signature to the given file; does not work with multiple input files"
     required: false
     default: ""
-  output-certificate:
+  certificate:
     description: "write a single certificate to the given file; does not work with multiple input files"
     required: false
     default: ""
@@ -47,13 +47,21 @@ inputs:
     required: false
     default: ""
   oidc-issuer:
-    description: "the OpenID Connect issuer to use"
+    description: "the OpenID Connect issuer to use; if `verify` is on, the issuer extension of the signing certificate will also get checked to ensure that it matches"
     required: false
     default: ""
   staging:
     description: "use sigstore's staging instances, instead of the default production instances"
     required: false
     default: false
+  verify:
+    description: "verify the generated signatures after signing"
+    required: false
+    default: true
+  verify-cert-email:
+    description: "verify the email address to in the signing certificate's Subject Alternative Name (only applies when `verify` is on)"
+    required: false
+    default: ""
   upload-signing-artifacts:
     description: "upload all signing artifacts as workflow artifacts"
     required: false
@@ -82,8 +90,8 @@ runs:
         ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
       env:
         GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES: "${{ inputs.no-default-files }}"
-        GHA_SIGSTORE_PYTHON_OUTPUT_SIGNATURE: "${{ inputs.output-signature }}"
-        GHA_SIGSTORE_PYTHON_OUTPUT_CERTIFICATE: "${{ inputs.output-certificate }}"
+        GHA_SIGSTORE_PYTHON_SIGNATURE: "${{ inputs.signature }}"
+        GHA_SIGSTORE_PYTHON_CERTIFICATE: "${{ inputs.certificate }}"
         GHA_SIGSTORE_PYTHON_OVERWRITE: "${{ inputs.overwrite }}"
         GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID: "${{ inputs.oidc-client-id }}"
         GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET: "${{ inputs.oidc-client-secret }}"
@@ -93,6 +101,8 @@ runs:
         GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY: "${{ inputs.rekor-root-pubkey }}"
         GHA_SIGSTORE_PYTHON_OIDC_ISSUER: "${{ inputs.oidc-issuer }}"
         GHA_SIGSTORE_PYTHON_STAGING: "${{ inputs.staging }}"
+        GHA_SIGSTORE_PYTHON_VERIFY: "${{ inputs.verify }}"
+        GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL: "${{ inputs.verify-cert-email }}"
         GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash
 
