@@ -35,11 +35,11 @@ def _log(msg):
         print(msg, file=output)
 
 
-def _sigstore_python_sign(*args):
+def _sigstore_sign(*args):
     return ["python", "-m", "sigstore", "sign", *args]
 
 
-def _sigstore_python_verify(*args):
+def _sigstore_verify(*args):
     return ["python", "-m", "sigstore", "verify", *args]
 
 
@@ -52,8 +52,8 @@ inputs = sys.argv[1].split()
 summary = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 
 # The arguments we pass into `sigstore-python` get built up in these lists.
-sigstore_python_sign_args = []
-sigstore_python_verify_args = []
+sigstore_sign_args = []
+sigstore_verify_args = []
 
 # The environment variables that we apply to `sigstore-python`.
 sigstore_python_env = {}
@@ -70,14 +70,14 @@ if _DEBUG:
 
 client_id = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID")
 if client_id != "":
-    sigstore_python_sign_args.extend(["--oidc-client-id", client_id])
+    sigstore_sign_args.extend(["--oidc-client-id", client_id])
 
 client_secret = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET")
 if client_secret != "":
-    sigstore_python_sign_args.extend(["--oidc-client-secret", client_secret])
+    sigstore_sign_args.extend(["--oidc-client-secret", client_secret])
 
 if os.getenv("GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES", "false") != "false":
-    sigstore_python_sign_args.append("--no-default-files")
+    sigstore_sign_args.append("--no-default-files")
 
     # If we don't write the certificate and signature to the disk, we're unable
     # to verify afterwards.
@@ -88,59 +88,59 @@ if os.getenv("GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES", "false") != "false":
 
 signature = os.getenv("GHA_SIGSTORE_PYTHON_SIGNATURE")
 if signature != "":
-    sigstore_python_sign_args.extend(["--signature", signature])
-    sigstore_python_verify_args.extend(["--signature", signature])
+    sigstore_sign_args.extend(["--signature", signature])
+    sigstore_verify_args.extend(["--signature", signature])
 
 certificate = os.getenv("GHA_SIGSTORE_PYTHON_CERTIFICATE")
 if certificate != "":
-    sigstore_python_sign_args.extend(["--certificate", certificate])
-    sigstore_python_verify_args.extend(["--certificate", certificate])
+    sigstore_sign_args.extend(["--certificate", certificate])
+    sigstore_verify_args.extend(["--certificate", certificate])
 
 output_signature = os.getenv("GHA_SIGSTORE_PYTHON_OUTPUT_SIGNATURE")
 if output_signature != "":
-    sigstore_python_sign_args.extend(["--output-signature", output_signature])
+    sigstore_sign_args.extend(["--output-signature", output_signature])
     signing_artifact_paths.append(output_signature)
 
 output_certificate = os.getenv("GHA_SIGSTORE_PYTHON_OUTPUT_CERTIFICATE")
 if output_certificate != "":
-    sigstore_python_sign_args.extend(["--output-certificate", output_certificate])
+    sigstore_sign_args.extend(["--output-certificate", output_certificate])
     signing_artifact_paths.append(output_certificate)
 
 if os.getenv("GHA_SIGSTORE_PYTHON_OVERWRITE", "false") != "false":
-    sigstore_python_sign_args.append("--overwrite")
+    sigstore_sign_args.append("--overwrite")
 
 fulcio_url = os.getenv("GHA_SIGSTORE_PYTHON_FULCIO_URL")
 if fulcio_url != "":
-    sigstore_python_sign_args.extend(["--fulcio-url", fulcio_url])
+    sigstore_sign_args.extend(["--fulcio-url", fulcio_url])
 
 rekor_url = os.getenv("GHA_SIGSTORE_PYTHON_REKOR_URL")
 if rekor_url != "":
-    sigstore_python_sign_args.extend(["--rekor-url", rekor_url])
-    sigstore_python_verify_args.extend(["--rekor-url", rekor_url])
+    sigstore_sign_args.extend(["--rekor-url", rekor_url])
+    sigstore_verify_args.extend(["--rekor-url", rekor_url])
 
 ctfe = os.getenv("GHA_SIGSTORE_PYTHON_CTFE")
 if ctfe != "":
-    sigstore_python_sign_args.extend(["--ctfe", ctfe])
+    sigstore_sign_args.extend(["--ctfe", ctfe])
 
 rekor_root_pubkey = os.getenv("GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY")
 if rekor_root_pubkey != "":
-    sigstore_python_sign_args.extend(["--rekor-root-pubkey", rekor_root_pubkey])
+    sigstore_sign_args.extend(["--rekor-root-pubkey", rekor_root_pubkey])
 
 oidc_issuer = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_ISSUER")
 if oidc_issuer != "":
-    sigstore_python_sign_args.extend(["--oidc-issuer", oidc_issuer])
-    sigstore_python_verify_args.extend(["--oidc-issuer", oidc_issuer])
+    sigstore_sign_args.extend(["--oidc-issuer", oidc_issuer])
+    sigstore_verify_args.extend(["--oidc-issuer", oidc_issuer])
 
 if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
-    sigstore_python_sign_args.append("--staging")
-    sigstore_python_verify_args.append("--staging")
+    sigstore_sign_args.append("--staging")
+    sigstore_verify_args.append("--staging")
 
 if os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_ENABLE", "false") == "false":
     enable_verify = False
 
 verify_cert_email = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL")
 if verify_cert_email != "":
-    sigstore_python_verify_args.extend(["--cert-email", verify_cert_email])
+    sigstore_verify_args.extend(["--cert-email", verify_cert_email])
 
 for input_ in inputs:
     # Forbid things that look like flags. This isn't a security boundary; just
@@ -153,18 +153,18 @@ for input_ in inputs:
     for file_ in files:
         if not file_.is_file():
             _fatal_help(f"input {file_} does not look like a file")
-        if "--output_certificate" not in sigstore_python_sign_args:
+        if "--output_certificate" not in sigstore_sign_args:
             signing_artifact_paths.append(f"{file_}.crt")
-        if "--output_signature" not in sigstore_python_sign_args:
+        if "--output_signature" not in sigstore_sign_args:
             signing_artifact_paths.append(f"{file_}.sig")
 
-    sigstore_python_sign_args.extend(files)
-    sigstore_python_verify_args.extend(files)
+    sigstore_sign_args.extend(files)
+    sigstore_verify_args.extend(files)
 
-_debug(f"signing: sigstore-python {[str(a) for a in sigstore_python_sign_args]}")
+_debug(f"signing: sigstore-python {[str(a) for a in sigstore_sign_args]}")
 
 sign_status = subprocess.run(
-    _sigstore_python_sign(*sigstore_python_sign_args),
+    _sigstore_sign(*sigstore_sign_args),
     text=True,
     stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT,
@@ -180,12 +180,10 @@ else:
 
 verify_status = None
 if sign_status.returncode == 0 and enable_verify:
-    _debug(
-        f"verifying: sigstore-python {[str(a) for a in sigstore_python_verify_args]}"
-    )
+    _debug(f"verifying: sigstore-python {[str(a) for a in sigstore_verify_args]}")
 
     verify_status = subprocess.run(
-        _sigstore_python_verify(*sigstore_python_verify_args),
+        _sigstore_verify(*sigstore_verify_args),
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -249,7 +247,7 @@ if sign_status.returncode != 0:
 #
 # In GitHub Actions, environment variables can be made to persist across
 # workflow steps by appending to the file at `GITHUB_ENV`.
-if "--no-default-files" not in sigstore_python_sign_args:
+if "--no-default-files" not in sigstore_sign_args:
     with Path(os.getenv("GITHUB_ENV")).open("a") as gh_env:
         # Multiline values must match the following syntax:
         #
