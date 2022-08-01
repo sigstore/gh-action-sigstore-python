@@ -74,10 +74,12 @@ if os.getenv("GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES", "false") != "false":
 output_signature = os.getenv("GHA_SIGSTORE_PYTHON_OUTPUT_SIGNATURE")
 if output_signature != "":
     sigstore_python_args.extend(["--output-signature", output_signature])
+    signing_artifact_paths.append(output_signature)
 
 output_certificate = os.getenv("GHA_SIGSTORE_PYTHON_OUTPUT_CERTIFICATE")
 if output_certificate != "":
     sigstore_python_args.extend(["--output-certificate", output_certificate])
+    signing_artifact_paths.append(output_certificate)
 
 if os.getenv("GHA_SIGSTORE_PYTHON_OVERWRITE", "false") != "false":
     sigstore_python_args.append("--overwrite")
@@ -116,7 +118,10 @@ for input_ in inputs:
     for file_ in files:
         if not file_.is_file():
             _fatal_help(f"input {file_} does not look like a file")
-        signing_artifact_paths.extend([f"{file_}.crt", f"{file_}.sig"])
+        if "--output_certificate" not in sigstore_python_args:
+            signing_artifact_paths.append(f"{file_}.crt")
+        if "--output_signature" not in sigstore_python_args:
+            signing_artifact_paths.append(f"{file_}.sig")
 
     sigstore_python_args.extend(files)
 
