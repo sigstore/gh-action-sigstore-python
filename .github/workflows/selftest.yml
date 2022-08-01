@@ -20,6 +20,7 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
+          internal-be-careful-debug: true
 
   selftest-staging:
     runs-on: ubuntu-latest
