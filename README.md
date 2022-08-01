@@ -298,6 +298,31 @@ Example:
     upload-signing-artifacts: true
 ```
 
+### `release-signing-artifacts`
+
+**Default**: `false`
+
+The `release-signing-artifacts` setting controls whether or not `sigstore-python`
+uploads signing artifacts to the release that triggered this run.
+
+By default, no release assets are uploaded.
+
+Requires the [`contents: write` permission](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token).
+
+Example:
+
+```yaml
+permissions:
+  contents: write
+
+# ...
+
+- uses: trailofbits/gh-action-sigstore-python@v0.0.2
+  with:
+    inputs: file.txt
+    release-signing-artifacts: true
+```
+
 ### Internal options
 <details>
   <summary>⚠️ Internal options ⚠️</summary>
