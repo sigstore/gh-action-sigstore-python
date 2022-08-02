@@ -227,6 +227,7 @@ if verify_status is not None:
 <summary>
     Raw `sigstore-python verify` output
 </summary>
+
 ```
         """
     )
