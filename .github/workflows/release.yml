@@ -23,4 +23,4 @@ jobs:
         id: sigstore-python
         with:
           inputs: action.yml action.py
-          upload-signing-artifacts: true
+          release-signing-artifacts: true
