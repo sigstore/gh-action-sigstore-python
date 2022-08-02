@@ -1,0 +1,24 @@
+on:
+  release:
+    types:
+      - published
+
+name: release
+
+permissions:
+  # Used to sign the release's artifacts with sigstore-python.
+  id-token: write
+
+  # Used to attach signing artifacts to the published release.
+  contents: write
+
+jobs:
+  pypi:
+    - uses: actions/checkout@v3
+
+    - name: sign
+      uses: ./
+      id: sigstore-python
+      with:
+        inputs: action.yml action.py
+        upload-signing-artifacts: true
