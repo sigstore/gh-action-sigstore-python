@@ -217,7 +217,7 @@ _summary(_template("sigstore-python-sign").substitute(output=sign_status.stdout)
 if verify_status is not None:
     _log(verify_status.stdout)
     _summary(
-        _template("sigstore-python-verify".substitute(output=verify_status.stdout))
+        _template("sigstore-python-verify").substitute(output=verify_status.stdout)
     )
 
 if sign_status.returncode != 0:
