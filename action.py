@@ -178,9 +178,9 @@ sign_status = subprocess.run(
 _debug(sign_status.stdout)
 
 if sign_status.returncode == 0:
-    _log("🎉 sigstore-python signing exited successfully")
+    _summary("🎉 sigstore-python signing exited successfully")
 else:
-    _log("❌ sigstore-python failed to sign package")
+    _summary("❌ sigstore-python failed to sign package")
 
 verify_status = None
 if sign_status.returncode == 0 and enable_verify:
@@ -199,11 +199,11 @@ if sign_status.returncode == 0 and enable_verify:
 if verify_status is None:
     # Don't add anything to the summary if verification is disabled.
     if enable_verify:
-        _log("❌ sigstore-python verification skipped due to failed signing")
+        _summary("❌ sigstore-python verification skipped due to failed signing")
 elif verify_status.returncode == 0:
-    _log("🎉 sigstore-python verification exited successfully")
+    _summary("🎉 sigstore-python verification exited successfully")
 else:
-    _log("❌ sigstore-python failed to verify package")
+    _summary("❌ sigstore-python failed to verify package")
 
 
 _log(sign_status.stdout)
