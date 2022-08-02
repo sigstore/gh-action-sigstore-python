@@ -6,10 +6,14 @@
 # is a whitespace-separated list of inputs
 
 import os
+import string
 import subprocess
 import sys
 from glob import glob
 from pathlib import Path
+
+_HERE = Path(__file__).parent.resolve()
+_TEMPLATES = _HERE / "templates"
 
 _OUTPUTS = [sys.stderr]
 _SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
@@ -18,6 +22,11 @@ _DEBUG = os.getenv("GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG", "false") != 
 
 if _RENDER_SUMMARY:
     _OUTPUTS.append(_SUMMARY)
+
+
+def _template(name):
+    path = _TEMPLATES / f"{name}.md"
+    return string.Template(path.read_text())
 
 
 def _summary(msg):
@@ -202,41 +211,13 @@ else:
     _log("❌ sigstore-python failed to verify package")
 
 
-_summary(
-    """
-<details>
-<summary>
-    Raw `sigstore-python sign` output
-</summary>
-
-```
-    """
-)
 _log(sign_status.stdout)
-_summary(
-    """
-```
-</details>
-    """
-)
+_summary(_template("sigstore-python-sign").substitute(output=sign_status.output))
 
 if verify_status is not None:
-    _summary(
-        """
-<details>
-<summary>
-    Raw `sigstore-python verify` output
-</summary>
-
-```
-        """
-    )
     _log(verify_status.stdout)
     _summary(
-        """
-```
-</details>
-        """
+        _template("sigstore-python-verify".substitute(output=verify_status.output))
     )
 
 if sign_status.returncode != 0:
