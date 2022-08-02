@@ -113,6 +113,6 @@ runs:
         path: "${{ env.GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS }}"
 
     - uses: softprops/action-gh-release@v1
-      if: inputs.release-signing-artifacts == 'true' && github.event_name == 'release' && github.event.action == 'created'
+      if: inputs.release-signing-artifacts == 'true' && github.event_name == 'release' && github.event.action == 'published'
       with:
         files: "${{ env.GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS }}"
