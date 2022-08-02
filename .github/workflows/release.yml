@@ -13,12 +13,14 @@ permissions:
   contents: write
 
 jobs:
-  pypi:
-    - uses: actions/checkout@v3
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-    - name: sign
-      uses: ./
-      id: sigstore-python
-      with:
-        inputs: action.yml action.py
-        upload-signing-artifacts: true
+      - name: sign
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: action.yml action.py
+          upload-signing-artifacts: true
