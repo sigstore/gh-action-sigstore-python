@@ -344,7 +344,7 @@ Example:
 **Default**: `false`
 
 The `release-signing-artifacts` setting controls whether or not `sigstore-python`
-uploads signing artifacts to the release that triggered this run.
+uploads signing artifacts to the release publishing event that triggered this run.
 
 By default, no release assets are uploaded.
 
