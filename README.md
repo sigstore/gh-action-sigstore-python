@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: install
         run: python -m pip install .
-      - uses: trailofbits/gh-action-sigstore-python@v0.0.6
+      - uses: trailofbits/gh-action-sigstore-python@v0.0.7
         with:
           inputs: file.txt
 ```
@@ -55,7 +55,7 @@ provided.
 To sign one or more files:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file0.txt file1.txt file2.txt
 ```
@@ -63,7 +63,7 @@ To sign one or more files:
 The `inputs` argument also supports file globbing:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: ./path/to/inputs/*.txt
 ```
@@ -78,7 +78,7 @@ Server during OAuth2.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     oidc-client-id: alternative-sigstore-id
@@ -94,7 +94,7 @@ Connect Server during OAuth2.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     oidc-client-secret: alternative-sigstore-secret
@@ -113,7 +113,7 @@ These output files are necessary for verification so turning this setting on wil
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     no-default-files: true
@@ -129,7 +129,7 @@ when signing multiple input files.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     signature: custom-signature-filename.sig
@@ -138,7 +138,7 @@ Example:
 However, this example is invalid:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file0.txt file1.txt file2.txt
     signature: custom-signature-filename.sig
@@ -154,7 +154,7 @@ work when signing multiple input files.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     certificate: custom-certificate-filename.crt
@@ -163,7 +163,7 @@ Example:
 However, this example is invalid:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file0.txt file1.txt file2.txt
     certificate: custom-certificate-filename.crt
@@ -179,7 +179,7 @@ overwritten.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     overwrite: true
@@ -195,7 +195,7 @@ from. This setting cannot be used in combination with the `staging` setting.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     fulcio-url: https://fulcio.sigstage.dev
@@ -211,7 +211,7 @@ cannot be used in combination with the `staging` setting.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     rekor-url: https://rekor.sigstage.dev
@@ -227,7 +227,7 @@ in combination with the `staging` setting.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     ctfe: ./path/to/ctfe.pub
@@ -243,7 +243,7 @@ be used in combination with `staging` setting.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     ctfe: ./path/to/rekor.pub
@@ -260,7 +260,7 @@ checked to ensure that it matches.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     oidc-issuer: https://oauth2.sigstage.dev/auth
@@ -276,7 +276,7 @@ instead of the default production instances.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     staging: true
@@ -296,7 +296,7 @@ generated properly and the signature was properly submitted to Rekor.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     verify: false
@@ -313,7 +313,7 @@ certificate's SAN against the provided value.
 This setting only applies if `verify` is set to `true`.
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     verify-cert-email: john.smith@example.com
@@ -333,7 +333,7 @@ workflow artifact retention period is used.
 Example:
 
 ```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     upload-signing-artifacts: true
@@ -358,7 +358,7 @@ permissions:
 
 # ...
 
-- uses: trailofbits/gh-action-sigstore-python@v0.0.6
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
   with:
     inputs: file.txt
     release-signing-artifacts: true
@@ -385,7 +385,7 @@ permissions:
   Example:
 
   ```yaml
-  - uses: trailofbits/gh-action-sigstore-python@v0.0.6
+  - uses: trailofbits/gh-action-sigstore-python@v0.0.7
     with:
       inputs: file.txt
       internal-be-careful-debug: true
