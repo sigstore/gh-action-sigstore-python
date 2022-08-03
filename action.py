@@ -6,18 +6,23 @@
 # is a whitespace-separated list of inputs
 
 import os
+import string
 import subprocess
 import sys
 from glob import glob
 from pathlib import Path
 
-_OUTPUTS = [sys.stderr]
+_HERE = Path(__file__).parent.resolve()
+_TEMPLATES = _HERE / "templates"
+
 _SUMMARY = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 _RENDER_SUMMARY = os.getenv("GHA_SIGSTORE_PYTHON_SUMMARY", "true") == "true"
 _DEBUG = os.getenv("GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG", "false") != "false"
 
-if _RENDER_SUMMARY:
-    _OUTPUTS.append(_SUMMARY)
+
+def _template(name):
+    path = _TEMPLATES / f"{name}.md"
+    return string.Template(path.read_text())
 
 
 def _summary(msg):
@@ -31,8 +36,7 @@ def _debug(msg):
 
 
 def _log(msg):
-    for output in _OUTPUTS:
-        print(msg, file=output)
+    print(msg, file=sys.stderr)
 
 
 def _sigstore_sign(*args):
@@ -174,9 +178,9 @@ sign_status = subprocess.run(
 _debug(sign_status.stdout)
 
 if sign_status.returncode == 0:
-    _log("🎉 sigstore-python signing exited successfully")
+    _summary("🎉 sigstore-python signing exited successfully")
 else:
-    _log("❌ sigstore-python failed to sign package")
+    _summary("❌ sigstore-python failed to sign package")
 
 verify_status = None
 if sign_status.returncode == 0 and enable_verify:
@@ -195,48 +199,20 @@ if sign_status.returncode == 0 and enable_verify:
 if verify_status is None:
     # Don't add anything to the summary if verification is disabled.
     if enable_verify:
-        _log("❌ sigstore-python verification skipped due to failed signing")
+        _summary("❌ sigstore-python verification skipped due to failed signing")
 elif verify_status.returncode == 0:
-    _log("🎉 sigstore-python verification exited successfully")
+    _summary("🎉 sigstore-python verification exited successfully")
 else:
-    _log("❌ sigstore-python failed to verify package")
+    _summary("❌ sigstore-python failed to verify package")
 
 
-_summary(
-    """
-<details>
-<summary>
-    Raw `sigstore-python sign` output
-</summary>
-
-```
-    """
-)
 _log(sign_status.stdout)
-_summary(
-    """
-```
-</details>
-    """
-)
+_summary(_template("sigstore-python-sign").substitute(output=sign_status.stdout))
 
 if verify_status is not None:
-    _summary(
-        """
-<details>
-<summary>
-    Raw `sigstore-python verify` output
-</summary>
-
-```
-        """
-    )
     _log(verify_status.stdout)
     _summary(
-        """
-```
-</details>
-        """
+        _template("sigstore-python-verify").substitute(output=verify_status.stdout)
     )
 
 if sign_status.returncode != 0:
