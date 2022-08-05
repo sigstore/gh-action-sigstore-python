@@ -87,7 +87,6 @@ runs:
       env:
         GHA_SIGSTORE_PYTHON_SIGNATURE: "${{ inputs.signature }}"
         GHA_SIGSTORE_PYTHON_CERTIFICATE: "${{ inputs.certificate }}"
-        GHA_SIGSTORE_PYTHON_OVERWRITE: "${{ inputs.overwrite }}"
         GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID: "${{ inputs.oidc-client-id }}"
         GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET: "${{ inputs.oidc-client-secret }}"
         GHA_SIGSTORE_PYTHON_FULCIO_URL: "${{ inputs.fulcio-url }}"
