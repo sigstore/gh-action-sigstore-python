@@ -6,6 +6,10 @@ inputs:
     description: "the files to sign, whitespace separated"
     required: true
     default: ""
+  identity-token:
+    description: "the OIDC identity token to use"
+    required: false
+    default: ""
   oidc-client-id:
     description: "the custom OpenID Connect client ID to use during OAuth2"
     required: false
@@ -14,10 +18,6 @@ inputs:
     description: "the custom OpenID Connect client secret to use during OAuth2"
     required: false
     default: ""
-  no-default-files:
-    description: "don't emit the default output files ({input}.sig and {input}.crt)"
-    required: false
-    default: false
   signature:
     description: "write a single signature to the given file; does not work with multiple input files"
     required: false
@@ -26,10 +26,6 @@ inputs:
     description: "write a single certificate to the given file; does not work with multiple input files"
     required: false
     default: ""
-  overwrite:
-    description: "overwrite preexisting signature and certificate outputs, if present"
-    required: false
-    default: false
   fulcio-url:
     description: "the Fulcio instance to use (conflicts with `staging`)"
     required: false
@@ -46,10 +42,6 @@ inputs:
     description: "a PEM-encoded root public key for Rekor itself (conflicts with `staging`)"
     required: false
     default: ""
-  oidc-issuer:
-    description: "the OpenID Connect issuer to use; if `verify` is on, the issuer extension of the signing certificate will also get checked to ensure that it matches"
-    required: false
-    default: ""
   staging:
     description: "use sigstore's staging instances, instead of the default production instances"
     required: false
@@ -60,6 +52,10 @@ inputs:
     default: true
   verify-cert-email:
     description: "verify the email address to in the signing certificate's Subject Alternative Name (only applies when `verify` is on)"
+    required: false
+    default: ""
+  verify-oidc-issuer:
+    description: "verify the issuer extension of the signing certificate"
     required: false
     default: ""
   upload-signing-artifacts:
@@ -89,20 +85,19 @@ runs:
       run: |
         ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
       env:
-        GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES: "${{ inputs.no-default-files }}"
+        GHA_SIGSTORE_PYTHON_IDENTITY_TOKEN: "${{ inputs.identity-token }}"
         GHA_SIGSTORE_PYTHON_SIGNATURE: "${{ inputs.signature }}"
         GHA_SIGSTORE_PYTHON_CERTIFICATE: "${{ inputs.certificate }}"
-        GHA_SIGSTORE_PYTHON_OVERWRITE: "${{ inputs.overwrite }}"
         GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID: "${{ inputs.oidc-client-id }}"
         GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET: "${{ inputs.oidc-client-secret }}"
         GHA_SIGSTORE_PYTHON_FULCIO_URL: "${{ inputs.fulcio-url }}"
         GHA_SIGSTORE_PYTHON_REKOR_URL: "${{ inputs.rekor-url }}"
         GHA_SIGSTORE_PYTHON_CTFE: "${{ inputs.ctfe }}"
         GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY: "${{ inputs.rekor-root-pubkey }}"
-        GHA_SIGSTORE_PYTHON_OIDC_ISSUER: "${{ inputs.oidc-issuer }}"
         GHA_SIGSTORE_PYTHON_STAGING: "${{ inputs.staging }}"
         GHA_SIGSTORE_PYTHON_VERIFY: "${{ inputs.verify }}"
         GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL: "${{ inputs.verify-cert-email }}"
+        GHA_SIGSTORE_PYTHON_VERIFY_OIDC_ISSUER: "${{ inputs.verify-oidc-issuer }}"
         GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash
 

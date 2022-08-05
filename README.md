@@ -68,6 +68,20 @@ The `inputs` argument also supports file globbing:
     inputs: ./path/to/inputs/*.txt
 ```
 
+### `identity-token`
+
+**Default**: Empty (the GitHub Actions credential will be used)
+
+The `identity-token` setting controls the OpenID Connect token provided to Fulcio. By default, the
+workflow will use the credentials found in the GitHub Actions environment.
+
+```yaml
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
+  with:
+    inputs: file.txt
+    identity-token: ${{ IDENTITY_TOKEN  }} # assigned elsewhere
+```
+
 ### `oidc-client-id`
 
 **Default**: `sigstore`
@@ -98,25 +112,6 @@ Example:
   with:
     inputs: file.txt
     oidc-client-secret: alternative-sigstore-secret
-```
-
-### `no-default-files`
-
-**Default**: `false`
-
-The `no-default-files` setting controls whether the default output files (`{input}.sig` and
-`{input.crt}`) are emitted.
-
-These output files are necessary for verification so turning this setting on will automatically set
-`verify` to `false`.
-
-Example:
-
-```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.7
-  with:
-    inputs: file.txt
-    no-default-files: true
 ```
 
 ### `signature`
@@ -167,22 +162,6 @@ However, this example is invalid:
   with:
     inputs: file0.txt file1.txt file2.txt
     certificate: custom-certificate-filename.crt
-```
-
-### `overwrite`
-
-**Default**: `false`
-
-The `overwrite` setting controls whether preexisting signature and certificate outputs get
-overwritten.
-
-Example:
-
-```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.7
-  with:
-    inputs: file.txt
-    overwrite: true
 ```
 
 ### `fulcio-url`
@@ -249,23 +228,6 @@ Example:
     ctfe: ./path/to/rekor.pub
 ```
 
-### `oidc-issuer`
-
-**Default**: `https://oauth2.sigstore.dev/auth`
-
-The `oidc-issuer` setting controls the OpenID Connect issuer to retrieve the OpenID Connect token
-from. If `verify` is on, the issuer extension of the signing certificate will also get
-checked to ensure that it matches.
-
-Example:
-
-```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.7
-  with:
-    inputs: file.txt
-    oidc-issuer: https://oauth2.sigstage.dev/auth
-```
-
 ### `staging`
 
 **Default**: `false`
@@ -317,6 +279,25 @@ This setting only applies if `verify` is set to `true`.
   with:
     inputs: file.txt
     verify-cert-email: john.smith@example.com
+```
+
+### `verify-oidc-issuer`
+
+**Default**: `https://oauth2.sigstore.dev/auth`
+
+The `verify-oidc-issuer` setting controls whether to verify the issuer extension of the signing
+certificate after signing has taken place. If it is set, `sigstore-python` will compare the
+certificate's issuer extension against the provided value.
+
+This setting only applies if `verify` is set to `true`.
+
+Example:
+
+```yaml
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
+  with:
+    inputs: file.txt
+    verify-oidc-issuer: https://oauth2.sigstage.dev/auth
 ```
 
 ### `upload-signing-artifacts`

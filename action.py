@@ -72,6 +72,10 @@ signing_artifact_paths = []
 if _DEBUG:
     sigstore_python_env["SIGSTORE_LOGLEVEL"] = "DEBUG"
 
+identity_token = os.getenv("GHA_SIGSTORE_PYTHON_IDENTITY_TOKEN")
+if identity_token != "":
+    sigstore_sign_args.extend(["--identity-token", identity_token])
+
 client_id = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID")
 if client_id != "":
     sigstore_sign_args.extend(["--oidc-client-id", client_id])
@@ -79,16 +83,6 @@ if client_id != "":
 client_secret = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET")
 if client_secret != "":
     sigstore_sign_args.extend(["--oidc-client-secret", client_secret])
-
-if os.getenv("GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES", "false") != "false":
-    sigstore_sign_args.append("--no-default-files")
-
-    # If we don't write the certificate and signature to the disk, we're unable
-    # to verify afterwards.
-    _debug(
-        "disabling verification due to the `no-default-files` setting being provided"
-    )
-    enable_verify = False
 
 signature = os.getenv("GHA_SIGSTORE_PYTHON_SIGNATURE")
 if signature != "":
@@ -110,9 +104,6 @@ if output_certificate != "":
     sigstore_sign_args.extend(["--certificate", output_certificate])
     signing_artifact_paths.append(output_certificate)
 
-if os.getenv("GHA_SIGSTORE_PYTHON_OVERWRITE", "false") != "false":
-    sigstore_sign_args.append("--overwrite")
-
 fulcio_url = os.getenv("GHA_SIGSTORE_PYTHON_FULCIO_URL")
 if fulcio_url != "":
     sigstore_sign_args.extend(["--fulcio-url", fulcio_url])
@@ -130,11 +121,6 @@ rekor_root_pubkey = os.getenv("GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY")
 if rekor_root_pubkey != "":
     sigstore_sign_args.extend(["--rekor-root-pubkey", rekor_root_pubkey])
 
-oidc_issuer = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_ISSUER")
-if oidc_issuer != "":
-    sigstore_sign_args.extend(["--oidc-issuer", oidc_issuer])
-    sigstore_verify_args.extend(["--oidc-issuer", oidc_issuer])
-
 if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
     sigstore_sign_args.append("--staging")
     sigstore_verify_args.append("--staging")
@@ -145,6 +131,10 @@ if os.getenv("GHA_SIGSTORE_PYTHON_VERIFY", "false") == "false":
 verify_cert_email = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL")
 if verify_cert_email != "":
     sigstore_verify_args.extend(["--cert-email", verify_cert_email])
+
+verify_oidc_issuer = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_OIDC_ISSUER")
+if verify_oidc_issuer != "":
+    sigstore_verify_args.extend(["--cert-oidc-issuer", verify_oidc_issuer])
 
 for input_ in inputs:
     # Forbid things that look like flags. This isn't a security boundary; just
@@ -224,20 +214,19 @@ if sign_status.returncode != 0:
 #
 # In GitHub Actions, environment variables can be made to persist across
 # workflow steps by appending to the file at `GITHUB_ENV`.
-if "--no-default-files" not in sigstore_sign_args:
-    with Path(os.getenv("GITHUB_ENV")).open("a") as gh_env:
-        # Multiline values must match the following syntax:
-        #
-        # {name}<<{delimiter}
-        # {value}
-        # {delimiter}
-        gh_env.write(
-            "GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS<<EOF"
-            + os.linesep
-            + os.linesep.join(signing_artifact_paths)
-            + os.linesep
-            + "EOF"
-        )
+with Path(os.getenv("GITHUB_ENV")).open("a") as gh_env:
+    # Multiline values must match the following syntax:
+    #
+    # {name}<<{delimiter}
+    # {value}
+    # {delimiter}
+    gh_env.write(
+        "GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS<<EOF"
+        + os.linesep
+        + os.linesep.join(signing_artifact_paths)
+        + os.linesep
+        + "EOF"
+    )
 
 
 # If signing didn't fail, then we check the verification status, if present.
