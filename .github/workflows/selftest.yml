@@ -41,6 +41,7 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/*.txt
+          staging: true
 
   selftest-upload-artifacts:
     runs-on: ubuntu-latest
@@ -53,3 +54,28 @@ jobs:
           inputs: ./test/artifact.txt
           staging: true
           upload-signing-artifacts: true
+
+  selftest-custom-paths:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sign artifact and publish signature
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+          signature: ./test/custom_signature.sig
+          certificate: ./test/custom_certificate.crt
+          staging: true
+
+  selftest-verify-san:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sign artifact and publish signature
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+          verify-cert-email: foo
+          staging: true
