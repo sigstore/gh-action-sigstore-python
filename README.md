@@ -228,23 +228,6 @@ Example:
     ctfe: ./path/to/rekor.pub
 ```
 
-### `oidc-issuer`
-
-**Default**: `https://oauth2.sigstore.dev/auth`
-
-The `oidc-issuer` setting controls the OpenID Connect issuer to retrieve the OpenID Connect token
-from. If `verify` is on, the issuer extension of the signing certificate will also get
-checked to ensure that it matches.
-
-Example:
-
-```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.7
-  with:
-    inputs: file.txt
-    oidc-issuer: https://oauth2.sigstage.dev/auth
-```
-
 ### `staging`
 
 **Default**: `false`
@@ -296,6 +279,25 @@ This setting only applies if `verify` is set to `true`.
   with:
     inputs: file.txt
     verify-cert-email: john.smith@example.com
+```
+
+### `verify-oidc-issuer`
+
+**Default**: `https://oauth2.sigstore.dev/auth`
+
+The `verify-oidc-issuer` setting controls whether to verify the issuer extension of the signing
+certificate after signing has taken place. If it is set, `sigstore-python` will compare the
+certificate's issuer extension against the provided value.
+
+This setting only applies if `verify` is set to `true`.
+
+Example:
+
+```yaml
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
+  with:
+    inputs: file.txt
+    verify-oidc-issuer: https://oauth2.sigstage.dev/auth
 ```
 
 ### `upload-signing-artifacts`

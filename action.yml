@@ -42,10 +42,6 @@ inputs:
     description: "a PEM-encoded root public key for Rekor itself (conflicts with `staging`)"
     required: false
     default: ""
-  oidc-issuer:
-    description: "the OpenID Connect issuer to use; if `verify` is on, the issuer extension of the signing certificate will also get checked to ensure that it matches"
-    required: false
-    default: ""
   staging:
     description: "use sigstore's staging instances, instead of the default production instances"
     required: false
@@ -56,6 +52,10 @@ inputs:
     default: true
   verify-cert-email:
     description: "verify the email address to in the signing certificate's Subject Alternative Name (only applies when `verify` is on)"
+    required: false
+    default: ""
+  verify-oidc-issuer:
+    description: "verify the issuer extension of the signing certificate"
     required: false
     default: ""
   upload-signing-artifacts:
@@ -94,10 +94,10 @@ runs:
         GHA_SIGSTORE_PYTHON_REKOR_URL: "${{ inputs.rekor-url }}"
         GHA_SIGSTORE_PYTHON_CTFE: "${{ inputs.ctfe }}"
         GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY: "${{ inputs.rekor-root-pubkey }}"
-        GHA_SIGSTORE_PYTHON_OIDC_ISSUER: "${{ inputs.oidc-issuer }}"
         GHA_SIGSTORE_PYTHON_STAGING: "${{ inputs.staging }}"
         GHA_SIGSTORE_PYTHON_VERIFY: "${{ inputs.verify }}"
         GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL: "${{ inputs.verify-cert-email }}"
+        GHA_SIGSTORE_PYTHON_VERIFY_OIDC_ISSUER: "${{ inputs.verify-oidc-issuer }}"
         GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash
 
