@@ -22,10 +22,6 @@ inputs:
     description: "write a single certificate to the given file; does not work with multiple input files"
     required: false
     default: ""
-  overwrite:
-    description: "overwrite preexisting signature and certificate outputs, if present"
-    required: false
-    default: false
   fulcio-url:
     description: "the Fulcio instance to use (conflicts with `staging`)"
     required: false

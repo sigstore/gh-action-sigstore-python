@@ -100,9 +100,6 @@ if output_certificate != "":
     sigstore_sign_args.extend(["--certificate", output_certificate])
     signing_artifact_paths.append(output_certificate)
 
-if os.getenv("GHA_SIGSTORE_PYTHON_OVERWRITE", "false") != "false":
-    sigstore_sign_args.append("--overwrite")
-
 fulcio_url = os.getenv("GHA_SIGSTORE_PYTHON_FULCIO_URL")
 if fulcio_url != "":
     sigstore_sign_args.extend(["--fulcio-url", fulcio_url])

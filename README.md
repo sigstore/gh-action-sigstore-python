@@ -150,22 +150,6 @@ However, this example is invalid:
     certificate: custom-certificate-filename.crt
 ```
 
-### `overwrite`
-
-**Default**: `false`
-
-The `overwrite` setting controls whether preexisting signature and certificate outputs get
-overwritten.
-
-Example:
-
-```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.7
-  with:
-    inputs: file.txt
-    overwrite: true
-```
-
 ### `fulcio-url`
 
 **Default**: `https://fulcio.sigstore.dev`
