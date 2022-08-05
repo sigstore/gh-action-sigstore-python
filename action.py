@@ -80,16 +80,6 @@ client_secret = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET")
 if client_secret != "":
     sigstore_sign_args.extend(["--oidc-client-secret", client_secret])
 
-if os.getenv("GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES", "false") != "false":
-    sigstore_sign_args.append("--no-default-files")
-
-    # If we don't write the certificate and signature to the disk, we're unable
-    # to verify afterwards.
-    _debug(
-        "disabling verification due to the `no-default-files` setting being provided"
-    )
-    enable_verify = False
-
 signature = os.getenv("GHA_SIGSTORE_PYTHON_SIGNATURE")
 if signature != "":
     sigstore_sign_args.extend(["--signature", signature])
@@ -224,20 +214,19 @@ if sign_status.returncode != 0:
 #
 # In GitHub Actions, environment variables can be made to persist across
 # workflow steps by appending to the file at `GITHUB_ENV`.
-if "--no-default-files" not in sigstore_sign_args:
-    with Path(os.getenv("GITHUB_ENV")).open("a") as gh_env:
-        # Multiline values must match the following syntax:
-        #
-        # {name}<<{delimiter}
-        # {value}
-        # {delimiter}
-        gh_env.write(
-            "GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS<<EOF"
-            + os.linesep
-            + os.linesep.join(signing_artifact_paths)
-            + os.linesep
-            + "EOF"
-        )
+with Path(os.getenv("GITHUB_ENV")).open("a") as gh_env:
+    # Multiline values must match the following syntax:
+    #
+    # {name}<<{delimiter}
+    # {value}
+    # {delimiter}
+    gh_env.write(
+        "GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS<<EOF"
+        + os.linesep
+        + os.linesep.join(signing_artifact_paths)
+        + os.linesep
+        + "EOF"
+    )
 
 
 # If signing didn't fail, then we check the verification status, if present.

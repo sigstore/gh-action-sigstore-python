@@ -100,25 +100,6 @@ Example:
     oidc-client-secret: alternative-sigstore-secret
 ```
 
-### `no-default-files`
-
-**Default**: `false`
-
-The `no-default-files` setting controls whether the default output files (`{input}.sig` and
-`{input.crt}`) are emitted.
-
-These output files are necessary for verification so turning this setting on will automatically set
-`verify` to `false`.
-
-Example:
-
-```yaml
-- uses: trailofbits/gh-action-sigstore-python@v0.0.7
-  with:
-    inputs: file.txt
-    no-default-files: true
-```
-
 ### `signature`
 
 **Default**: Empty (signature files will get named as `{input}.sig`)

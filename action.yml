@@ -14,10 +14,6 @@ inputs:
     description: "the custom OpenID Connect client secret to use during OAuth2"
     required: false
     default: ""
-  no-default-files:
-    description: "don't emit the default output files ({input}.sig and {input}.crt)"
-    required: false
-    default: false
   signature:
     description: "write a single signature to the given file; does not work with multiple input files"
     required: false
@@ -89,7 +85,6 @@ runs:
       run: |
         ${{ github.action_path }}/action.py "${{ inputs.inputs }}"
       env:
-        GHA_SIGSTORE_PYTHON_NO_DEFAULT_FILES: "${{ inputs.no-default-files }}"
         GHA_SIGSTORE_PYTHON_SIGNATURE: "${{ inputs.signature }}"
         GHA_SIGSTORE_PYTHON_CERTIFICATE: "${{ inputs.certificate }}"
         GHA_SIGSTORE_PYTHON_OVERWRITE: "${{ inputs.overwrite }}"
