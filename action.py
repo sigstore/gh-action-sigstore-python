@@ -74,7 +74,7 @@ if _DEBUG:
 
 identity_token = os.getenv("GHA_SIGSTORE_PYTHON_IDENTITY_TOKEN")
 if identity_token != "":
-    sigstore_sign_args.extend(["--identity_token", identity_token])
+    sigstore_sign_args.extend(["--identity-token", identity_token])
 
 client_id = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID")
 if client_id != "":
@@ -121,11 +121,6 @@ rekor_root_pubkey = os.getenv("GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY")
 if rekor_root_pubkey != "":
     sigstore_sign_args.extend(["--rekor-root-pubkey", rekor_root_pubkey])
 
-oidc_issuer = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_ISSUER")
-if oidc_issuer != "":
-    sigstore_sign_args.extend(["--oidc-issuer", oidc_issuer])
-    sigstore_verify_args.extend(["--oidc-issuer", oidc_issuer])
-
 if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
     sigstore_sign_args.append("--staging")
     sigstore_verify_args.append("--staging")
@@ -136,6 +131,10 @@ if os.getenv("GHA_SIGSTORE_PYTHON_VERIFY", "false") == "false":
 verify_cert_email = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL")
 if verify_cert_email != "":
     sigstore_verify_args.extend(["--cert-email", verify_cert_email])
+
+verify_oidc_issuer = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_OIDC_ISSUER")
+if verify_oidc_issuer != "":
+    sigstore_verify_args.extend(["--verify-oidc-issuer", verify_oidc_issuer])
 
 for input_ in inputs:
     # Forbid things that look like flags. This isn't a security boundary; just
