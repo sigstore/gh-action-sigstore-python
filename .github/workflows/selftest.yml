@@ -68,7 +68,20 @@ jobs:
           certificate: ./test/custom_certificate.crt
           staging: true
 
-  selftest-verify-san:
+  # NOTE(alex): `sigstore-python` doesn't support verifying URI SANs yet.
+  # selftest-verify-san:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Sign artifact and publish signature
+  #       uses: ./
+  #       id: sigstore-python
+  #       with:
+  #         inputs: ./test/artifact.txt
+  #         verify-cert-email: https://github.com/trailofbits/gh-action-sigstore-python/.github/workflows/selftest.yml@refs/heads/main
+  #         staging: true
+
+  selftest-verify-issuer:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
