@@ -90,17 +90,28 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
-          verify-cert-email: https://github.com/trailofbits/gh-action-sigstore-python/.github/workflows/selftest.yml@refs/heads/main
+          verify-oidc-issuer: https://token.actions.githubusercontent.com
           staging: true
 
-  selftest-verify-issuer:
+  selftest-identity-token:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Get OIDC token
+        id: get-oidc-token
+        run: |
+          identity_token=$( \
+            curl -H \
+              "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+              "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sigstore" \
+            | jq -r .value \
+          )
+          echo "::set-output name=identity-token::$identity_token"
+        shell: bash
       - name: Sign artifact and publish signature
         uses: ./
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
-          verify-oidc-issuer: https://token.actions.githubusercontent.com
+          identity-token: ${{ steps.get-oidc-token.outputs.identity-token }}
           staging: true
