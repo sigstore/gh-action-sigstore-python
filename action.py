@@ -74,7 +74,7 @@ if _DEBUG:
 
 identity_token = os.getenv("GHA_SIGSTORE_PYTHON_IDENTITY_TOKEN")
 if identity_token != "":
-    sigstore_sign_args.extend(["--identity_token", identity_token])
+    sigstore_sign_args.extend(["--identity-token", identity_token])
 
 client_id = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID")
 if client_id != "":
