@@ -78,7 +78,7 @@ jobs:
   #       id: sigstore-python
   #       with:
   #         inputs: ./test/artifact.txt
-  #         verify-cert-email: https://github.com/trailofbits/gh-action-sigstore-python/.github/workflows/selftest.yml@refs/heads/main
+  #         verify-cert-email: https://github.com/trailofbits/gh-action-sigstore-python/.github/workflows/selftest.yml@${{ github.ref }}
   #         staging: true
 
   selftest-verify-issuer:
