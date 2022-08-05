@@ -134,7 +134,7 @@ if verify_cert_email != "":
 
 verify_oidc_issuer = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_OIDC_ISSUER")
 if verify_oidc_issuer != "":
-    sigstore_verify_args.extend(["--verify-oidc-issuer", verify_oidc_issuer])
+    sigstore_verify_args.extend(["--oidc-issuer", verify_oidc_issuer])
 
 for input_ in inputs:
     # Forbid things that look like flags. This isn't a security boundary; just
