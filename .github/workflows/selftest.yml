@@ -41,6 +41,7 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/*.txt
+          staging: true
 
   selftest-upload-artifacts:
     runs-on: ubuntu-latest
@@ -53,3 +54,64 @@ jobs:
           inputs: ./test/artifact.txt
           staging: true
           upload-signing-artifacts: true
+
+  selftest-custom-paths:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sign artifact and publish signature
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+          signature: ./test/custom_signature.sig
+          certificate: ./test/custom_certificate.crt
+          staging: true
+
+  # NOTE(alex): `sigstore-python` doesn't support verifying URI SANs yet.
+  # selftest-verify-san:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Sign artifact and publish signature
+  #       uses: ./
+  #       id: sigstore-python
+  #       with:
+  #         inputs: ./test/artifact.txt
+  #         verify-cert-email: https://github.com/trailofbits/gh-action-sigstore-python/.github/workflows/selftest.yml@${{ github.ref }}
+  #         staging: true
+
+  selftest-verify-issuer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sign artifact and publish signature
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+          verify-oidc-issuer: https://token.actions.githubusercontent.com
+          staging: true
+
+  selftest-identity-token:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get OIDC token
+        id: get-oidc-token
+        run: |
+          identity_token=$( \
+            curl -H \
+              "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+              "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sigstore" \
+            | jq -r .value \
+          )
+          echo "::set-output name=identity-token::$identity_token"
+        shell: bash
+      - name: Sign artifact and publish signature
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+          identity-token: ${{ steps.get-oidc-token.outputs.identity-token }}
+          staging: true
