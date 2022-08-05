@@ -72,6 +72,10 @@ signing_artifact_paths = []
 if _DEBUG:
     sigstore_python_env["SIGSTORE_LOGLEVEL"] = "DEBUG"
 
+identity_token = os.getenv("GHA_SIGSTORE_PYTHON_IDENTITY_TOKEN")
+if identity_token != "":
+    sigstore_sign_args.extend(["--identity_token", identity_token])
+
 client_id = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID")
 if client_id != "":
     sigstore_sign_args.extend(["--oidc-client-id", client_id])

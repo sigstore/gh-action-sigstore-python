@@ -6,6 +6,10 @@ inputs:
     description: "the files to sign, whitespace separated"
     required: true
     default: ""
+  identity-token:
+    description: "the OIDC identity token to use"
+    required: false
+    default: ""
   oidc-client-id:
     description: "the custom OpenID Connect client ID to use during OAuth2"
     required: false

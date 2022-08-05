@@ -68,6 +68,20 @@ The `inputs` argument also supports file globbing:
     inputs: ./path/to/inputs/*.txt
 ```
 
+### `identity-token`
+
+**Default**: Empty (the GitHub Actions credential will be used)
+
+The `identity-token` setting controls the OpenID Connect token provided to Fulcio. By default, the
+workflow will use the credentials found in the GitHub Actions environment.
+
+```yaml
+- uses: trailofbits/gh-action-sigstore-python@v0.0.7
+  with:
+    inputs: file.txt
+    identity-token: ${{ IDENTITY_TOKEN  }} # assigned elsewhere
+```
+
 ### `oidc-client-id`
 
 **Default**: `sigstore`
