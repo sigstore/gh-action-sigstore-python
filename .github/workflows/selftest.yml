@@ -89,5 +89,5 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
-          verify-oidc-issuer: foo
+          verify-oidc-issuer: https://token.actions.githubusercontent.com
           staging: true
