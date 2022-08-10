@@ -53,7 +53,6 @@ def _fatal_help(msg):
 
 
 inputs = sys.argv[1].split()
-summary = Path(os.getenv("GITHUB_STEP_SUMMARY")).open("a")
 
 # The arguments we pass into `sigstore-python` get built up in these lists.
 sigstore_sign_args = []
