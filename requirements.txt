@@ -1,4 +1,1 @@
-sigstore==0.6.4
-
-# TODO: remove this constraint once sigstore itself enforces it
-pyOpenSSL>=22.0.0
+sigstore==0.6.5
