@@ -13,7 +13,7 @@
 # limitations under the License.
 
 name: "gh-action-sigstore-python"
-author: "Alex Cameron <alex.cameron@trailofbits.com>"
+author: "Sigstore Authors <sigstore-dev@googlegroups.com>"
 description: "Use sigstore-python to sign Python packages"
 inputs:
   inputs:
