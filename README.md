@@ -382,3 +382,15 @@ permissions:
 
 Everyone interacting with this project is expected to follow the
 [sigstore Code of Conduct](https://github.com/sigstore/.github/blob/main/CODE_OF_CONDUCT.md)
+
+## Security
+
+Should you discover any security issues, please refer to sigstore's [security
+process](https://github.com/sigstore/.github/blob/main/SECURITY.md).
+
+## Info
+
+`gh-action-sigstore-python` is developed as part of the [`sigstore`](https://sigstore.dev) project.
+
+We also use a [slack channel](https://sigstore.slack.com)!
+Click [here](https://join.slack.com/t/sigstore/shared_invite/zt-mhs55zh0-XmY3bcfWn4XEyMqUUutbUQ) for the invite link.
