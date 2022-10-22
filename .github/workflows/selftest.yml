@@ -114,7 +114,7 @@ jobs:
               "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sigstore" \
             | jq -r .value \
           )
-          echo "::set-output name=identity-token::$identity_token"
+          echo "identity-token=$identity_token" >> $GITHUB_OUTPUT
         shell: bash
       - name: Sign artifact and publish signature
         uses: ./
