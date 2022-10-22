@@ -13,7 +13,7 @@ permissions:
 jobs:
   selftest:
     runs-on: ubuntu-latest
-    if: (github.event != "pull_request") || !github.event.pull_request.head.repo.fork
+    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v3
       - name: Sign artifact and publish signature
@@ -24,7 +24,7 @@ jobs:
 
   selftest-staging:
     runs-on: ubuntu-latest
-    if: (github.event != "pull_request") || !github.event.pull_request.head.repo.fork
+    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v3
       - name: Sign artifact and publish signature
@@ -36,7 +36,7 @@ jobs:
 
   selftest-glob:
     runs-on: ubuntu-latest
-    if: (github.event != "pull_request") || !github.event.pull_request.head.repo.fork
+    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v3
       - name: Sign artifacts and publish signatures
@@ -48,7 +48,7 @@ jobs:
 
   selftest-upload-artifacts:
     runs-on: ubuntu-latest
-    if: (github.event != "pull_request") || !github.event.pull_request.head.repo.fork
+    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v3
       - name: Sign artifact and publish signature
@@ -61,7 +61,7 @@ jobs:
 
   selftest-custom-paths:
     runs-on: ubuntu-latest
-    if: (github.event != "pull_request") || !github.event.pull_request.head.repo.fork
+    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v3
       - name: Sign artifact and publish signature
@@ -76,7 +76,7 @@ jobs:
   # NOTE(alex): `sigstore-python` doesn't support verifying URI SANs yet.
   # selftest-verify-san:
   #   runs-on: ubuntu-latest
-  #   if: (github.event != "pull_request") || !github.event.pull_request.head.repo.fork
+  #   if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
   #   steps:
   #     - uses: actions/checkout@v3
   #     - name: Sign artifact and publish signature
@@ -89,7 +89,7 @@ jobs:
 
   selftest-verify-issuer:
     runs-on: ubuntu-latest
-    if: (github.event != "pull_request") || !github.event.pull_request.head.repo.fork
+    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v3
       - name: Sign artifact and publish signature
@@ -102,7 +102,7 @@ jobs:
 
   selftest-identity-token:
     runs-on: ubuntu-latest
-    if: (github.event != "pull_request") || !github.event.pull_request.head.repo.fork
+    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v3
       - name: Get OIDC token
