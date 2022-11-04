@@ -61,6 +61,10 @@ def _sigstore_verify(*args):
     return ["python", "-m", "sigstore", "verify", *args]
 
 
+def _warning(msg):
+    print(f"::warning::⚠️ {msg}")
+
+
 def _fatal_help(msg):
     print(f"::error::❌ {msg}")
     sys.exit(1)
@@ -140,6 +144,16 @@ if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
 
 if os.getenv("GHA_SIGSTORE_PYTHON_VERIFY", "false") == "false":
     enable_verify = False
+
+verify_cert_email = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL")
+if verify_cert_email != "":
+    _warning(
+        "verify-cert-email has been deprecated and will be removed in the next release; "
+        "use verify-cert-identity instead"
+    )
+    # NOTE: This will cause sigstore-python to fail if the user passes the identity
+    # via both `--cert-email` and `--cert-identity`, but that's acceptable.
+    sigstore_verify_args.extend(["--cert-email", verify_cert_email])
 
 verify_cert_identity = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_IDENTITY")
 if verify_cert_identity != "":
