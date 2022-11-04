@@ -73,7 +73,7 @@ jobs:
           certificate: ./test/custom_certificate.crt
           staging: true
 
-  selftest-verify-san:
+  selftest-verify-cert-identity:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
@@ -84,6 +84,20 @@ jobs:
         with:
           inputs: ./test/artifact.txt
           verify-cert-identity: https://github.com/sigstore/gh-action-sigstore-python/.github/workflows/selftest.yml@${{ github.ref }}
+          staging: true
+
+  # NOTE(ww): Remove once `verify-cert-email` is removed.
+  selftest-verify-cert-email:
+    runs-on: ubuntu-latest
+    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sign artifact and publish signature
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+          verify-cert-email: https://github.com/sigstore/gh-action-sigstore-python/.github/workflows/selftest.yml@${{ github.ref }}
           staging: true
 
   selftest-verify-issuer:
