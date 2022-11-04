@@ -264,11 +264,11 @@ Example:
     verify: false
 ```
 
-### `verify-cert-email`
+### `verify-cert-identity`
 
 **Default**: Empty
 
-The `verify-cert-email` setting controls whether to verify the Subject Alternative Name (SAN) of the
+The `verify-cert-identity` setting controls whether to verify the Subject Alternative Name (SAN) of the
 signing certificate after signing has taken place. If it is set, `sigstore-python` will compare the
 certificate's SAN against the provided value.
 
@@ -278,7 +278,7 @@ This setting only applies if `verify` is set to `true`.
 - uses: sigstore/gh-action-sigstore-python@v0.0.10
   with:
     inputs: file.txt
-    verify-cert-email: john.smith@example.com
+    verify-cert-identity: john.smith@example.com
 ```
 
 ### `verify-oidc-issuer`

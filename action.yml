@@ -64,8 +64,8 @@ inputs:
     description: "verify the generated signatures after signing"
     required: false
     default: true
-  verify-cert-email:
-    description: "verify the email address to in the signing certificate's Subject Alternative Name (only applies when `verify` is on)"
+  verify-cert-identity:
+    description: "verify the identity in the signing certificate's Subject Alternative Name (only applies when `verify` is on)"
     required: false
     default: ""
   verify-oidc-issuer:
@@ -110,7 +110,7 @@ runs:
         GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY: "${{ inputs.rekor-root-pubkey }}"
         GHA_SIGSTORE_PYTHON_STAGING: "${{ inputs.staging }}"
         GHA_SIGSTORE_PYTHON_VERIFY: "${{ inputs.verify }}"
-        GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL: "${{ inputs.verify-cert-email }}"
+        GHA_SIGSTORE_PYTHON_VERIFY_CERT_IDENTITY: "${{ inputs.verify-cert-identity }}"
         GHA_SIGSTORE_PYTHON_VERIFY_OIDC_ISSUER: "${{ inputs.verify-oidc-issuer }}"
         GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash

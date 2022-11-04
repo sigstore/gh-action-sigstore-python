@@ -141,9 +141,9 @@ if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
 if os.getenv("GHA_SIGSTORE_PYTHON_VERIFY", "false") == "false":
     enable_verify = False
 
-verify_cert_email = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL")
-if verify_cert_email != "":
-    sigstore_verify_args.extend(["--cert-email", verify_cert_email])
+verify_cert_identity = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_IDENTITY")
+if verify_cert_identity != "":
+    sigstore_verify_args.extend(["--cert-identity", verify_cert_identity])
 
 verify_oidc_issuer = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_OIDC_ISSUER")
 if verify_oidc_issuer != "":
