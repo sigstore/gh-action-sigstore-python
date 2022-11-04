@@ -149,7 +149,8 @@ verify_cert_email = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL")
 if verify_cert_email != "":
     _warning(
         "verify-cert-email has been deprecated and will be removed in the next release; "
-        "use verify-cert-identity instead"
+        "use verify-cert-identity instead. "
+        "See: https://github.com/sigstore/gh-action-sigstore-python#verify-cert-identity"
     )
     # NOTE: This will cause sigstore-python to fail if the user passes the identity
     # via both `--cert-email` and `--cert-identity`, but that's acceptable.
