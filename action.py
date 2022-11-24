@@ -145,17 +145,6 @@ if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
 if os.getenv("GHA_SIGSTORE_PYTHON_VERIFY", "false") == "false":
     enable_verify = False
 
-verify_cert_email = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL")
-if verify_cert_email != "":
-    _warning(
-        "verify-cert-email has been deprecated and will be removed in the next release; "
-        "use verify-cert-identity instead. "
-        "See: https://github.com/sigstore/gh-action-sigstore-python#verify-cert-identity"
-    )
-    # NOTE: This will cause sigstore-python to fail if the user passes the identity
-    # via both `--cert-email` and `--cert-identity`, but that's acceptable.
-    sigstore_verify_args.extend(["--cert-email", verify_cert_email])
-
 verify_cert_identity = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_IDENTITY")
 if verify_cert_identity != "":
     sigstore_verify_args.extend(["--cert-identity", verify_cert_identity])
