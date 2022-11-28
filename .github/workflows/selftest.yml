@@ -103,7 +103,7 @@ jobs:
           staging: true
       - name: Check failure
         env:
-          XFAIL: ${{ failure() && steps.sigstore-python.outcome == 'failure' }}
+          XFAIL: ${{ steps.sigstore-python.outcome == 'failure' }}
         run: |
           xfail: "${XFAIL}"
 
