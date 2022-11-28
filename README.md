@@ -23,7 +23,8 @@ Simply add `sigstore/gh-action-sigstore-python` to one of your workflows:
 jobs:
   selftest:
     runs-on: ubuntu-latest
-    stepsin      - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
       - name: install
         run: python -m pip install .
       - uses: sigstore/gh-action-sigstore-python@v0.0.11
