@@ -90,6 +90,26 @@ jobs:
 
   selftest-xfail-verify-missing-options:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config:
+          # fails if both verify-cert-identity and verify-oidc-issuer are missing
+          - verify: true
+
+          # fails if either is missing
+          - verify: true
+            verify-oidc-issuer: https://token.actions.githubusercontent.com
+
+          - verify: true
+            verify-cert-identity: https://github.com/sigstore/gh-action-sigstore-python/.github/workflows/selftest.yml@${{ github.ref }}
+
+          # fails if either option is passed while verification is disabled
+          - verify: false
+            verify-oidc-issuer: https://token.actions.githubusercontent.com
+
+          - verify: false
+            verify-cert-identity: https://github.com/sigstore/gh-action-sigstore-python/.github/workflows/selftest.yml@${{ github.ref }}
+
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v3
@@ -99,7 +119,9 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
-          verify: true
+          verify: ${{ matrix.config.verify }}
+          verify-oidc-issuer: ${{ matrix.config.verify-oidc-issuer }}
+          verify-cert-identity: ${{ matrix.config.verify-cert-identity }}
           staging: true
       - name: Check failure
         env:
