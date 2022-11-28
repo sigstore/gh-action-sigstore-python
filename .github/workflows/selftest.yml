@@ -88,6 +88,27 @@ jobs:
           verify-oidc-issuer: https://token.actions.githubusercontent.com
           staging: true
 
+  selftest-xfail-verify-missing-options:
+    runs-on: ubuntu-latest
+    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sign artifact and publish signature
+        continue-on-error: true
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+          verify: true
+          staging: true
+      - name: Check failure
+        env:
+          XFAIL: ${{ failure() && steps.sigstore-python.outcome == 'failure' }}
+        run: |
+          xfail: "${XFAIL}"
+
+          [[ "${XFAIL}" == "true" ]] || exit 1
+
   selftest-identity-token:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
