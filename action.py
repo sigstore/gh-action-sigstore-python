@@ -145,13 +145,17 @@ if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
 verify_cert_identity = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_IDENTITY")
 if enable_verify and not verify_cert_identity:
     _fatal_help("verify-cert-identity must be specified when verify is enabled")
-if verify_cert_identity != "":
+elif not enable_verify and verify_cert_identity:
+    _fatal_help("verify-cert-identity cannot be specified without verify: true")
+else:
     sigstore_verify_args.extend(["--cert-identity", verify_cert_identity])
 
 verify_oidc_issuer = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_OIDC_ISSUER")
 if enable_verify and not verify_oidc_issuer:
     _fatal_help("verify-oidc-issuer must be specified when verify is enabled")
-if verify_oidc_issuer != "":
+elif not enable_verify and verify_oidc_issuer:
+    _fatal_help("verify-oidc-issuer cannot be specified without verify: true")
+else:
     sigstore_verify_args.extend(["--cert-oidc-issuer", verify_oidc_issuer])
 
 for input_ in inputs:
