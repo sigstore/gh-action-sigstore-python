@@ -63,20 +63,19 @@ inputs:
   verify:
     description: "verify the generated signatures after signing"
     required: false
-    default: true
-  verify-cert-email:
-    description: |
-      verify the email in the signing certificate's Subject Alternative Name (only applies when `verify` is enabled)
-
-      this option is DEPRECATED and will be removed in an upcoming release of this action.
-    required: false
-    default: ""
+    default: false
   verify-cert-identity:
-    description: "verify the identity in the signing certificate's Subject Alternative Name (only applies when `verify` is enabled)"
+    description: |
+      verify the identity in the signing certificate's Subject Alternative Name
+
+      required if `verify` is enabled; has no effect otherwise.
     required: false
     default: ""
   verify-oidc-issuer:
-    description: "verify the issuer extension of the signing certificate (only applies when `verify` is enabled)"
+    description: |
+      verify the issuer extension of the signing certificate
+
+      required if `verify` is enabled; has no effect otherwise.
     required: false
     default: ""
   upload-signing-artifacts:
@@ -117,7 +116,6 @@ runs:
         GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY: "${{ inputs.rekor-root-pubkey }}"
         GHA_SIGSTORE_PYTHON_STAGING: "${{ inputs.staging }}"
         GHA_SIGSTORE_PYTHON_VERIFY: "${{ inputs.verify }}"
-        GHA_SIGSTORE_PYTHON_VERIFY_CERT_EMAIL: "${{ inputs.verify-cert-email }}"
         GHA_SIGSTORE_PYTHON_VERIFY_CERT_IDENTITY: "${{ inputs.verify-cert-identity }}"
         GHA_SIGSTORE_PYTHON_VERIFY_OIDC_ISSUER: "${{ inputs.verify-oidc-issuer }}"
         GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
