@@ -246,14 +246,17 @@ Example:
 
 ### `verify`
 
-**Default**: `true`
+**Default**: `false`
 
 The `verify` setting controls whether or not the generated signatures and certificates are
 verified with the `sigstore verify` subcommand after all files have been signed.
 
-This is not strictly necessary but can act as a smoke test to ensure that all signing artifacts were
-generated properly and the signature was properly submitted to Rekor.
+This is **not strictly necessary** but can act as a smoke test to ensure that all
+signing artifacts were generated properly and the signature was properly
+submitted to Rekor.
 
+If `verify` is enabled, then you **must** also pass the `verify-cert-identity`
+and `verify-oidc-issuer` settings. Failing to pass these will produce an error.
 
 Example:
 
@@ -261,7 +264,9 @@ Example:
 - uses: sigstore/gh-action-sigstore-python@v0.0.11
   with:
     inputs: file.txt
-    verify: false
+    verify: true
+    verify-oidc-issuer: https://some-oidc-issuer.example.com
+    verify-cert-identity: some-identity
 ```
 
 ### `verify-cert-identity`
@@ -272,13 +277,19 @@ The `verify-cert-identity` setting controls whether to verify the Subject Altern
 signing certificate after signing has taken place. If it is set, `sigstore-python` will compare the
 certificate's SAN against the provided value.
 
-This setting only applies if `verify` is set to `true`.
+This setting only applies if `verify` is set to `true`. Supplying it without `verify: true`
+will produce an error.
+
+This setting may only be used in conjunction with `verify-oidc-issuer`.
+Supplying it without `verify-oidc-issuer` will produce an error.
 
 ```yaml
 - uses: sigstore/gh-action-sigstore-python@v0.0.11
   with:
     inputs: file.txt
-    verify-cert-identity: john.smith@example.com
+    verify: true
+    verify-cert-identity: john.hancock@example.com
+    verify-oidc-issuer: https://oauth2.sigstage.dev/auth
 ```
 
 ### `verify-oidc-issuer`
@@ -289,7 +300,11 @@ The `verify-oidc-issuer` setting controls whether to verify the issuer extension
 certificate after signing has taken place. If it is set, `sigstore-python` will compare the
 certificate's issuer extension against the provided value.
 
-This setting only applies if `verify` is set to `true`.
+This setting only applies if `verify` is set to `true`. Supplying it without `verify: true`
+will produce an error.
+
+This setting may only be used in conjunction with `verify-cert-identity`.
+Supplying it without `verify-cert-identity` will produce an error.
 
 Example:
 
@@ -297,6 +312,8 @@ Example:
 - uses: sigstore/gh-action-sigstore-python@v0.0.11
   with:
     inputs: file.txt
+    verify: true
+    verify-cert-identity: john.hancock@example.com
     verify-oidc-issuer: https://oauth2.sigstage.dev/auth
 ```
 
