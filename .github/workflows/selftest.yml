@@ -104,10 +104,11 @@ jobs:
       - name: Check failure
         env:
           XFAIL: ${{ steps.sigstore-python.outcome == 'failure' }}
+          JOB_NAME: ${{ github.job }}
         run: |
-          xfail: "${XFAIL}"
+          echo "xfail ${JOB_NAME}: ${XFAIL}"
 
-          [[ "${XFAIL}" == "true" ]] || exit 1
+          [[ "${XFAIL}" == "true" ]] || { >&2 echo "expected step to fail"; exit 1; }
 
   selftest-identity-token:
     runs-on: ubuntu-latest
