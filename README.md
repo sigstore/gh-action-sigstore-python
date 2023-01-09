@@ -5,7 +5,7 @@ gh-action-sigstore-python
 [![Self-test](https://github.com/sigstore/gh-action-sigstore-python/actions/workflows/selftest.yml/badge.svg)](https://github.com/sigstore/gh-action-sigstore-python/actions/workflows/selftest.yml)
 
 A GitHub Action that uses [`sigstore-python`](https://github.com/sigstore/sigstore-python)
-to sign Python packages.
+to generate Sigstore signatures.
 
 ## Index
 
@@ -23,6 +23,8 @@ Simply add `sigstore/gh-action-sigstore-python` to one of your workflows:
 jobs:
   selftest:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v3
       - name: install
@@ -32,15 +34,11 @@ jobs:
           inputs: file.txt
 ```
 
-Your workflow must have permission to request the OIDC token to authenticate with. This can be done
-by having a top-level `permission` setting for your workflow.
+Note: Your workflow **must** have permission to request the OIDC token to authenticate with.
+This can be done by setting `id-token: write` on your job (as above) or workflow.
 
-```yaml
-permissions:
-  id-token: write
-```
-
-More information about permission settings can be found [here](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#adding-permissions-settings).
+More information about permission settings can be found
+[here](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#adding-permissions-settings).
 
 ## Configuration
 
