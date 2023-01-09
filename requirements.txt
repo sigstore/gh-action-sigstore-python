@@ -1,1 +1,1 @@
-sigstore==0.9.0
+sigstore==0.10.0
