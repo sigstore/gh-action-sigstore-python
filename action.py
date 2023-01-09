@@ -53,12 +53,12 @@ def _log(msg):
     print(msg, file=sys.stderr)
 
 
-def _sigstore_sign(*args):
-    return ["python", "-m", "sigstore", "sign", *args]
+def _sigstore_sign(global_args, sign_args):
+    return ["python", "-m", "sigstore", *global_args, "sign", *sign_args]
 
 
-def _sigstore_verify(*args):
-    return ["python", "-m", "sigstore", "verify", *args]
+def _sigstore_verify(global_args, verify_args):
+    return ["python", "-m", "sigstore", *global_args, "verify", "identity", *args]
 
 
 def _warning(msg):
@@ -73,6 +73,7 @@ def _fatal_help(msg):
 inputs = sys.argv[1].split()
 
 # The arguments we pass into `sigstore-python` get built up in these lists.
+sigstore_global_args = []
 sigstore_sign_args = []
 sigstore_verify_args = []
 
@@ -127,8 +128,7 @@ if fulcio_url != "":
 
 rekor_url = os.getenv("GHA_SIGSTORE_PYTHON_REKOR_URL")
 if rekor_url != "":
-    sigstore_sign_args.extend(["--rekor-url", rekor_url])
-    sigstore_verify_args.extend(["--rekor-url", rekor_url])
+    sigstore_global_args.extend(["--rekor-url", rekor_url])
 
 ctfe = os.getenv("GHA_SIGSTORE_PYTHON_CTFE")
 if ctfe != "":
@@ -136,11 +136,10 @@ if ctfe != "":
 
 rekor_root_pubkey = os.getenv("GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY")
 if rekor_root_pubkey != "":
-    sigstore_sign_args.extend(["--rekor-root-pubkey", rekor_root_pubkey])
+    sigstore_global_args.extend(["--rekor-root-pubkey", rekor_root_pubkey])
 
 if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
-    sigstore_sign_args.append("--staging")
-    sigstore_verify_args.append("--staging")
+    sigstore_global_args.append("--staging")
 
 verify_cert_identity = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_IDENTITY")
 if enable_verify and not verify_cert_identity:
@@ -180,7 +179,7 @@ for input_ in inputs:
 _debug(f"signing: sigstore-python {[str(a) for a in sigstore_sign_args]}")
 
 sign_status = subprocess.run(
-    _sigstore_sign(*sigstore_sign_args),
+    _sigstore_sign(sigstore_global_args, sigstore_sign_args),
     text=True,
     stdout=subprocess.PIPE,
     stderr=subprocess.STDOUT,
@@ -199,7 +198,7 @@ if sign_status.returncode == 0 and enable_verify:
     _debug(f"verifying: sigstore-python {[str(a) for a in sigstore_verify_args]}")
 
     verify_status = subprocess.run(
-        _sigstore_verify(*sigstore_verify_args),
+        _sigstore_verify(sigstore_global_args, sigstore_verify_args),
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
