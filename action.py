@@ -58,7 +58,15 @@ def _sigstore_sign(global_args, sign_args):
 
 
 def _sigstore_verify(global_args, verify_args):
-    return ["python", "-m", "sigstore", *global_args, "verify", "identity", *args]
+    return [
+        "python",
+        "-m",
+        "sigstore",
+        *global_args,
+        "verify",
+        "identity",
+        *verify_args,
+    ]
 
 
 def _warning(msg):
