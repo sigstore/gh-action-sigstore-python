@@ -182,3 +182,25 @@ jobs:
           inputs: ./test/artifact.txt
           identity-token: ${{ steps.get-oidc-token.outputs.identity-token }}
           staging: true
+
+  all-selftests-pass:
+    if: always()
+
+    needs:
+    - selftest
+    - selftest-xfail-invalid-inputs
+    - selftest-staging
+    - selftest-glob
+    - selftest-upload-artifacts
+    - selftest-custom-paths
+    - selftest-verify
+    - selftest-xfail-verify-missing-options
+    - selftest-identity-token
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check test jobs
+        uses: re-actors/alls-green@05ac9388f0aebcb5727afa17fcccfecd6f8ec5fe # v1.2.2
+        with:
+          jobs: ${{ toJSON(needs) }}
