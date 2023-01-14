@@ -176,9 +176,9 @@ for input_ in inputs:
     for file_ in files:
         if not file_.is_file():
             _fatal_help(f"input {file_} does not look like a file")
-        if "--output_certificate" not in sigstore_sign_args:
+        if "--certificate" not in sigstore_sign_args:
             signing_artifact_paths.append(f"{file_}.crt")
-        if "--output_signature" not in sigstore_sign_args:
+        if "--signature" not in sigstore_sign_args:
             signing_artifact_paths.append(f"{file_}.sig")
 
     sigstore_sign_args.extend(files)
