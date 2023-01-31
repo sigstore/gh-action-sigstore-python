@@ -124,8 +124,8 @@ if certificate != "":
 
 bundle = os.getenv("GHA_SIGSTORE_PYTHON_BUNDLE")
 if bundle != "":
-    sigstore_sign_args.extend(["--bundle", certificate])
-    sigstore_verify_args.extend(["--bundle", certificate])
+    sigstore_sign_args.extend(["--bundle", bundle])
+    sigstore_verify_args.extend(["--bundle", bundle])
     signing_artifact_paths.append(bundle)
 
 fulcio_url = os.getenv("GHA_SIGSTORE_PYTHON_FULCIO_URL")
