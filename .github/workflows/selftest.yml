@@ -21,6 +21,11 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
+      - name: Check outputs
+        run: |
+          [[ -f ./test/artifact.txt.sig ]] || exit 1
+          [[ -f ./test/artifact.txt.crt ]] || exit 1
+          [[ -f ./test/artifact.txt.sigstore ]] || exit 1
 
   selftest-xfail-invalid-inputs:
     runs-on: ubuntu-latest
@@ -60,6 +65,11 @@ jobs:
         with:
           inputs: ./test/artifact.txt
           staging: true
+      - name: Check outputs
+        run: |
+          [[ -f ./test/artifact.txt.sig ]] || exit 1
+          [[ -f ./test/artifact.txt.crt ]] || exit 1
+          [[ -f ./test/artifact.txt.sigstore ]] || exit 1
 
   selftest-glob:
     runs-on: ubuntu-latest
@@ -98,7 +108,13 @@ jobs:
           inputs: ./test/artifact.txt
           signature: ./test/custom_signature.sig
           certificate: ./test/custom_certificate.crt
+          bundle: ./test/custom_bundle.sigstore
           staging: true
+      - name: Check outputs
+        run: |
+          [[ -f ./test/custom_signature.sig ]] || exit 1
+          [[ -f ./test/custom_certificate.crt ]] || exit 1
+          [[ -f ./test/custom_bundle.sigstore ]] || exit 1
 
   selftest-verify:
     runs-on: ubuntu-latest

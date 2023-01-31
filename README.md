@@ -162,6 +162,31 @@ However, this example is invalid:
     certificate: custom-certificate-filename.crt
 ```
 
+### `bundle`
+
+**Default**: Empty (bundle files will get named as `{input}.sigstore`)
+
+The `bundle` setting controls the name of the output Sigstore bundle. This setting does not work
+when signing multiple input files.
+
+Example:
+
+```yaml
+- uses: sigstore/gh-action-sigstore-python@v1.0.0
+  with:
+    inputs: file.txt
+    bundle: custom-bundle.sigstore
+```
+
+However, this example is invalid:
+
+```yaml
+- uses: sigstore/gh-action-sigstore-python@v1.0.0
+  with:
+    inputs: file0.txt file1.txt file2.txt
+    certificate: custom-bundle.sigstore
+```
+
 ### `fulcio-url`
 
 **Default**: `https://fulcio.sigstore.dev`
