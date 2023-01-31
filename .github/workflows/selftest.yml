@@ -71,7 +71,6 @@ jobs:
           [[ -f ./test/artifact.txt.crt ]] || exit 1
           [[ -f ./test/artifact.txt.sigstore ]] || exit 1
 
-
   selftest-glob:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
