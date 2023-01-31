@@ -114,21 +114,19 @@ signature = os.getenv("GHA_SIGSTORE_PYTHON_SIGNATURE")
 if signature != "":
     sigstore_sign_args.extend(["--signature", signature])
     sigstore_verify_args.extend(["--signature", signature])
+    signing_artifact_paths.append(signature)
 
 certificate = os.getenv("GHA_SIGSTORE_PYTHON_CERTIFICATE")
 if certificate != "":
     sigstore_sign_args.extend(["--certificate", certificate])
     sigstore_verify_args.extend(["--certificate", certificate])
+    signing_artifact_paths.append(certificate)
 
-output_signature = os.getenv("GHA_SIGSTORE_PYTHON_SIGNATURE")
-if output_signature != "":
-    sigstore_sign_args.extend(["--signature", output_signature])
-    signing_artifact_paths.append(output_signature)
-
-output_certificate = os.getenv("GHA_SIGSTORE_PYTHON_CERTIFICATE")
-if output_certificate != "":
-    sigstore_sign_args.extend(["--certificate", output_certificate])
-    signing_artifact_paths.append(output_certificate)
+bundle = os.getenv("GHA_SIGSTORE_PYTHON_BUNDLE")
+if bundle != "":
+    sigstore_sign_args.extend(["--bundle", certificate])
+    sigstore_verify_args.extend(["--bundle", certificate])
+    signing_artifact_paths.append(bundle)
 
 fulcio_url = os.getenv("GHA_SIGSTORE_PYTHON_FULCIO_URL")
 if fulcio_url != "":
@@ -180,6 +178,8 @@ for input_ in inputs:
             signing_artifact_paths.append(f"{file_}.crt")
         if "--signature" not in sigstore_sign_args:
             signing_artifact_paths.append(f"{file_}.sig")
+        if "--bundle" not in sigstore_sign_args:
+            signing_artifact_paths.append(f"{file_}.sigstore")
 
     sigstore_sign_args.extend(files)
     sigstore_verify_args.extend(files)
