@@ -123,6 +123,7 @@ runs:
         GHA_SIGSTORE_PYTHON_VERIFY: "${{ inputs.verify }}"
         GHA_SIGSTORE_PYTHON_VERIFY_CERT_IDENTITY: "${{ inputs.verify-cert-identity }}"
         GHA_SIGSTORE_PYTHON_VERIFY_OIDC_ISSUER: "${{ inputs.verify-oidc-issuer }}"
+        GHA_SIGSTORE_PYTHON_RELEASE_SIGNING_ARTIFACTS: "${{ inputs.release-signing-artifacts }}"
         GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash
 

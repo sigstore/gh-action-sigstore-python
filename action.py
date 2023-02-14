@@ -53,6 +53,34 @@ def _log(msg):
     print(msg, file=sys.stderr)
 
 
+def _download_ref_asset(ext):
+    repo = os.getenv('GITHUB_REPOSITORY')
+    ref = os.getenv("GITHUB_REF")
+
+    artifact = f"{os.getenv('GITHUB_REF_NAME')}-signed{ext}"
+
+    # GitHub supports /:org/:repo/archive/:ref<.tar.gz|.zip>.
+    # XX: will this work in Windows runners?
+    curl_status = subprocess.run(
+        ["curl",
+         "-f",
+         "-L",
+         "-o", str(artifact),
+         f"https://github.com/{repo}/archive/{ref}{ext}"],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        # do not pass environment to curl
+    )
+    _debug(curl_status.stdout)
+
+    if curl_status.returncode != 0:
+        _summary(f"❌ failed to download {ext} archive for {ref}")
+        return None
+
+    return artifact
+
+
 def _sigstore_sign(global_args, sign_args):
     return ["python", "-m", "sigstore", *global_args, "sign", *sign_args]
 
@@ -162,6 +190,13 @@ elif not enable_verify and verify_oidc_issuer:
     _fatal_help("verify-oidc-issuer cannot be specified without verify: true")
 else:
     sigstore_verify_args.extend(["--cert-oidc-issuer", verify_oidc_issuer])
+
+if os.getenv("GHA_SIGSTORE_PYTHON_RELEASE_SIGNING_ARTIFACTS") == "true":
+    for filetype in [".zip", ".tar.gz"]:
+        artifact = _download_ref_asset(filetype)
+        if artifact is not None:
+            signing_artifact_paths.append(artifact)
+            inputs.append(artifact)
 
 for input_ in inputs:
     # Forbid things that look like flags. This isn't a security boundary; just
