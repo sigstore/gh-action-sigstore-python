@@ -59,10 +59,10 @@ def _download_ref_asset(ext):
     repo = os.getenv("GITHUB_REPOSITORY")
     ref = os.getenv("GITHUB_REF")
 
-    artifact = Path(f"/tmp/{os.getenv('GITHUB_REF_NAME')}").with_suffix(ext)
+    artifact = Path(f"/tmp/{os.getenv('GITHUB_REF_NAME')}.{ext}")
 
     # GitHub supports /:org/:repo/archive/:ref<.tar.gz|.zip>.
-    r = requests.get(f"https://github.com/{repo}/archive/{ref}{ext}", stream=True)
+    r = requests.get(f"https://github.com/{repo}/archive/{ref}.{ext}", stream=True)
     r.raise_for_status()
     with artifact.open("wb") as io:
         for chunk in r.iter_content(chunk_size=None):
@@ -182,7 +182,7 @@ else:
     sigstore_verify_args.extend(["--cert-oidc-issuer", verify_oidc_issuer])
 
 if os.getenv("GHA_SIGSTORE_PYTHON_RELEASE_SIGNING_ARTIFACTS") == "true":
-    for filetype in [".zip", ".tar.gz"]:
+    for filetype in ["zip", "tar.gz"]:
         artifact = _download_ref_asset(filetype)
         if artifact is not None:
             signing_artifact_paths.append(artifact)
