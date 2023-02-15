@@ -367,6 +367,9 @@ Example:
 The `release-signing-artifacts` setting controls whether or not `sigstore-python`
 uploads signing artifacts to the release publishing event that triggered this run.
 
+If enabled, this setting also re-uploads and signs GitHub's default source code artifacts,
+as they are not guaranteed to be stable.
+
 By default, no release assets are uploaded.
 
 Requires the [`contents: write` permission](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token).
