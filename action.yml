@@ -90,6 +90,13 @@ inputs:
     description: "attach all signing artifacts as release assets"
     required: false
     default: false
+  bundle-only:
+    description: |
+      upload only the Sigstore bundle
+
+      has no effect if `upload-signing-artifacts` or `release-signing-artifacts` is not enabled
+    required: false
+    default: false
   internal-be-careful-debug:
     description: "run with debug logs (default false)"
     required: false
@@ -124,6 +131,7 @@ runs:
         GHA_SIGSTORE_PYTHON_VERIFY_CERT_IDENTITY: "${{ inputs.verify-cert-identity }}"
         GHA_SIGSTORE_PYTHON_VERIFY_OIDC_ISSUER: "${{ inputs.verify-oidc-issuer }}"
         GHA_SIGSTORE_PYTHON_RELEASE_SIGNING_ARTIFACTS: "${{ inputs.release-signing-artifacts }}"
+        GHA_SIGSTORE_PYTHON_BUNDLE_ONLY: "${{ inputs.bundle-only }}"
         GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash
 
