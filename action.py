@@ -56,7 +56,7 @@ def _log(msg):
 
 
 def _download_ref_asset(ext):
-    repo = os.getenv('GITHUB_REPOSITORY')
+    repo = os.getenv("GITHUB_REPOSITORY")
     ref = os.getenv("GITHUB_REF")
 
     artifact = Path(f"/tmp/{os.getenv('GITHUB_REF_NAME')}").with_suffix(ext)
@@ -264,8 +264,8 @@ if sign_status.returncode != 0:
     assert verify_status is None
     sys.exit(sign_status.returncode)
 
-# Now populate the `GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS` environment variable
-# so that later steps know which files to upload as workflow artifacts.
+# Now populate the `GHA_SIGSTORE_PYTHON_INTERNAL_SIGNING_ARTIFACTS` environment
+# variable so that later steps know which files to upload as workflow artifacts.
 #
 # In GitHub Actions, environment variables can be made to persist across
 # workflow steps by appending to the file at `GITHUB_ENV`.
@@ -276,7 +276,7 @@ with Path(os.getenv("GITHUB_ENV")).open("a") as gh_env:
     # {value}
     # {delimiter}
     gh_env.write(
-        "GHA_SIGSTORE_PYTHON_SIGNING_ARTIFACTS<<EOF"
+        "GHA_SIGSTORE_PYTHON_INTERNAL_SIGNING_ARTIFACTS<<EOF"
         + os.linesep
         + os.linesep.join(signing_artifact_paths)
         + os.linesep
