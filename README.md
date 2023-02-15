@@ -388,6 +388,29 @@ permissions:
     release-signing-artifacts: true
 ```
 
+### `bundle-only`
+
+**Default**: `false`
+
+The `bundle-only` setting controls whether or not `sigstore-python` uploads `.crt`
+or `.sig` artifacts.
+
+This setting affects the behavior of the `upload-signing-artifacts` and `release-signing-artifacts`
+settings. If neither of those settings are specified, this setting has no effect.
+
+By default, `.crt` and `.sig` artifacts are uploaded. If enabled, only the `.sigstore`
+signing artifact is uploaded.
+
+Example:
+
+```yaml
+- uses: sigstore/gh-action-sigstore-python@v1.1.0
+  with:
+    inputs: file.txt
+    upload-signing-artifacts: true
+    bundle-only: true
+```
+
 ### Internal options
 <details>
   <summary>⚠️ Internal options ⚠️</summary>
