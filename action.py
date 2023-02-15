@@ -59,16 +59,16 @@ def _download_ref_asset(ext):
     repo = os.getenv('GITHUB_REPOSITORY')
     ref = os.getenv("GITHUB_REF")
 
-    artifact = f"/tmp/{os.getenv('GITHUB_REF_NAME')}{ext}"
+    artifact = Path(f"/tmp/{os.getenv('GITHUB_REF_NAME')}").with_suffix(ext)
 
     # GitHub supports /:org/:repo/archive/:ref<.tar.gz|.zip>.
     r = requests.get(f"https://github.com/{repo}/archive/{ref}{ext}", stream=True)
     r.raise_for_status()
-    with Path(artifact).open("wb") as io:
+    with artifact.open("wb") as io:
         for chunk in r.iter_content(chunk_size=None):
             io.write(chunk)
 
-    return artifact
+    return str(artifact)
 
 
 def _sigstore_sign(global_args, sign_args):
