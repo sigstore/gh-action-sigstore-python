@@ -26,6 +26,8 @@ import sys
 from glob import glob
 from pathlib import Path
 
+import requests
+
 _HERE = Path(__file__).parent.resolve()
 _TEMPLATES = _HERE / "templates"
 
@@ -57,26 +59,14 @@ def _download_ref_asset(ext):
     repo = os.getenv('GITHUB_REPOSITORY')
     ref = os.getenv("GITHUB_REF")
 
-    artifact = f"{os.getenv('GITHUB_REF_NAME')}-signed{ext}"
+    artifact = f"/tmp/{os.getenv('GITHUB_REF_NAME')}{ext}"
 
     # GitHub supports /:org/:repo/archive/:ref<.tar.gz|.zip>.
-    # XX: will this work in Windows runners?
-    curl_status = subprocess.run(
-        ["curl",
-         "-f",
-         "-L",
-         "-o", str(artifact),
-         f"https://github.com/{repo}/archive/{ref}{ext}"],
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        # do not pass environment to curl
-    )
-    _debug(curl_status.stdout)
-
-    if curl_status.returncode != 0:
-        _summary(f"❌ failed to download {ext} archive for {ref}")
-        return None
+    r = requests.get(f"https://github.com/{repo}/archive/{ref}{ext}", stream=True)
+    r.raise_for_status()
+    with Path(artifact).open("wb") as io:
+        for chunk in r.iter_content(chunk_size=None):
+            io.write(chunk)
 
     return artifact
 
