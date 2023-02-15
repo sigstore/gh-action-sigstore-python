@@ -24,3 +24,4 @@ jobs:
         with:
           inputs: action.yml action.py
           release-signing-artifacts: true
+          bundle-only: true
