@@ -1,3 +1,5 @@
 flake8
 isort
 black
+mypy
+types-requests
