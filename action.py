@@ -202,7 +202,7 @@ for input_ in inputs:
             _fatal_help(f"input {file_} does not look like a file")
 
         # Also upload artifact being signed for.
-        signing_artifact_paths.append(file_)
+        signing_artifact_paths.append(str(file_))
 
         if not bundle_only and "--certificate" not in sigstore_sign_args:
             signing_artifact_paths.append(f"{file_}.crt")
