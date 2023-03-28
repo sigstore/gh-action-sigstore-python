@@ -188,7 +188,6 @@ if os.getenv("GHA_SIGSTORE_PYTHON_RELEASE_SIGNING_ARTIFACTS") == "true":
     for filetype in ["zip", "tar.gz"]:
         artifact = _download_ref_asset(filetype)
         if artifact is not None:
-            signing_artifact_paths.append(artifact)
             inputs.append(artifact)
 
 bundle_only = os.getenv("GHA_SIGSTORE_PYTHON_BUNDLE_ONLY") == "true"
