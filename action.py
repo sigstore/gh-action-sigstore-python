@@ -62,7 +62,12 @@ def _download_ref_asset(ext):
     repo = os.getenv("GITHUB_REPOSITORY")
     ref = os.getenv("GITHUB_REF")
 
-    artifact = Path(f"/tmp/{os.getenv('GITHUB_REF_NAME')}.{ext}")
+    # NOTE: Branch names often have `/` in them (e.g. `feat/some-name`),
+    # which would break the artifact path we construct below.
+    # We "fix" these by lossily replacing all `/` with `-`.
+    ref_name_normalized = os.getenv("GITHUB_REF_NAME").replace("/", "-")
+
+    artifact = Path(f"/tmp/{ref_name_normalized}.{ext}")
 
     # GitHub supports /:org/:repo/archive/:ref<.tar.gz|.zip>.
     r = requests.get(f"https://github.com/{repo}/archive/{ref}.{ext}", stream=True)
