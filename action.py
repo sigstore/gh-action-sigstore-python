@@ -190,11 +190,6 @@ if os.getenv("GHA_SIGSTORE_PYTHON_RELEASE_SIGNING_ARTIFACTS") == "true":
         if artifact is not None:
             inputs.append(artifact)
 
-bundle_only = os.getenv("GHA_SIGSTORE_PYTHON_BUNDLE_ONLY") == "true"
-if not bundle_only:
-    _fatal_help("`bundle-only` is deprecated, this action no longer emits"
-                " other outputs by default")
-
 for input_ in inputs:
     # Forbid things that look like flags. This isn't a security boundary; just
     # a way to prevent (less motivated) users from breaking the action on themselves.
