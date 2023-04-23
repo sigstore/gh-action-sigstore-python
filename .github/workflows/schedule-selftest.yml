@@ -1,0 +1,46 @@
+name: Scheduled self-test
+
+on:
+  schedule:
+    - cron: '0 12 * * *' # Every day at 1200 UTC
+
+jobs:
+  run-selftests:
+    permissions:
+      id-token: write
+
+    uses: ./.github/workflows/selftest.yml
+  open-issue:
+    permissions:
+      issues: write
+
+    runs-on: ubuntu-latest
+    if: ${{ failure() }}
+    needs: run-selftests
+
+    steps:
+      - name: Generate issue text
+        run: |
+          cat <<- EOF >/tmp/issue.md
+          ## Self-test failure
+
+          A scheduled test of the workflow has failed.
+
+          This suggests one of three conditions:
+          * A backwards-incompatible change in a Sigstore component;
+          * A regression in \`gh-action-sigstore-python\`;
+          * A transient error.
+
+          The full CI failure can be found here:
+
+          ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/$GITHUB_RUN_ID
+          EOF
+
+      - name: Open issue
+        uses: peter-evans/create-issue-from-file@433e51abf769039ee20ba1293a088ca19d573b7f # v4.0.1
+        with:
+          title: "[CI] Self-test failure"
+          # created in the previous step
+          content-filepath: /tmp/issue.md
+          labels: bug
+          assignees: woodruffw,tetsuo-cpp,tnytown
