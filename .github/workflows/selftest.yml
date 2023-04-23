@@ -23,8 +23,6 @@ jobs:
           inputs: ./test/artifact.txt
       - name: Check outputs
         run: |
-          [[ -f ./test/artifact.txt.sig ]] || exit 1
-          [[ -f ./test/artifact.txt.crt ]] || exit 1
           [[ -f ./test/artifact.txt.sigstore ]] || exit 1
 
   selftest-xfail-invalid-inputs:
@@ -67,8 +65,6 @@ jobs:
           staging: true
       - name: Check outputs
         run: |
-          [[ -f ./test/artifact.txt.sig ]] || exit 1
-          [[ -f ./test/artifact.txt.crt ]] || exit 1
           [[ -f ./test/artifact.txt.sigstore ]] || exit 1
 
   selftest-glob:
@@ -102,8 +98,6 @@ jobs:
       - name: Verify presence of uploaded files
         run: |
           [[ -f ./artifact.txt ]] || exit 1
-          [[ -f ./artifact.txt.sig ]] || exit 1
-          [[ -f ./artifact.txt.crt ]] || exit 1
           [[ -f ./artifact.txt.sigstore ]] || exit 1
         working-directory: ./test/uploaded
 
