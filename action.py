@@ -190,7 +190,6 @@ if os.getenv("GHA_SIGSTORE_PYTHON_RELEASE_SIGNING_ARTIFACTS") == "true":
         if artifact is not None:
             inputs.append(artifact)
 
-bundle_only = os.getenv("GHA_SIGSTORE_PYTHON_BUNDLE_ONLY") == "true"
 for input_ in inputs:
     # Forbid things that look like flags. This isn't a security boundary; just
     # a way to prevent (less motivated) users from breaking the action on themselves.
@@ -206,10 +205,6 @@ for input_ in inputs:
         # Also upload artifact being signed for.
         signing_artifact_paths.append(str(file_))
 
-        if not bundle_only and "--certificate" not in sigstore_sign_args:
-            signing_artifact_paths.append(f"{file_}.crt")
-        if not bundle_only and "--signature" not in sigstore_sign_args:
-            signing_artifact_paths.append(f"{file_}.sig")
         if "--bundle" not in sigstore_sign_args:
             signing_artifact_paths.append(f"{file_}.sigstore")
 
