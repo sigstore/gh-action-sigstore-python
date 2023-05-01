@@ -102,6 +102,8 @@ runs:
       run: |
         # NOTE: Sourced, not executed as a script.
         source "${{ github.action_path }}/setup/setup.bash"
+      env:
+        GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash
 
     - name: Run sigstore-python

@@ -21,6 +21,15 @@ die() {
   exit 1
 }
 
+debug() {
+  if [[ "${GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG}" = "true" ]]; then
+    echo -e "\033[93mDEBUG: ${1}\033[0m"
+  fi
+}
+
+debug "Python: $(python -V)"
+debug "pip: $(python -m pip --version)"
+
 # NOTE: This file is meant to be sourced, not executed as a script.
 if [[ "${0}" == "${BASH_SOURCE[0]}" ]]; then
   die "Internal error: setup harness was executed instead of being sourced?"
