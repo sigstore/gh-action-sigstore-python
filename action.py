@@ -20,7 +20,6 @@
 # is a whitespace-separated list of inputs
 
 import os
-import random
 import string
 import subprocess
 import sys
@@ -279,7 +278,7 @@ if sign_status.returncode != 0:
 _github_env = os.getenv("GITHUB_ENV")
 assert _github_env is not None
 with Path(_github_env).open("a") as gh_env:
-    delim = random.randbytes(16).hex()
+    delim = os.urandom(16).hex()
     # Multiline values must match the following syntax:
     #
     # {name}<<{delimiter}
