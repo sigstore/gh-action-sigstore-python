@@ -33,6 +33,7 @@ jobs:
         with:
           inputs: ./test/artifact.txt
       - name: Check outputs
+        shell: bash
         run: |
           [[ -f ./test/artifact.txt.sigstore ]] || exit 1
 
