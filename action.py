@@ -286,7 +286,7 @@ with Path(_github_env).open("a") as gh_env:
     # {value}
     # {delimiter}
     print(f"GHA_SIGSTORE_PYTHON_INTERNAL_SIGNING_ARTIFACTS<<{delim}", file=gh_env)
-    print("\n".join(signing_artifact_paths))
+    print("\n".join(signing_artifact_paths), file=gh_env)
     print(delim, file=gh_env)
 
 
