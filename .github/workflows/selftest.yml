@@ -23,6 +23,10 @@ jobs:
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        if: ${{ matrix.os != 'ubuntu-latest' }}
+        with:
+          python-version: "3.x"
       - name: Sign artifact and publish signature
         uses: ./
         id: sigstore-python
