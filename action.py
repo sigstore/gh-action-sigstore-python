@@ -283,12 +283,13 @@ with Path(_github_env).open("a") as gh_env:
     # {name}<<{delimiter}
     # {value}
     # {delimiter}
-    gh_env.write(
+    print(
         "GHA_SIGSTORE_PYTHON_INTERNAL_SIGNING_ARTIFACTS<<EOF"
         + os.linesep
         + os.linesep.join(signing_artifact_paths)
         + os.linesep
-        + "EOF"
+        + "EOF",
+        file=gh_env,
     )
 
 
