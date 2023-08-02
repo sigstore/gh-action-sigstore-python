@@ -109,6 +109,8 @@ runs:
       run: |
         ${GITHUB_ACTION_PATH}/action.py "${GHA_SIGSTORE_PYTHON_INPUTS}"
       env:
+        # The year is 2023, and nonsense like this is still necessary on Windows.
+        PYTHONUTF8: "1"
         GHA_SIGSTORE_PYTHON_IDENTITY_TOKEN: "${{ inputs.identity-token }}"
         GHA_SIGSTORE_PYTHON_SIGNATURE: "${{ inputs.signature }}"
         GHA_SIGSTORE_PYTHON_CERTIFICATE: "${{ inputs.certificate }}"
