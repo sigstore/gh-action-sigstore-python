@@ -20,6 +20,7 @@
 # is a whitespace-separated list of inputs
 
 import os
+import random
 import string
 import subprocess
 import sys
@@ -278,19 +279,15 @@ if sign_status.returncode != 0:
 _github_env = os.getenv("GITHUB_ENV")
 assert _github_env is not None
 with Path(_github_env).open("a") as gh_env:
+    delim = random.randbytes(16).hex()
     # Multiline values must match the following syntax:
     #
     # {name}<<{delimiter}
     # {value}
     # {delimiter}
-    print(
-        "GHA_SIGSTORE_PYTHON_INTERNAL_SIGNING_ARTIFACTS<<EOF"
-        + os.linesep
-        + os.linesep.join(signing_artifact_paths)
-        + os.linesep
-        + "EOF",
-        file=gh_env,
-    )
+    print(f"GHA_SIGSTORE_PYTHON_INTERNAL_SIGNING_ARTIFACTS<<{delim}", file=gh_env)
+    print("\n".join(signing_artifact_paths))
+    print(delim, file=gh_env)
 
 
 # If signing didn't fail, then we check the verification status, if present.
