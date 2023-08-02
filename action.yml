@@ -108,6 +108,7 @@ runs:
       id: sigstore-python
       run: |
         ${GITHUB_ACTION_PATH}/action.py "${GHA_SIGSTORE_PYTHON_INPUTS}"
+      shell: bash
       env:
         GHA_SIGSTORE_PYTHON_IDENTITY_TOKEN: "${{ inputs.identity-token }}"
         GHA_SIGSTORE_PYTHON_SIGNATURE: "${{ inputs.signature }}"
