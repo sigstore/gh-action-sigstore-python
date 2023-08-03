@@ -278,12 +278,15 @@ if sign_status.returncode != 0:
 _github_env = os.getenv("GITHUB_ENV")
 assert _github_env is not None
 with Path(_github_env).open("a") as gh_env:
-    delim = os.urandom(16).hex()
     # Multiline values must match the following syntax:
     #
-    # {name}<<{delimiter}
-    # {value}
-    # {delimiter}
+    #  {name}<<{delimiter}
+    #  {value}
+    #  {delimiter}
+    #
+    # We use a random delimiter to avoid potential conflicts with our input;
+    # see: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
+    delim = os.urandom(16).hex()
     print(f"GHA_SIGSTORE_PYTHON_INTERNAL_SIGNING_ARTIFACTS<<{delim}", file=gh_env)
     print("\n".join(signing_artifact_paths), file=gh_env)
     print(delim, file=gh_env)
