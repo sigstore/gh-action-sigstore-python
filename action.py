@@ -280,16 +280,16 @@ assert _github_env is not None
 with Path(_github_env).open("a") as gh_env:
     # Multiline values must match the following syntax:
     #
-    # {name}<<{delimiter}
-    # {value}
-    # {delimiter}
-    gh_env.write(
-        "GHA_SIGSTORE_PYTHON_INTERNAL_SIGNING_ARTIFACTS<<EOF"
-        + os.linesep
-        + os.linesep.join(signing_artifact_paths)
-        + os.linesep
-        + "EOF"
-    )
+    #  {name}<<{delimiter}
+    #  {value}
+    #  {delimiter}
+    #
+    # We use a random delimiter to avoid potential conflicts with our input;
+    # see: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
+    delim = os.urandom(16).hex()
+    print(f"GHA_SIGSTORE_PYTHON_INTERNAL_SIGNING_ARTIFACTS<<{delim}", file=gh_env)
+    print("\n".join(signing_artifact_paths), file=gh_env)
+    print(delim, file=gh_env)
 
 
 # If signing didn't fail, then we check the verification status, if present.
