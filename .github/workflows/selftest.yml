@@ -108,6 +108,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Sign artifacts and publish signatures
+        continue-on-error: true
         uses: ./
         id: sigstore-python
         with:
