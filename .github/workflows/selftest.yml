@@ -100,6 +100,26 @@ jobs:
           [[ -f ./test/artifact1.txt.sigstore ]] || exit 1
           [[ -f ./test/artifact2.txt.sigstore ]] || exit 1
 
+  selftest-glob-multiple:
+    runs-on: ubuntu-latest
+    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
+    steps:
+      - uses: actions/checkout@v3
+      - name: Sign artifacts and publish signatures
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact*.txt ./test/another*.txt
+          staging: true
+          internal-be-careful-debug: true
+      - name: Check outputs
+        run: |
+          [[ ! -f ./test/artifact.txt.sigstore ]] || exit 1
+          [[ -f ./test/artifact1.txt.sigstore ]] || exit 1
+          [[ -f ./test/artifact2.txt.sigstore ]] || exit 1
+          [[ -f ./test/another1.txt.sigstore ]] || exit 1
+          [[ -f ./test/another2.txt.sigstore ]] || exit 1
+
   selftest-upload-artifacts:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
@@ -239,6 +259,7 @@ jobs:
       - selftest-xfail-invalid-inputs
       - selftest-staging
       - selftest-glob
+      - selftest-glob-multiple
       - selftest-upload-artifacts
       - selftest-custom-paths
       - selftest-verify
