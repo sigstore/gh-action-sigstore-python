@@ -66,6 +66,10 @@ The `inputs` argument also supports file globbing:
     inputs: ./path/to/inputs/*.txt
 ```
 
+> [!NOTE]\
+> In versions of this action before 2.0.0, the `inputs` setting allowed for shell expansion.
+> This was unintentional, and was removed with 2.0.0.
+
 ### `identity-token`
 
 **Default**: Empty (the GitHub Actions credential will be used)
