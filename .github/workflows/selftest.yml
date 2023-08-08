@@ -109,7 +109,7 @@ jobs:
         uses: ./
         id: sigstore-python
         with:
-          inputs: ./test/artifact*.txt ./test/another*.txt
+          inputs: ./test/artifact*.txt ./test/another*.txt ./test/subdir/*.txt
           staging: true
           internal-be-careful-debug: true
       - name: Check outputs
@@ -119,6 +119,9 @@ jobs:
           [[ -f ./test/artifact2.txt.sigstore ]] || exit 1
           [[ -f ./test/another1.txt.sigstore ]] || exit 1
           [[ -f ./test/another2.txt.sigstore ]] || exit 1
+          [[ -f ./test/subdir/hello1.txt.sigstore ]] || exit 1
+          [[ -f ./test/subdir/hello2.txt.sigstore ]] || exit 1
+          [[ -f ./test/subdir/hello3.txt.sigstore ]] || exit 1
 
   selftest-upload-artifacts:
     runs-on: ubuntu-latest
