@@ -114,7 +114,7 @@ jobs:
           internal-be-careful-debug: true
       - name: Check outputs
         run: |
-          [[ ! -f ./test/artifact.txt.sigstore ]] || exit 1
+          [[ -f ./test/artifact.txt.sigstore ]] || exit 1
           [[ -f ./test/artifact1.txt.sigstore ]] || exit 1
           [[ -f ./test/artifact2.txt.sigstore ]] || exit 1
           [[ -f ./test/another1.txt.sigstore ]] || exit 1
