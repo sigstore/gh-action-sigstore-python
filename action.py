@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 # Copyright 2022 The Sigstore Authors
 #
@@ -201,7 +201,15 @@ for input_ in inputs:
     if input_.startswith("-"):
         _fatal_help(f"input {input_} looks like a flag")
 
-    files = [Path(f).resolve() for f in glob(input_)]
+    # NOTE: We use a set here to deduplicate inputs, in case a glob expands
+    # to the same input multiple times.
+    files = {Path(f).resolve() for f in glob(input_)}
+
+    # Prevent empty glob expansions, rather than silently allowing them.
+    # Either behavior is technically correct but an empty glob indicates
+    # user confusion, so we fail for them.
+    if not files:
+        _fatal_help(f"input {input_} doesn't expand to one or more filenames")
 
     for file_ in files:
         if not file_.is_file():
