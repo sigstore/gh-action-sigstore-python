@@ -1,2 +1,2 @@
-sigstore ~= 2.0
+sigstore == 2.0.0rc3
 requests ~= 2.28
