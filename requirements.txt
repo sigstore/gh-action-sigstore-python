@@ -1,4 +1,2 @@
-sigstore ~= 2.0
+sigstore ~= 2.1
 requests ~= 2.28
-# TODO: Remove with the next sigstore-python release.
-sigstore-rekor-types == 0.0.11
