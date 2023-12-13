@@ -47,4 +47,4 @@ min_vers=$(cut -d '.' -f2 <<< "${vers}")
 
 python -m pip install --requirement "${GITHUB_ACTION_PATH}/requirements.txt"
 
-python -m sigstore --version
+debug "sigstore-python: $(python -m sigstore --version)"
