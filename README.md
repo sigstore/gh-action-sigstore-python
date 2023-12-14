@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: install
         run: python -m pip install .
-      - uses: sigstore/gh-action-sigstore-python@v2.1.0
+      - uses: sigstore/gh-action-sigstore-python@v2.1.1
         with:
           inputs: file.txt
 ```
@@ -53,7 +53,7 @@ provided.
 To sign one or more files:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file0.txt file1.txt file2.txt
 ```
@@ -61,7 +61,7 @@ To sign one or more files:
 The `inputs` argument also supports file globbing:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: ./path/to/inputs/*.txt
 ```
@@ -78,7 +78,7 @@ The `identity-token` setting controls the OpenID Connect token provided to Fulci
 workflow will use the credentials found in the GitHub Actions environment.
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     identity-token: ${{ IDENTITY_TOKEN  }} # assigned elsewhere
@@ -94,7 +94,7 @@ Server during OAuth2.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     oidc-client-id: alternative-sigstore-id
@@ -110,7 +110,7 @@ Connect Server during OAuth2.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     oidc-client-secret: alternative-sigstore-secret
@@ -126,7 +126,7 @@ when signing multiple input files.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     signature: custom-signature-filename.sig
@@ -135,7 +135,7 @@ Example:
 However, this example is invalid:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file0.txt file1.txt file2.txt
     signature: custom-signature-filename.sig
@@ -151,7 +151,7 @@ work when signing multiple input files.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     certificate: custom-certificate-filename.crt
@@ -160,7 +160,7 @@ Example:
 However, this example is invalid:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file0.txt file1.txt file2.txt
     certificate: custom-certificate-filename.crt
@@ -176,7 +176,7 @@ when signing multiple input files.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     bundle: custom-bundle.sigstore
@@ -185,7 +185,7 @@ Example:
 However, this example is invalid:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file0.txt file1.txt file2.txt
     certificate: custom-bundle.sigstore
@@ -201,7 +201,7 @@ from. This setting cannot be used in combination with the `staging` setting.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     fulcio-url: https://fulcio.sigstage.dev
@@ -217,7 +217,7 @@ cannot be used in combination with the `staging` setting.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     rekor-url: https://rekor.sigstage.dev
@@ -233,7 +233,7 @@ in combination with the `staging` setting.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     ctfe: ./path/to/ctfe.pub
@@ -249,7 +249,7 @@ be used in combination with `staging` setting.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     ctfe: ./path/to/rekor.pub
@@ -265,7 +265,7 @@ instead of the default production instances.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     staging: true
@@ -288,7 +288,7 @@ and `verify-oidc-issuer` settings. Failing to pass these will produce an error.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     verify: true
@@ -311,7 +311,7 @@ This setting may only be used in conjunction with `verify-oidc-issuer`.
 Supplying it without `verify-oidc-issuer` will produce an error.
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     verify: true
@@ -336,7 +336,7 @@ Supplying it without `verify-cert-identity` will produce an error.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     verify: true
@@ -358,7 +358,7 @@ workflow artifact retention period is used.
 Example:
 
 ```yaml
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     upload-signing-artifacts: true
@@ -386,7 +386,7 @@ permissions:
 
 # ...
 
-- uses: sigstore/gh-action-sigstore-python@v2.1.0
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
     release-signing-artifacts: true
@@ -413,7 +413,7 @@ permissions:
   Example:
 
   ```yaml
-  - uses: sigstore/gh-action-sigstore-python@v2.1.0
+  - uses: sigstore/gh-action-sigstore-python@v2.1.1
     with:
       inputs: file.txt
       internal-be-careful-debug: true
