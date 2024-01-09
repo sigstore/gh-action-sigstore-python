@@ -22,8 +22,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         if: ${{ matrix.os != 'ubuntu-latest' }}
         with:
           python-version: "3.x"
@@ -49,7 +49,7 @@ jobs:
           - "/tmp/extremely-nonexistent-file"
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Sign artifact and publish signature
         continue-on-error: true
         uses: ./
@@ -70,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Sign artifact and publish signature
         uses: ./
         id: sigstore-python
@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Sign artifacts and publish signatures
         uses: ./
         id: sigstore-python
@@ -106,7 +106,7 @@ jobs:
       TEST_DIR: test
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Sign artifacts and publish signatures
         continue-on-error: true
         uses: ./
@@ -130,7 +130,7 @@ jobs:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Sign artifacts and publish signatures
         uses: ./
         id: sigstore-python
@@ -153,7 +153,7 @@ jobs:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Sign artifact and publish signature
         uses: ./
         id: sigstore-python
@@ -162,7 +162,7 @@ jobs:
           staging: true
           upload-signing-artifacts: true
           internal-be-careful-debug: true
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: "signing-artifacts-${{ github.job }}"
           path: ./test/uploaded
@@ -176,7 +176,7 @@ jobs:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Sign artifact and publish signature
         uses: ./
         id: sigstore-python
@@ -197,7 +197,7 @@ jobs:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Sign artifact and publish signature
         uses: ./
         id: sigstore-python
@@ -233,7 +233,7 @@ jobs:
 
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Sign artifact and publish signature
         continue-on-error: true
         uses: ./
@@ -259,7 +259,7 @@ jobs:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Get OIDC token
         id: get-oidc-token
         run: |
