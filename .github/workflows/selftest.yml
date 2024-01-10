@@ -345,6 +345,7 @@ jobs:
 
     needs:
       - selftest
+      - selftest-whitespace
       - selftest-release-signing-artifacts-no-op
       - selftest-xfail-invalid-inputs
       - selftest-staging
