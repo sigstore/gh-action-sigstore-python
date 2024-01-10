@@ -38,6 +38,11 @@ _SUMMARY = Path(_summary_path).open("a")
 _RENDER_SUMMARY = os.getenv("GHA_SIGSTORE_PYTHON_SUMMARY", "true") == "true"
 _DEBUG = os.getenv("GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG", "false") != "false"
 
+_RELEASE_SIGNING_ARTIFACTS = (
+    os.getenv("GHA_SIGSTORE_PYTHON_RELEASE_SIGNING_ARTIFACTS", "true") == "true"
+    and os.getenv("GITHUB_EVENT_NAME") == "release"
+)
+
 
 def _template(name):
     path = _TEMPLATES / f"{name}.md"
@@ -189,7 +194,7 @@ elif not enable_verify and verify_oidc_issuer:
 elif verify_oidc_issuer:
     sigstore_verify_args.extend(["--cert-oidc-issuer", verify_oidc_issuer])
 
-if os.getenv("GHA_SIGSTORE_PYTHON_RELEASE_SIGNING_ARTIFACTS") == "true":
+if _RELEASE_SIGNING_ARTIFACTS:
     for filetype in ["zip", "tar.gz"]:
         artifact = _download_ref_asset(filetype)
         if artifact is not None:
