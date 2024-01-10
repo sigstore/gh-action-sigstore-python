@@ -20,6 +20,7 @@
 # is a whitespace-separated list of inputs
 
 import os
+import shlex
 import string
 import subprocess
 import sys
@@ -100,16 +101,12 @@ def _sigstore_verify(global_args, verify_args):
     ]
 
 
-def _warning(msg):
-    print(f"::warning::⚠️ {msg}")
-
-
 def _fatal_help(msg):
     print(f"::error::❌ {msg}")
     sys.exit(1)
 
 
-inputs = sys.argv[1].split()
+inputs = shlex.split(sys.argv[1])
 
 # The arguments we pass into `sigstore-python` get built up in these lists.
 sigstore_global_args = []
