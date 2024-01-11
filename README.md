@@ -66,6 +66,18 @@ The `inputs` argument also supports file globbing:
     inputs: ./path/to/inputs/*.txt
 ```
 
+Multiple lines are fine, and whitespace in filenames can also be escaped using
+POSIX shell lexing rules:
+
+```yaml
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
+  with:
+    inputs: |
+      ./path/to/inputs/*.txt
+      ./another/path/foo\ bar.txt
+      ./a/third/path/"easier to quote than to escape".txt
+```
+
 > [!NOTE]\
 > In versions of this action before 2.0.0, the `inputs` setting allowed for shell expansion.
 > This was unintentional, and was removed with 2.0.0.
