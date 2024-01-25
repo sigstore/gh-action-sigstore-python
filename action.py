@@ -205,7 +205,7 @@ for input_ in inputs:
 
     # NOTE: We use a set here to deduplicate inputs, in case a glob expands
     # to the same input multiple times.
-    files = {Path(f).resolve() for f in glob(input_)}
+    files = {Path(f).resolve() for f in glob(input_, recursive=True)}
 
     # Prevent empty glob expansions, rather than silently allowing them.
     # Either behavior is technically correct but an empty glob indicates
