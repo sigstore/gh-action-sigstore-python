@@ -48,7 +48,7 @@ optional.
 ### `inputs`
 
 The `inputs` setting controls what files `sigstore-python` signs. At least one input must be
-provided.
+provided unless [release-signing-artifacts](#release-signing-artifacts) is set to `true` on release events.
 
 To sign one or more files:
 
@@ -402,6 +402,20 @@ permissions:
 - uses: sigstore/gh-action-sigstore-python@v2.1.1
   with:
     inputs: file.txt
+    release-signing-artifacts: true
+```
+
+On release events, it is also valid to have no inputs:
+
+```yaml
+permissions:
+  contents: write
+
+# ...
+
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
+  with:
+    # Only valid on release events
     release-signing-artifacts: true
 ```
 

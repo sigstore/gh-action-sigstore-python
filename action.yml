@@ -18,7 +18,7 @@ description: "Use sigstore-python to sign Python packages"
 inputs:
   inputs:
     description: "the files to sign, whitespace separated"
-    required: true
+    required: false
     default: ""
   identity-token:
     description: "the OIDC identity token to use"

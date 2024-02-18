@@ -106,7 +106,15 @@ def _fatal_help(msg):
     sys.exit(1)
 
 
-inputs = shlex.split(sys.argv[1])
+# Allow inputs to be empty if the event type is release and release-signing-artifacts is
+# set to true. This allows projects without artifacts to still sign the source
+# archives in their releases.
+inputs = shlex.split(sys.argv[1]) if len(sys.argv) == 2 else []
+if not inputs and not _RELEASE_SIGNING_ARTIFACTS:
+    _fatal_help(
+        "inputs must be specified when release-signing-artifacts is disabled "
+        "and the event type is not release"
+    )
 
 # The arguments we pass into `sigstore-python` get built up in these lists.
 sigstore_global_args = []
