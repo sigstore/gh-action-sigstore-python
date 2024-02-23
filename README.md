@@ -405,7 +405,9 @@ permissions:
     release-signing-artifacts: true
 ```
 
-On release events, it is also valid to have no inputs:
+On release events, it is also valid to have no explicit inputs. When used on release
+events with `release-signing-artifacts: true`, this action will sign any pre-existing
+release artifacts:
 
 ```yaml
 permissions:
