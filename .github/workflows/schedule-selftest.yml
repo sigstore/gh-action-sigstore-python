@@ -43,4 +43,4 @@ jobs:
           # created in the previous step
           content-filepath: /tmp/issue.md
           labels: bug
-          assignees: woodruffw,tetsuo-cpp,tnytown
+          assignees: woodruffw
