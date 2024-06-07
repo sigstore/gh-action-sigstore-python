@@ -229,7 +229,7 @@ for input_ in inputs:
         signing_artifact_paths.append(str(file_))
 
         if "--bundle" not in sigstore_sign_args:
-            signing_artifact_paths.append(f"{file_}.sigstore")
+            signing_artifact_paths.append(f"{file_}.sigstore.json")
 
     sigstore_sign_args.extend([str(f) for f in files])
     sigstore_verify_args.extend([str(f) for f in files])
