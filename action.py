@@ -164,22 +164,6 @@ if bundle:
     sigstore_verify_args.extend(["--bundle", bundle])
     signing_artifact_paths.append(bundle)
 
-fulcio_url = os.getenv("GHA_SIGSTORE_PYTHON_FULCIO_URL")
-if fulcio_url:
-    sigstore_sign_args.extend(["--fulcio-url", fulcio_url])
-
-rekor_url = os.getenv("GHA_SIGSTORE_PYTHON_REKOR_URL")
-if rekor_url:
-    sigstore_global_args.extend(["--rekor-url", rekor_url])
-
-ctfe = os.getenv("GHA_SIGSTORE_PYTHON_CTFE")
-if ctfe:
-    sigstore_sign_args.extend(["--ctfe", ctfe])
-
-rekor_root_pubkey = os.getenv("GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY")
-if rekor_root_pubkey:
-    sigstore_global_args.extend(["--rekor-root-pubkey", rekor_root_pubkey])
-
 if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
     sigstore_global_args.append("--staging")
 

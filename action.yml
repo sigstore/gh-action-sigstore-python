@@ -44,22 +44,6 @@ inputs:
     description: "write a single Sigstore bundle to the given file; does not work with multiple input files"
     required: false
     default: ""
-  fulcio-url:
-    description: "the Fulcio instance to use (conflicts with `staging`)"
-    required: false
-    default: ""
-  rekor-url:
-    description: "the Rekor instance to use (conflicts with `staging`)"
-    required: false
-    default: ""
-  ctfe:
-    description: "a PEM-encoded public key for the CT log (conflicts with `staging`)"
-    required: false
-    default: ""
-  rekor-root-pubkey:
-    description: "a PEM-encoded root public key for Rekor itself (conflicts with `staging`)"
-    required: false
-    default: ""
   staging:
     description: "use sigstore's staging instances, instead of the default production instances"
     required: false
@@ -119,10 +103,6 @@ runs:
         GHA_SIGSTORE_PYTHON_BUNDLE: "${{ inputs.bundle }}"
         GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID: "${{ inputs.oidc-client-id }}"
         GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET: "${{ inputs.oidc-client-secret }}"
-        GHA_SIGSTORE_PYTHON_FULCIO_URL: "${{ inputs.fulcio-url }}"
-        GHA_SIGSTORE_PYTHON_REKOR_URL: "${{ inputs.rekor-url }}"
-        GHA_SIGSTORE_PYTHON_CTFE: "${{ inputs.ctfe }}"
-        GHA_SIGSTORE_PYTHON_REKOR_ROOT_PUBKEY: "${{ inputs.rekor-root-pubkey }}"
         GHA_SIGSTORE_PYTHON_STAGING: "${{ inputs.staging }}"
         GHA_SIGSTORE_PYTHON_VERIFY: "${{ inputs.verify }}"
         GHA_SIGSTORE_PYTHON_VERIFY_CERT_IDENTITY: "${{ inputs.verify-cert-identity }}"
