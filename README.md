@@ -314,7 +314,7 @@ Example:
 
 ### `release-signing-artifacts`
 
-**Default**: `false`
+**Default**: `true`
 
 The `release-signing-artifacts` setting controls whether or not `sigstore-python`
 uploads signing artifacts to the release publishing event that triggered this run.
@@ -322,8 +322,6 @@ This setting has no effect on non-`release` events.
 
 If enabled, this setting also re-uploads and signs GitHub's default source code artifacts,
 as they are not guaranteed to be stable.
-
-By default, no release assets are uploaded.
 
 Requires the [`contents: write` permission](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token).
 
@@ -342,8 +340,7 @@ permissions:
 ```
 
 On release events, it is also valid to have no explicit inputs. When used on release
-events with `release-signing-artifacts: true`, this action will sign any pre-existing
-release artifacts:
+events, this action will sign any pre-existing release artifacts:
 
 ```yaml
 permissions:
@@ -351,10 +348,8 @@ permissions:
 
 # ...
 
+# no explicit settings needed, signs all pre-existing release artifacts
 - uses: sigstore/gh-action-sigstore-python@v2.1.1
-  with:
-    # Only valid on release events
-    release-signing-artifacts: true
 ```
 
 ### Internal options

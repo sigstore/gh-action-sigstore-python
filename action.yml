@@ -47,11 +47,11 @@ inputs:
   staging:
     description: "use sigstore's staging instances, instead of the default production instances"
     required: false
-    default: false
+    default: "false"
   verify:
     description: "verify the generated signatures after signing"
     required: false
-    default: false
+    default: "false"
   verify-cert-identity:
     description: |
       verify the identity in the signing certificate's Subject Alternative Name
@@ -69,15 +69,15 @@ inputs:
   upload-signing-artifacts:
     description: "upload all signing artifacts as workflow artifacts"
     required: false
-    default: false
+    default: "false"
   release-signing-artifacts:
     description: "attach all signing artifacts as release assets"
     required: false
-    default: false
+    default: "true"
   internal-be-careful-debug:
     description: "run with debug logs (default false)"
     required: false
-    default: false
+    default: "false"
 
 runs:
   using: "composite"
