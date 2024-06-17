@@ -38,6 +38,9 @@ All versions prior to 3.0.0 are untracked.
   per Sigstore's client specification
   ([#140](https://github.com/sigstore/gh-action-sigstore-python/pull/140))
 
+* `release-signing-artifacts` now defaults to `true`
+  ([#142](https://github.com/sigstore/gh-action-sigstore-python/pull/142))
+
 ### Fixed
 
 * The `release-signing-artifacts` setting no longer causes a hard error
