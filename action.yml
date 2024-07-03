@@ -83,6 +83,7 @@ runs:
   using: "composite"
   steps:
     - name: Set up sigstore-python
+      id: setup
       run: |
         # NOTE: Sourced, not executed as a script.
         source "${GITHUB_ACTION_PATH}/setup/setup.bash"
@@ -93,12 +94,13 @@ runs:
     - name: Run sigstore-python
       id: sigstore-python
       run: |
-        "${GITHUB_ACTION_PATH}/.action-env/bin/python" \
+        "${VENV_PYTHON_PATH}" \
           "${GITHUB_ACTION_PATH}/action.py" \
           "${GHA_SIGSTORE_PYTHON_INPUTS}"
       env:
         # The year is 2023, and nonsense like this is still necessary on Windows.
         PYTHONUTF8: "1"
+        VENV_PYTHON_PATH: "${{ steps.setup.outputs.venv-python-path }}"
         GHA_SIGSTORE_PYTHON_IDENTITY_TOKEN: "${{ inputs.identity-token }}"
         GHA_SIGSTORE_PYTHON_SIGNATURE: "${{ inputs.signature }}"
         GHA_SIGSTORE_PYTHON_CERTIFICATE: "${{ inputs.certificate }}"

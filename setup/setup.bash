@@ -50,6 +50,18 @@ min_vers=$(cut -d '.' -f2 <<< "${vers}")
 # therefore be subject to PEP 668. We use a virtual environment unconditionally
 # to prevent that kind of confusion.
 python -m venv "${GITHUB_ACTION_PATH}/.action-env"
-"${GITHUB_ACTION_PATH}/.action-env/bin/python" -m pip install --requirement "${GITHUB_ACTION_PATH}/requirements.txt"
 
-debug "sigstore-python: $("${GITHUB_ACTION_PATH}/.action-env/bin/python" -m sigstore --version)"
+# Annoying: Windows venvs use a different structure, for unknown reasons.
+if [[ -d "${GITHUB_ACTION_PATH}/.action-env/bin" ]]; then
+  VENV_PYTHON_PATH="${GITHUB_ACTION_PATH}/.action-env/bin/python"
+else
+  VENV_PYTHON_PATH="${GITHUB_ACTION_PATH}/.action-env/Scripts/python"
+fi
+
+"${VENV_PYTHON_PATH}" -m pip install --requirement "${GITHUB_ACTION_PATH}/requirements.txt"
+
+debug "sigstore-python: $("${VENV_PYTHON_PATH}" -m sigstore --version)"
+
+# Finally, propagate VENV_PYTHON_PATH so we can actually kick-start
+# the extension from it.
+echo "venv-python-path=${VENV_PYTHON_PATH}" >> "${GITHUB_OUTPUT}"
