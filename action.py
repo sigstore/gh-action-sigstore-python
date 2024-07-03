@@ -86,12 +86,12 @@ def _download_ref_asset(ext):
 
 
 def _sigstore_sign(global_args, sign_args):
-    return ["python", "-m", "sigstore", *global_args, "sign", *sign_args]
+    return [sys.executable, "-m", "sigstore", *global_args, "sign", *sign_args]
 
 
 def _sigstore_verify(global_args, verify_args):
     return [
-        "python",
+        sys.executable,
         "-m",
         "sigstore",
         *global_args,
