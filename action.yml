@@ -93,7 +93,9 @@ runs:
     - name: Run sigstore-python
       id: sigstore-python
       run: |
-        ${GITHUB_ACTION_PATH}/action.py "${GHA_SIGSTORE_PYTHON_INPUTS}"
+        "${GITHUB_ACTION_PATH}/.action-env/bin/python" \
+          "${GITHUB_ACTION_PATH}/action.py" \
+          "${GHA_SIGSTORE_PYTHON_INPUTS}"
       env:
         # The year is 2023, and nonsense like this is still necessary on Windows.
         PYTHONUTF8: "1"

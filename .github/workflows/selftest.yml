@@ -19,6 +19,8 @@ jobs:
           - ubuntu-latest
           - macos-latest
           - windows-latest
+          # TODO: Can be removed when 24.04 becomes ubuntu-latest.
+          - ubuntu-24.04
     runs-on: ${{ matrix.os }}
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
@@ -27,6 +29,28 @@ jobs:
         if: ${{ matrix.os != 'ubuntu-latest' }}
         with:
           python-version: "3.x"
+      - name: Sign artifact and publish signature
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+          internal-be-careful-debug: true
+      - name: Check outputs
+        shell: bash
+        run: |
+          [[ -f ./test/artifact.txt.sigstore.json ]] || exit 1
+
+  selftest-runner-python:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          # TODO: Can be removed when 24.04 becomes ubuntu-latest.
+          - ubuntu-24.04
+    runs-on: ${{ matrix.os }}
+    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
+    steps:
+      - uses: actions/checkout@v4
       - name: Sign artifact and publish signature
         uses: ./
         id: sigstore-python

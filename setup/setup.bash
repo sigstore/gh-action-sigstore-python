@@ -45,6 +45,11 @@ min_vers=$(cut -d '.' -f2 <<< "${vers}")
 
 [[ "${maj_vers}" == "3" && "${min_vers}" -ge 7 ]] || die "Bad Python version: ${vers}"
 
-python -m pip install --requirement "${GITHUB_ACTION_PATH}/requirements.txt"
+# If the user didn't explicitly configure a Python version with
+# `actions/setup-python`, then we might be using the distribution's Python and
+# therefore be subject to PEP 668. We use a virtual environment unconditionally
+# to prevent that kind of confusion.
+python -m venv "${GITHUB_ACTION_PATH}/.action-env"
+"${GITHUB_ACTION_PATH}/.action-env/bin/python" -m pip install --requirement "${GITHUB_ACTION_PATH}/requirements.txt"
 
-debug "sigstore-python: $(python -m sigstore --version)"
+debug "sigstore-python: $("${GITHUB_ACTION_PATH}/.action-env/bin/python" -m sigstore --version)"
