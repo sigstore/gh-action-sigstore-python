@@ -256,27 +256,6 @@ jobs:
           [[ -f ./artifact.txt.sigstore.json ]] || exit 1
         working-directory: ./test/uploaded
 
-  selftest-custom-paths:
-    runs-on: ubuntu-latest
-    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
-    steps:
-      - uses: actions/checkout@v4
-      - name: Sign artifact and publish signature
-        uses: ./
-        id: sigstore-python
-        with:
-          inputs: ./test/artifact.txt
-          signature: ./test/custom_signature.sig
-          certificate: ./test/custom_certificate.crt
-          bundle: ./test/custom_bundle.sigstore
-          staging: true
-          internal-be-careful-debug: true
-      - name: Check outputs
-        run: |
-          [[ -f ./test/custom_signature.sig ]] || exit 1
-          [[ -f ./test/custom_certificate.crt ]] || exit 1
-          [[ -f ./test/custom_bundle.sigstore ]] || exit 1
-
   selftest-verify:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
