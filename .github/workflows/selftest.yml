@@ -355,7 +355,6 @@ jobs:
       - selftest-glob
       - selftest-glob-multiple
       - selftest-upload-artifacts
-      - selftest-custom-paths
       - selftest-verify
       - selftest-xfail-verify-missing-options
       - selftest-identity-token
