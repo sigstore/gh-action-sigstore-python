@@ -19,6 +19,8 @@ jobs:
           - ubuntu-latest
           - macos-latest
           - windows-latest
+          # TODO: Can be removed when 24.04 becomes ubuntu-latest.
+          - ubuntu-24.04
     runs-on: ${{ matrix.os }}
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
@@ -27,6 +29,28 @@ jobs:
         if: ${{ matrix.os != 'ubuntu-latest' }}
         with:
           python-version: "3.x"
+      - name: Sign artifact and publish signature
+        uses: ./
+        id: sigstore-python
+        with:
+          inputs: ./test/artifact.txt
+          internal-be-careful-debug: true
+      - name: Check outputs
+        shell: bash
+        run: |
+          [[ -f ./test/artifact.txt.sigstore.json ]] || exit 1
+
+  selftest-runner-python:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          # TODO: Can be removed when 24.04 becomes ubuntu-latest.
+          - ubuntu-24.04
+    runs-on: ${{ matrix.os }}
+    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
+    steps:
+      - uses: actions/checkout@v4
       - name: Sign artifact and publish signature
         uses: ./
         id: sigstore-python
@@ -68,35 +92,6 @@ jobs:
           [[ -f ./test/artifact.txt.sigstore.json ]] || exit 1
           [[ -f ./test/white\ space.txt ]] || exit 1
           [[ -f ./test/more\ white\ space.txt ]] || exit 1
-
-  selftest-release-signing-artifacts-no-op:
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-    runs-on: ${{ matrix.os }}
-    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        if: ${{ matrix.os != 'ubuntu-latest' }}
-        with:
-          python-version: "3.x"
-      - name: Sign artifact and publish signature
-        uses: ./
-        id: sigstore-python
-        with:
-          inputs: ./test/artifact.txt
-          # The trigger for this test is not a release, so this has no effect
-          # (but does not break the workflow either).
-          release-signing-artifacts: true
-          internal-be-careful-debug: true
-      - name: Check outputs
-        shell: bash
-        run: |
-          [[ -f ./test/artifact.txt.sigstore.json ]] || exit 1
 
   selftest-xfail-invalid-inputs:
     runs-on: ubuntu-latest
@@ -232,27 +227,6 @@ jobs:
           [[ -f ./artifact.txt.sigstore.json ]] || exit 1
         working-directory: ./test/uploaded
 
-  selftest-custom-paths:
-    runs-on: ubuntu-latest
-    if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
-    steps:
-      - uses: actions/checkout@v4
-      - name: Sign artifact and publish signature
-        uses: ./
-        id: sigstore-python
-        with:
-          inputs: ./test/artifact.txt
-          signature: ./test/custom_signature.sig
-          certificate: ./test/custom_certificate.crt
-          bundle: ./test/custom_bundle.sigstore
-          staging: true
-          internal-be-careful-debug: true
-      - name: Check outputs
-        run: |
-          [[ -f ./test/custom_signature.sig ]] || exit 1
-          [[ -f ./test/custom_certificate.crt ]] || exit 1
-          [[ -f ./test/custom_bundle.sigstore ]] || exit 1
-
   selftest-verify:
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
@@ -346,13 +320,11 @@ jobs:
     needs:
       - selftest
       - selftest-whitespace
-      - selftest-release-signing-artifacts-no-op
       - selftest-xfail-invalid-inputs
       - selftest-staging
       - selftest-glob
       - selftest-glob-multiple
       - selftest-upload-artifacts
-      - selftest-custom-paths
       - selftest-verify
       - selftest-xfail-verify-missing-options
       - selftest-identity-token

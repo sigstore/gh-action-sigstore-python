@@ -32,26 +32,14 @@ inputs:
     description: "the custom OpenID Connect client secret to use during OAuth2"
     required: false
     default: ""
-  signature:
-    description: "write a single signature to the given file; does not work with multiple input files"
-    required: false
-    default: ""
-  certificate:
-    description: "write a single certificate to the given file; does not work with multiple input files"
-    required: false
-    default: ""
-  bundle:
-    description: "write a single Sigstore bundle to the given file; does not work with multiple input files"
-    required: false
-    default: ""
   staging:
     description: "use sigstore's staging instances, instead of the default production instances"
     required: false
-    default: false
+    default: "false"
   verify:
     description: "verify the generated signatures after signing"
     required: false
-    default: false
+    default: "false"
   verify-cert-identity:
     description: |
       verify the identity in the signing certificate's Subject Alternative Name
@@ -69,20 +57,21 @@ inputs:
   upload-signing-artifacts:
     description: "upload all signing artifacts as workflow artifacts"
     required: false
-    default: false
+    default: "false"
   release-signing-artifacts:
     description: "attach all signing artifacts as release assets"
     required: false
-    default: false
+    default: "true"
   internal-be-careful-debug:
     description: "run with debug logs (default false)"
     required: false
-    default: false
+    default: "false"
 
 runs:
   using: "composite"
   steps:
     - name: Set up sigstore-python
+      id: setup
       run: |
         # NOTE: Sourced, not executed as a script.
         source "${GITHUB_ACTION_PATH}/setup/setup.bash"
@@ -93,14 +82,14 @@ runs:
     - name: Run sigstore-python
       id: sigstore-python
       run: |
-        ${GITHUB_ACTION_PATH}/action.py "${GHA_SIGSTORE_PYTHON_INPUTS}"
+        "${VENV_PYTHON_PATH}" \
+          "${GITHUB_ACTION_PATH}/action.py" \
+          "${GHA_SIGSTORE_PYTHON_INPUTS}"
       env:
         # The year is 2023, and nonsense like this is still necessary on Windows.
         PYTHONUTF8: "1"
+        VENV_PYTHON_PATH: "${{ steps.setup.outputs.venv-python-path }}"
         GHA_SIGSTORE_PYTHON_IDENTITY_TOKEN: "${{ inputs.identity-token }}"
-        GHA_SIGSTORE_PYTHON_SIGNATURE: "${{ inputs.signature }}"
-        GHA_SIGSTORE_PYTHON_CERTIFICATE: "${{ inputs.certificate }}"
-        GHA_SIGSTORE_PYTHON_BUNDLE: "${{ inputs.bundle }}"
         GHA_SIGSTORE_PYTHON_OIDC_CLIENT_ID: "${{ inputs.oidc-client-id }}"
         GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET: "${{ inputs.oidc-client-secret }}"
         GHA_SIGSTORE_PYTHON_STAGING: "${{ inputs.staging }}"

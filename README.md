@@ -128,81 +128,6 @@ Example:
     oidc-client-secret: alternative-sigstore-secret
 ```
 
-### `signature`
-
-**Default**: Empty (signature files will get named as `{input}.sig`)
-
-The `signature` setting controls the name of the output signature file. This setting does not work
-when signing multiple input files.
-
-Example:
-
-```yaml
-- uses: sigstore/gh-action-sigstore-python@v3.0.0
-  with:
-    inputs: file.txt
-    signature: custom-signature-filename.sig
-```
-
-However, this example is invalid:
-
-```yaml
-- uses: sigstore/gh-action-sigstore-python@v3.0.0
-  with:
-    inputs: file0.txt file1.txt file2.txt
-    signature: custom-signature-filename.sig
-```
-
-### `certificate`
-
-**Default**: Empty (certificate files will get named as `{input}.crt`)
-
-The `certificate` setting controls the name of the output certificate file. This setting does not
-work when signing multiple input files.
-
-Example:
-
-```yaml
-- uses: sigstore/gh-action-sigstore-python@v3.0.0
-  with:
-    inputs: file.txt
-    certificate: custom-certificate-filename.crt
-```
-
-However, this example is invalid:
-
-```yaml
-- uses: sigstore/gh-action-sigstore-python@v3.0.0
-  with:
-    inputs: file0.txt file1.txt file2.txt
-    certificate: custom-certificate-filename.crt
-```
-
-### `bundle`
-
-**Default**: Empty (bundle files will get named as `{input}.sigstore`)
-
-The `bundle` setting controls the name of the output Sigstore bundle. This setting does not work
-when signing multiple input files.
-
-Example:
-
-```yaml
-- uses: sigstore/gh-action-sigstore-python@v3.0.0
-  with:
-    inputs: file.txt
-    bundle: custom-bundle.sigstore
-```
-
-However, this example is invalid:
-
-```yaml
-- uses: sigstore/gh-action-sigstore-python@v3.0.0
-  with:
-    inputs: file0.txt file1.txt file2.txt
-    certificate: custom-bundle.sigstore
-```
-
 ### `staging`
 
 **Default**: `false`
@@ -314,7 +239,7 @@ Example:
 
 ### `release-signing-artifacts`
 
-**Default**: `false`
+**Default**: `true`
 
 The `release-signing-artifacts` setting controls whether or not `sigstore-python`
 uploads signing artifacts to the release publishing event that triggered this run.
@@ -322,8 +247,6 @@ This setting has no effect on non-`release` events.
 
 If enabled, this setting also re-uploads and signs GitHub's default source code artifacts,
 as they are not guaranteed to be stable.
-
-By default, no release assets are uploaded.
 
 Requires the [`contents: write` permission](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token).
 
@@ -342,8 +265,7 @@ permissions:
 ```
 
 On release events, it is also valid to have no explicit inputs. When used on release
-events with `release-signing-artifacts: true`, this action will sign any pre-existing
-release artifacts:
+events, this action will sign any pre-existing release artifacts:
 
 ```yaml
 permissions:
@@ -351,10 +273,8 @@ permissions:
 
 # ...
 
-- uses: sigstore/gh-action-sigstore-python@v3.0.0
-  with:
-    # Only valid on release events
-    release-signing-artifacts: true
+# no explicit settings needed, signs all pre-existing release artifacts
+- uses: sigstore/gh-action-sigstore-python@v2.1.1
 ```
 
 ### Internal options
