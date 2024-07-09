@@ -146,24 +146,6 @@ client_secret = os.getenv("GHA_SIGSTORE_PYTHON_OIDC_CLIENT_SECRET")
 if client_secret:
     sigstore_sign_args.extend(["--oidc-client-secret", client_secret])
 
-signature = os.getenv("GHA_SIGSTORE_PYTHON_SIGNATURE")
-if signature:
-    sigstore_sign_args.extend(["--signature", signature])
-    sigstore_verify_args.extend(["--signature", signature])
-    signing_artifact_paths.append(signature)
-
-certificate = os.getenv("GHA_SIGSTORE_PYTHON_CERTIFICATE")
-if certificate:
-    sigstore_sign_args.extend(["--certificate", certificate])
-    sigstore_verify_args.extend(["--certificate", certificate])
-    signing_artifact_paths.append(certificate)
-
-bundle = os.getenv("GHA_SIGSTORE_PYTHON_BUNDLE")
-if bundle:
-    sigstore_sign_args.extend(["--bundle", bundle])
-    sigstore_verify_args.extend(["--bundle", bundle])
-    signing_artifact_paths.append(bundle)
-
 if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
     sigstore_global_args.append("--staging")
 
