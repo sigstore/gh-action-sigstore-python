@@ -20,6 +20,10 @@ All versions prior to 3.0.0 are untracked.
 * The following settings have been removed: `fulcio-url`, `rekor-url`,
   `ctfe`, `rekor-root-pubkey`
   ([#140](https://github.com/sigstore/gh-action-sigstore-python/pull/140))
+* The following output settings have been removed: `signature`,
+  `certificate`, `bundle`
+  ([#146](https://github.com/sigstore/gh-action-sigstore-python/pull/146))
+
 
 ### Changed
 
@@ -50,6 +54,10 @@ All versions prior to 3.0.0 are untracked.
 * Various deprecations present in `sigstore-python`'s 2.x series have been
   resolved
   ([#140](https://github.com/sigstore/gh-action-sigstore-python/pull/140))
+
+* This workflow now supports CI runners that use PEP 668 to constrain global
+  package prefixes
+  ([#145](https://github.com/sigstore/gh-action-sigstore-python/pull/145))
 
 
 [Unreleased]: https://github.com/sigstore/gh-action-sigstore-python/compare/v3.0.0...HEAD
