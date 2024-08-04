@@ -22,8 +22,8 @@ die() {
 }
 
 debug() {
-  if [[ "${GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG}" = "true" ]]; then
-    echo -e "\033[93mDEBUG: ${1}\033[0m"
+  if [[ "${ACTIONS_STEP_DEBUG}" == "true" ]]; then
+    echo "::debug::${*}"
   fi
 }
 

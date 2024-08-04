@@ -34,7 +34,6 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
-          internal-be-careful-debug: true
       - name: Check outputs
         shell: bash
         run: |
@@ -56,7 +55,6 @@ jobs:
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
-          internal-be-careful-debug: true
       - name: Check outputs
         shell: bash
         run: |
@@ -85,7 +83,6 @@ jobs:
             ./test/artifact.txt
             ./test/white\ space.txt
             ./test/"more white space.txt"
-          internal-be-careful-debug: true
       - name: Check outputs
         shell: bash
         run: |
@@ -111,7 +108,6 @@ jobs:
         id: sigstore-python
         with:
           inputs: ${{ matrix.input }}
-          internal-be-careful-debug: true
       - name: Check failure
         env:
           XFAIL: ${{ steps.sigstore-python.outcome == 'failure' }}
@@ -132,7 +128,6 @@ jobs:
         with:
           inputs: ./test/artifact.txt
           staging: true
-          internal-be-careful-debug: true
       - name: Check outputs
         run: |
           [[ -f ./test/artifact.txt.sigstore.json ]] || exit 1
@@ -148,7 +143,6 @@ jobs:
         with:
           inputs: ./test/*.txt
           staging: true
-          internal-be-careful-debug: true
       - name: Check outputs
         run: |
           [[ -f ./test/artifact.txt.sigstore.json ]] || exit 1
@@ -171,7 +165,6 @@ jobs:
           # the user should have to pre-expand it for us.
           inputs: ./${TEST_DIR}/*.txt
           staging: true
-          internal-be-careful-debug: true
       - name: Check failure
         env:
           XFAIL: ${{ steps.sigstore-python.outcome == 'failure' }}
@@ -192,7 +185,6 @@ jobs:
         with:
           inputs: ./test/artifact*.txt ./test/another*.txt ./test/subdir/*.txt
           staging: true
-          internal-be-careful-debug: true
       - name: Check outputs
         run: |
           [[ -f ./test/artifact.txt.sigstore.json ]] || exit 1
@@ -216,7 +208,6 @@ jobs:
           inputs: ./test/artifact.txt
           staging: true
           upload-signing-artifacts: true
-          internal-be-careful-debug: true
       - uses: actions/download-artifact@v4
         with:
           name: "signing-artifacts-${{ github.job }}"
@@ -241,7 +232,6 @@ jobs:
           verify-cert-identity: https://github.com/sigstore/gh-action-sigstore-python/.github/workflows/selftest.yml@${{ github.ref }}
           verify-oidc-issuer: https://token.actions.githubusercontent.com
           staging: true
-          internal-be-careful-debug: true
 
   selftest-xfail-verify-missing-options:
     runs-on: ubuntu-latest
@@ -278,7 +268,6 @@ jobs:
           verify-oidc-issuer: ${{ matrix.config.verify-oidc-issuer }}
           verify-cert-identity: ${{ matrix.config.verify-cert-identity }}
           staging: true
-          internal-be-careful-debug: true
 
       - name: Check failure
         env:
@@ -312,7 +301,6 @@ jobs:
           inputs: ./test/artifact.txt
           identity-token: ${{ steps.get-oidc-token.outputs.identity-token }}
           staging: true
-          internal-be-careful-debug: true
 
   all-selftests-pass:
     if: always()

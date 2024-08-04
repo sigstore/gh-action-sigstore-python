@@ -62,10 +62,6 @@ inputs:
     description: "attach all signing artifacts as release assets"
     required: false
     default: "true"
-  internal-be-careful-debug:
-    description: "run with debug logs (default false)"
-    required: false
-    default: "false"
 
 runs:
   using: "composite"
@@ -75,8 +71,6 @@ runs:
       run: |
         # NOTE: Sourced, not executed as a script.
         source "${GITHUB_ACTION_PATH}/setup/setup.bash"
-      env:
-        GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
       shell: bash
 
     - name: Run sigstore-python
@@ -97,7 +91,6 @@ runs:
         GHA_SIGSTORE_PYTHON_VERIFY_CERT_IDENTITY: "${{ inputs.verify-cert-identity }}"
         GHA_SIGSTORE_PYTHON_VERIFY_OIDC_ISSUER: "${{ inputs.verify-oidc-issuer }}"
         GHA_SIGSTORE_PYTHON_RELEASE_SIGNING_ARTIFACTS: "${{ inputs.release-signing-artifacts }}"
-        GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG: "${{ inputs.internal-be-careful-debug }}"
         GHA_SIGSTORE_PYTHON_INPUTS: "${{ inputs.inputs }}"
       shell: bash
 

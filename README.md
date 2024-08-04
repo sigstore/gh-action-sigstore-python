@@ -277,35 +277,6 @@ permissions:
 - uses: sigstore/gh-action-sigstore-python@v2.1.1
 ```
 
-### Internal options
-<details>
-  <summary>⚠️ Internal options ⚠️</summary>
-
-  Everything below is considered "internal," which means that it
-  isn't part of the stable public settings and may be removed or changed at
-  any points. **You probably do not need these settings.**
-
-  All internal options are prefixed with `internal-be-careful-`.
-
-  #### `internal-be-careful-debug`
-
-  **Default**: `false`
-
-  The `internal-be-careful-debug` setting enables additional debug logs,
-  both within `sigstore-python` itself and the action's harness code. You can
-  use it to debug troublesome configurations.
-
-  Example:
-
-  ```yaml
-  - uses: sigstore/gh-action-sigstore-python@v3.0.0
-    with:
-      inputs: file.txt
-      internal-be-careful-debug: true
-  ```
-
-</details>
-
 ## Licensing
 
 `gh-action-sigstore-python` is licensed under the Apache 2.0 License.
