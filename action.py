@@ -37,7 +37,8 @@ assert _summary_path is not None
 _SUMMARY = Path(_summary_path).open("a")
 
 _RENDER_SUMMARY = os.getenv("GHA_SIGSTORE_PYTHON_SUMMARY", "true") == "true"
-_DEBUG = os.getenv("GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG", "false") != "false"
+_DEBUG = os.getenv("GHA_SIGSTORE_PYTHON_INTERNAL_BE_CAREFUL_DEBUG", "false") != "false" or \
+    os.getenv("ACTIONS_STEP_DEBUG", "false") == "true"
 
 _RELEASE_SIGNING_ARTIFACTS = (
     os.getenv("GHA_SIGSTORE_PYTHON_RELEASE_SIGNING_ARTIFACTS", "true") == "true"
