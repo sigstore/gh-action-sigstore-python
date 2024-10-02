@@ -274,7 +274,7 @@ permissions:
 # ...
 
 # no explicit settings needed, signs all pre-existing release artifacts
-- uses: sigstore/gh-action-sigstore-python@v2.1.1
+- uses: sigstore/gh-action-sigstore-python@v3.0.0
 ```
 
 ### Internal options
