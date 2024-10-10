@@ -8,6 +8,10 @@ All versions prior to 3.0.0 are untracked.
 
 ## [Unreleased]
 
+### Changed
+
+* The minimum Python version supported by this action is now 3.9
+
 ## [3.0.0]
 
 ### Added
