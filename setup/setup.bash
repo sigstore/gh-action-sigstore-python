@@ -37,7 +37,7 @@ if [[ "${0}" == "${BASH_SOURCE[0]}" ]]; then
   die "Internal error: setup harness was executed instead of being sourced?"
 fi
 
-# Check the Python version, making sure it's new enough (3.8+)
+# Check the Python version, making sure it's new enough (3.9+)
 # The installation step immediately below will technically catch this,
 # but doing it explicitly gives us the opportunity to produce a better
 # error message.
@@ -45,7 +45,7 @@ vers=$(python -V | cut -d ' ' -f2)
 maj_vers=$(cut -d '.' -f1 <<< "${vers}")
 min_vers=$(cut -d '.' -f2 <<< "${vers}")
 
-[[ "${maj_vers}" == "3" && "${min_vers}" -ge 8 ]] || die "Bad Python version: ${vers}"
+[[ "${maj_vers}" == "3" && "${min_vers}" -ge 9 ]] || die "Bad Python version: ${vers}"
 
 # If the user didn't explicitly configure a Python version with
 # `actions/setup-python`, then we might be using the distribution's Python and
