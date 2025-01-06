@@ -8,11 +8,12 @@ on:
   workflow_dispatch:
   workflow_call:
 
-permissions:
-  id-token: write
+permissions: {}
 
 jobs:
   selftest:
+    permissions:
+      id-token: write
     strategy:
       matrix:
         os:
@@ -25,6 +26,8 @@ jobs:
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         if: ${{ matrix.os != 'ubuntu-latest' }}
         with:
@@ -41,6 +44,8 @@ jobs:
           [[ -f ./test/artifact.txt.sigstore.json ]] || exit 1
 
   selftest-runner-python:
+    permissions:
+      id-token: write
     strategy:
       matrix:
         os:
@@ -51,6 +56,8 @@ jobs:
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Sign artifact and publish signature
         uses: ./
         id: sigstore-python
@@ -63,6 +70,8 @@ jobs:
           [[ -f ./test/artifact.txt.sigstore.json ]] || exit 1
 
   selftest-whitespace:
+    permissions:
+      id-token: write
     strategy:
       matrix:
         os:
@@ -73,6 +82,8 @@ jobs:
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         if: ${{ matrix.os != 'ubuntu-latest' }}
         with:
@@ -94,6 +105,8 @@ jobs:
           [[ -f ./test/more\ white\ space.txt ]] || exit 1
 
   selftest-xfail-invalid-inputs:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -105,6 +118,8 @@ jobs:
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Sign artifact and publish signature
         continue-on-error: true
         uses: ./
@@ -122,10 +137,14 @@ jobs:
           [[ "${XFAIL}" == "true" ]] || { >&2 echo "expected step to fail"; exit 1; }
 
   selftest-staging:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Sign artifact and publish signature
         uses: ./
         id: sigstore-python
@@ -138,10 +157,14 @@ jobs:
           [[ -f ./test/artifact.txt.sigstore.json ]] || exit 1
 
   selftest-glob:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Sign artifacts and publish signatures
         uses: ./
         id: sigstore-python
@@ -156,12 +179,16 @@ jobs:
           [[ -f ./test/artifact2.txt.sigstore.json ]] || exit 1
 
   selftest-xfail-glob-input-expansion:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     env:
       TEST_DIR: test
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Sign artifacts and publish signatures
         continue-on-error: true
         uses: ./
@@ -182,10 +209,14 @@ jobs:
           [[ "${XFAIL}" == "true" ]] || { >&2 echo "expected step to fail"; exit 1; }
 
   selftest-glob-multiple:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Sign artifacts and publish signatures
         uses: ./
         id: sigstore-python
@@ -205,10 +236,14 @@ jobs:
           [[ -f ./test/subdir/hello3.txt.sigstore.json ]] || exit 1
 
   selftest-upload-artifacts:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Sign artifact and publish signature
         uses: ./
         id: sigstore-python
@@ -228,10 +263,14 @@ jobs:
         working-directory: ./test/uploaded
 
   selftest-verify:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Sign artifact and publish signature
         uses: ./
         id: sigstore-python
@@ -244,6 +283,8 @@ jobs:
           internal-be-careful-debug: true
 
   selftest-xfail-verify-missing-options:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -268,6 +309,8 @@ jobs:
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Sign artifact and publish signature
         continue-on-error: true
         uses: ./
@@ -290,10 +333,14 @@ jobs:
           [[ "${XFAIL}" == "true" ]] || { >&2 echo "expected step to fail"; exit 1; }
 
   selftest-identity-token:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     if: (github.event_name != 'pull_request') || !github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Get OIDC token
         id: get-oidc-token
         run: |
