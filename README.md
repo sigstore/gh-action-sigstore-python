@@ -7,6 +7,12 @@ gh-action-sigstore-python
 A GitHub Action that uses [`sigstore-python`](https://github.com/sigstore/sigstore-python)
 to generate Sigstore signatures.
 
+> [!IMPORTANT]
+>
+> Are you publishing a package? If so, you **do not need this action**:
+> [pypa/gh-action-pypi-publish](https://github.com/pypa/gh-action-pypi-publish)
+> will handle signing for you!
+
 ## Index
 
 * [Usage](#usage)
