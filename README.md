@@ -4,8 +4,8 @@ gh-action-sigstore-python
 [![CI](https://github.com/sigstore/gh-action-sigstore-python/actions/workflows/ci.yml/badge.svg)](https://github.com/sigstore/gh-action-sigstore-python/actions/workflows/ci.yml)
 [![Self-test](https://github.com/sigstore/gh-action-sigstore-python/actions/workflows/selftest.yml/badge.svg)](https://github.com/sigstore/gh-action-sigstore-python/actions/workflows/selftest.yml)
 
-A GitHub Action that uses [`sigstore-python`](https://github.com/sigstore/sigstore-python)
-to generate Sigstore signatures.
+This GitHub Action uses [`sigstore-python`](https://github.com/sigstore/sigstore-python)
+to generate Sigstore signatures. `gh-action-sigstore-python` is the easiest way to [integrate Sigstore into your CI system](https://docs.sigstore.dev/quickstart/quickstart-ci/) and can be used for not only Python projects, but projects in other languages as well.  
 
 > [!IMPORTANT]
 > Are you publishing a package to PyPI? If so, you **do not need this action**:
@@ -31,7 +31,9 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: install
         run: python -m pip install .
       - uses: sigstore/gh-action-sigstore-python@v3.0.0
