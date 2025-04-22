@@ -1,18 +1,24 @@
+
 .PHONY: all
 all:
 	@echo "Run my targets individually!"
 
-env/pyvenv.cfg: dev-requirements.txt
-	python3 -m venv env
-	./env/bin/python -m pip install --upgrade pip
-	./env/bin/python -m pip install --requirement dev-requirements.txt
+.PHONY: requirements
+requirements: requirements/main.txt requirements/dev.txt
+
+requirements/%.txt: requirements/%.in
+	uv pip compile --generate-hashes --prerelease=allow --output-file=$@ $<
+
+env/pyvenv.cfg: requirements/dev.txt requirements/main.txt
+	uv venv
+	uv pip install -r requirements/main.txt -r requirements/dev.txt
 
 .PHONY: dev
 dev: env/pyvenv.cfg
 
 .PHONY: lint
 lint: env/pyvenv.cfg action.py
-	. ./env/bin/activate && \
+	. ./.venv/bin/activate && \
 	black action.py && \
 	isort action.py && \
 	mypy action.py && \

@@ -60,7 +60,7 @@ else
   VENV_PYTHON_PATH="${GITHUB_ACTION_PATH}/.action-env/Scripts/python"
 fi
 
-"${VENV_PYTHON_PATH}" -m pip install --requirement "${GITHUB_ACTION_PATH}/requirements.txt"
+"${VENV_PYTHON_PATH}" -m pip install --requirement "${GITHUB_ACTION_PATH}/requirements/main.txt"
 
 debug "sigstore-python: $("${VENV_PYTHON_PATH}" -m sigstore --version)"
 
