@@ -8,9 +8,20 @@ All versions prior to 3.0.0 are untracked.
 
 ## [Unreleased]
 
+## [3.0.1]
+
 ### Changed
 
 * The minimum Python version supported by this action is now 3.9
+  ([#155](https://github.com/sigstore/gh-action-sigstore-python/pull/155))
+* The action's Python dependencies are now fully pinned to specific versions
+  ([#165](https://github.com/sigstore/gh-action-sigstore-python/pull/165))
+
+### Fixed
+
+* The `rfc3161-client` dependency has been upgrades to `1.0.3` to resolve
+  a security vulnerability
+  ([#182](https://github.com/sigstore/gh-action-sigstore-python/pull/182))
 
 ## [3.0.0]
 
