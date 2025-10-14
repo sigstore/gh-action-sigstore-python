@@ -5,6 +5,7 @@ all:
 
 .venv/pyvenv.cfg: requirements/dev.txt requirements/main.txt
 	uv venv
+	. ./.venv/bin/activate && \
 	uv pip install -r requirements/main.txt -r requirements/dev.txt
 
 .PHONY: dev
