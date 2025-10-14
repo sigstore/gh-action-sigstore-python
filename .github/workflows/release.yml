@@ -5,18 +5,17 @@ on:
 
 name: release
 
-permissions:
-  # Used to sign the release's artifacts with sigstore-python.
-  id-token: write
-
-  # Used to attach signing artifacts to the published release.
-  contents: write
+permissions: {}
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Used to sign the artifacts.
+      contents: write # Used to attach signing artifacts to the release.
+
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false
 
