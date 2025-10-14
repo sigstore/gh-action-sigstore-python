@@ -5,5 +5,5 @@ mypy
 types-requests
 
 # copied from main.in
-sigstore ~= 3.6
+sigstore ~= 4.0
 requests ~= 2.32
