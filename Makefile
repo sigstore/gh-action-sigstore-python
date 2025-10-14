@@ -3,10 +3,10 @@
 all:
 	@echo "Run my targets individually!"
 
-.venv/pyvenv.cfg: requirements/dev.txt requirements/main.txt
+.venv/pyvenv.cfg: requirements/dev.txt
 	uv venv
 	. ./.venv/bin/activate && \
-	uv pip install -r requirements/main.txt -r requirements/dev.txt
+	uv pip install -r requirements/dev.txt
 
 .PHONY: dev
 dev: .venv/pyvenv.cfg
