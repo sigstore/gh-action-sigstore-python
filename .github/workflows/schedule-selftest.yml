@@ -2,17 +2,19 @@ name: Scheduled self-test
 
 on:
   schedule:
-    - cron: '0 12 * * *' # Every day at 1200 UTC
+    - cron: "0 12 * * *" # Every day at 1200 UTC
+
+permissions: {}
 
 jobs:
   run-selftests:
     permissions:
-      id-token: write
+      id-token: write # for OIDC in selftest
 
     uses: ./.github/workflows/selftest.yml
   open-issue:
     permissions:
-      issues: write
+      issues: write # for opening the issue
 
     runs-on: ubuntu-latest
     if: ${{ failure() }}
