@@ -150,6 +150,13 @@ jobs:
           inputs: ./test/artifact.txt
           staging: true
           internal-be-careful-debug: true
+      - name: Sign artifact with non-default rekor-version and publish signature
+        uses: ./
+        with:
+          inputs: ./test/artifact2.txt
+          staging: true
+          rekor-version: 1
+          internal-be-careful-debug: true
       - name: Check outputs
         run: |
           [[ -f ./test/artifact.txt.sigstore.json ]] || exit 1
