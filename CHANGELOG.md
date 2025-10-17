@@ -8,6 +8,29 @@ All versions prior to 3.0.0 are untracked.
 
 ## [Unreleased]
 
+## [3.1.0]
+
+`gh-action-sigstore-python` is now compatible with [Rekor v2](https://blog.sigstore.dev/rekor-v2-ga/)
+transparency log (but produced signature bundles still contain Rekor v1 entries by default).
+
+### Changed
+
+* The action now uses sigstore-python 4.1. All other dependencies are also updated
+  ([#220](https://github.com/sigstore/gh-action-sigstore-python/pull/220))
+
+### Fixed
+
+* Fixed incompatibility with Python 3.14 by upgrading dependencies
+  ([#225](https://github.com/sigstore/gh-action-sigstore-python/pull/225))
+
+### Added
+
+* `rekor-version` argument was added to control the Rekor transparency log
+  version when signing. The default version in the gh-action-sigstore-python
+  3.x series will remain 1 (except when using `staging: true`).
+  ([#228](https://github.com/sigstore/gh-action-sigstore-python/pull/228))
+
+
 ## [3.0.1]
 
 ### Changed
