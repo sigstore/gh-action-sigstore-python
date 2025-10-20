@@ -151,6 +151,19 @@ if client_secret:
 
 if os.getenv("GHA_SIGSTORE_PYTHON_STAGING", "false") != "false":
     sigstore_global_args.append("--staging")
+    rekor_version_default = "2"
+else:
+    rekor_version_default = "1"
+
+rekor_version_env = os.getenv("GHA_SIGSTORE_PYTHON_REKOR_VERSION")
+if rekor_version_env == "":
+    rekor_version = rekor_version_default
+elif rekor_version_env in ["1", "2"]:
+    rekor_version = rekor_version_env
+else:
+    _fatal_help(f"'{rekor_version_env}' is not a valid rekor-version")
+
+sigstore_sign_args.extend(["--rekor-version", rekor_version])
 
 verify_cert_identity = os.getenv("GHA_SIGSTORE_PYTHON_VERIFY_CERT_IDENTITY")
 if enable_verify and not verify_cert_identity:
