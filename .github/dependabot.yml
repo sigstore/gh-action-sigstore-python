@@ -18,6 +18,8 @@ updates:
       interval: daily
     cooldown:
       default-days: 7
+    allow:
+      - dependency-type: "all"
     groups:
       python-dependencies:
         patterns:
