@@ -8,6 +8,13 @@ All versions prior to 3.0.0 are untracked.
 
 ## [Unreleased]
 
+### Changed
+
+* The action now requires Python >= 3.11 (in practice 3.1.0 already failed to install on
+  older versions). Supported Python versions are now tested explicitly.
+  ([#238](https://github.com/sigstore/gh-action-sigstore-python/pull/238))
+
+
 ## [3.1.0]
 
 `gh-action-sigstore-python` is now compatible with [Rekor v2](https://blog.sigstore.dev/rekor-v2-ga/)
