@@ -15,9 +15,12 @@ jobs:
     permissions:
       id-token: write # selftest
     strategy:
+      fail-fast: false
       matrix:
+        # we may not actively support everything in this matrix but we do
+        # want to know if they break
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.x", "3.14"]
+        python-version: ["3.x", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
         include:
           - os: ubuntu-latest
             python-version: platform-default
