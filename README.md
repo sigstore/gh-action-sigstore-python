@@ -41,10 +41,12 @@ jobs:
           inputs: file.txt
 ```
 
-Note: Your workflow **must** have permission to request the OIDC token to authenticate with.
-This can be done by setting `id-token: write` on your job (as above) or workflow.
+The action requires Python >= 3.11: [`actions/setup-python`](https://github.com/actions/setup-python) can be used to select the Python version.
+The GitHub runner provided Python can be used but note that the default Python on GitHub Windows runner is **not** compatible at time of writing.
 
-More information about permission settings can be found
+Note: Your workflow **must** have permission to request the OIDC token to authenticate with.
+This can be done by setting `id-token: write` on your job as above. More information about
+permission settings can be found
 [here](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#adding-permissions-settings).
 
 ## Configuration
