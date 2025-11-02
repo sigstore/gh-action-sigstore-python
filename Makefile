@@ -4,7 +4,7 @@ all:
 	@echo "Run my targets individually!"
 
 .venv/pyvenv.cfg: requirements/dev.txt
-	uv venv
+	setup/create-venv.sh .venv
 	. ./.venv/bin/activate && \
 	uv pip install -r requirements/dev.txt
 
