@@ -38,9 +38,6 @@ if [[ "${0}" == "${BASH_SOURCE[0]}" ]]; then
 fi
 
 # Check the Python version, making sure it's new enough (3.9+)
-# The installation step immediately below will technically catch this,
-# but doing it explicitly gives us the opportunity to produce a better
-# error message.
 vers=$(python -V | cut -d ' ' -f2)
 maj_vers=$(cut -d '.' -f1 <<< "${vers}")
 min_vers=$(cut -d '.' -f2 <<< "${vers}")
@@ -51,19 +48,20 @@ min_vers=$(cut -d '.' -f2 <<< "${vers}")
 # `actions/setup-python`, then we might be using the distribution's Python and
 # therefore be subject to PEP 668. We use a virtual environment unconditionally
 # to prevent that kind of confusion.
-python -m venv "${GITHUB_ACTION_PATH}/.action-env"
+"${GITHUB_ACTION_PATH}/setup/create-venv.sh" "${GITHUB_ACTION_PATH}/.action-env"
 
 # Annoying: Windows venvs use a different structure, for unknown reasons.
 if [[ -d "${GITHUB_ACTION_PATH}/.action-env/bin" ]]; then
-  VENV_PYTHON_PATH="${GITHUB_ACTION_PATH}/.action-env/bin/python"
+  BIN="${GITHUB_ACTION_PATH}/.action-env/bin"
 else
-  VENV_PYTHON_PATH="${GITHUB_ACTION_PATH}/.action-env/Scripts/python"
+  BIN="${GITHUB_ACTION_PATH}/.action-env/Scripts"
 fi
 
-"${VENV_PYTHON_PATH}" -m pip install --requirement "${GITHUB_ACTION_PATH}/requirements/main.txt"
+. "$BIN/activate" && uv pip install --requirement "${GITHUB_ACTION_PATH}/requirements/main.txt"
 
-debug "sigstore-python: $("${VENV_PYTHON_PATH}" -m sigstore --version)"
+
+debug "sigstore-python: $("$BIN/python" -m sigstore --version)"
 
 # Finally, propagate VENV_PYTHON_PATH so we can actually kick-start
 # the extension from it.
-echo "venv-python-path=${VENV_PYTHON_PATH}" >> "${GITHUB_OUTPUT}"
+echo "venv-python-path=${BIN}/python" >> "${GITHUB_OUTPUT}"
