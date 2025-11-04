@@ -1,6 +1,4 @@
-flake8
-isort
-black
+ruff
 mypy
 types-requests
 

@@ -48,33 +48,37 @@ _RELEASE_SIGNING_ARTIFACTS = (
 )
 
 
-def _template(name):
+def _template(name: str) -> string.Template:
     path = _TEMPLATES / f"{name}.md"
     return string.Template(path.read_text())
 
 
-def _summary(msg):
+def _summary(msg: str) -> None:
     if _RENDER_SUMMARY:
         print(msg, file=_SUMMARY)
 
 
-def _debug(msg):
+def _debug(msg: str) -> None:
     if _DEBUG:
         print(f"\033[93mDEBUG: {msg}\033[0m", file=sys.stderr)
 
 
-def _log(msg):
+def _log(msg: str) -> None:
     print(msg, file=sys.stderr)
 
 
-def _download_ref_asset(ext):
-    repo = os.getenv("GITHUB_REPOSITORY")
-    ref = os.getenv("GITHUB_REF")
+def _download_ref_asset(ext: str) -> str:
+    try:
+        repo = os.environ["GITHUB_REPOSITORY"]
+        ref = os.environ["GITHUB_REF"]
+        ref_name = os.environ["GITHUB_REF_NAME"]
+    except KeyError as e:
+        raise RuntimeError(f"Environment variable {e} not set")
 
     # NOTE: Branch names often have `/` in them (e.g. `feat/some-name`),
     # which would break the artifact path we construct below.
     # We "fix" these by lossily replacing all `/` with `-`.
-    ref_name_normalized = os.getenv("GITHUB_REF_NAME").replace("/", "-")
+    ref_name_normalized = ref_name.replace("/", "-")
 
     artifact = Path(f"/tmp/{ref_name_normalized}.{ext}")
 
@@ -88,11 +92,11 @@ def _download_ref_asset(ext):
     return str(artifact)
 
 
-def _sigstore_sign(global_args, sign_args):
+def _sigstore_sign(global_args: list[str], sign_args: list[str]) -> list[str]:
     return [sys.executable, "-m", "sigstore", *global_args, "sign", *sign_args]
 
 
-def _sigstore_verify(global_args, verify_args):
+def _sigstore_verify(global_args: list[str], verify_args: list[str]) -> list[str]:
     return [
         sys.executable,
         "-m",
@@ -104,7 +108,7 @@ def _sigstore_verify(global_args, verify_args):
     ]
 
 
-def _fatal_help(msg):
+def _fatal_help(msg: str) -> None:
     print(f"::error::❌ {msg}")
     sys.exit(1)
 

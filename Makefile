@@ -14,7 +14,6 @@ dev: .venv/pyvenv.cfg
 .PHONY: lint
 lint: .venv/pyvenv.cfg action.py
 	. ./.venv/bin/activate && \
-	black action.py && \
-	isort action.py && \
-	mypy action.py && \
-	flake8 --max-line-length 100 action.py
+	ruff format --diff action.py && \
+	ruff check action.py && \
+	mypy action.py

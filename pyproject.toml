@@ -1,0 +1,2 @@
+[tool.ruff]
+lint.select = ["ANN", "E", "F", "FA", "I", "N", "PIE", "PYI", "RET", "RUF", "UP", "W"]
