@@ -30,7 +30,6 @@ transparency log (but produced signature bundles still contain Rekor v1 entries 
   3.x series will remain 1 (except when using `staging: true`).
   ([#228](https://github.com/sigstore/gh-action-sigstore-python/pull/228))
 
-
 ## [3.0.1]
 
 ### Changed
@@ -61,7 +60,6 @@ transparency log (but produced signature bundles still contain Rekor v1 entries 
 * The following output settings have been removed: `signature`,
   `certificate`, `bundle`
   ([#146](https://github.com/sigstore/gh-action-sigstore-python/pull/146))
-
 
 ### Changed
 
@@ -96,7 +94,6 @@ transparency log (but produced signature bundles still contain Rekor v1 entries 
 * This workflow now supports CI runners that use PEP 668 to constrain global
   package prefixes
   ([#145](https://github.com/sigstore/gh-action-sigstore-python/pull/145))
-
 
 [Unreleased]: https://github.com/sigstore/gh-action-sigstore-python/compare/v3.0.0...HEAD
 [3.0.0]: https://github.com/sigstore/gh-action-sigstore-python/compare/v2.1.1...v3.0.0

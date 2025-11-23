@@ -1,7 +1,7 @@
-ruff
-mypy
-types-requests
+ruff == 0.8.5
+mypy == 1.14.1
+types-requests == 2.32.0.20241016
 
 # copied from main.in
-sigstore ~= 4.0
-requests ~= 2.32
+sigstore == 4.1.0
+requests == 2.32.5

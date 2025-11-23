@@ -285,6 +285,7 @@ permissions:
 ```
 
 ### Internal options
+
 <details>
   <summary>⚠️ Internal options ⚠️</summary>
 
@@ -294,7 +295,7 @@ permissions:
 
   All internal options are prefixed with `internal-be-careful-`.
 
-  #### `internal-be-careful-debug`
+#### `internal-be-careful-debug`
 
   **Default**: `false`
 
