@@ -12,6 +12,8 @@ if [ -z "$1" ]; then
 fi
 
 ENV=$1
+SCRIPT_DIR=$(dirname "$0")
+PYTHON_VERSION=$(cat "$SCRIPT_DIR/../.python-version")
 
 BOOTSTRAP_ENV=$(mktemp -d)
 python3 -m venv --clear "$BOOTSTRAP_ENV"
@@ -24,6 +26,10 @@ else
 fi
 
 
-. "$BIN/activate" && pip install uv && uv venv --clear "$ENV" && VIRTUAL_ENV="$ENV" uv pip install uv
+. "$BIN/activate" && \
+  pip install uv && \
+  uv venv --python "$PYTHON_VERSION" --clear "$ENV" && \
+  VIRTUAL_ENV="$ENV" uv pip install uv
+
 touch "$ENV/bootstrap"
 rm -r "$BOOTSTRAP_ENV"
