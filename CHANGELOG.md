@@ -8,6 +8,17 @@ All versions prior to 3.0.0 are untracked.
 
 ## [Unreleased]
 
+## [3.2.0]
+
+`gh-action-sigstore-python` now manages the used Python version internally, improving reliability.
+
+### Changed
+* Manage Python version internally
+  ([#242](https://github.com/sigstore/gh-action-sigstore-python/pull/242),
+  [#258](https://github.com/sigstore/gh-action-sigstore-python/pull/258))
+* Dependency updates
+
+
 ## [3.1.0]
 
 `gh-action-sigstore-python` is now compatible with [Rekor v2](https://blog.sigstore.dev/rekor-v2-ga/)
