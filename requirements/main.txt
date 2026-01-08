@@ -448,7 +448,7 @@ requests==2.32.5 \
     --hash=sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6 \
     --hash=sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf
     # via
-    #   -r requirements/main.in
+    #   -r main.in
     #   id
     #   sigstore
 rfc3161-client==1.0.5 \
@@ -481,7 +481,7 @@ securesystemslib==1.3.1 \
 sigstore==4.1.0 \
     --hash=sha256:312f7f73fe27127784245f523b86b6334978c555fe4ba7831be5602c089807c1 \
     --hash=sha256:ec3ed0d92bf53ffb23261245a78d4ad3da5af5cc9af889c86461a7d02407249a
-    # via -r requirements/main.in
+    # via -r main.in
 sigstore-models==0.0.5 \
     --hash=sha256:8eda90fe16ef3e4e624edd029f4cbbc9832a192dc5c8f66011d94ec4253f9f3f \
     --hash=sha256:ac3ca1554d5dd509a6710699d83a035a09ba112d1fa180959cbfcdd5d97633b7
@@ -506,9 +506,9 @@ typing-inspection==0.4.2 \
     --hash=sha256:4ed1cacbdc298c220f1bd249ed5287caa16f34d44ef4e9c3d0cbad5b521545e7 \
     --hash=sha256:ba561c48a67c5958007083d386c3295464928b01faa735ab8547c5692e87f464
     # via pydantic
-urllib3==2.6.2 \
-    --hash=sha256:016f9c98bb7e98085cb2b4b17b87d2c702975664e4f060c6532e64d1c1a5e797 \
-    --hash=sha256:ec21cddfe7724fc7cb4ba4bea7aa8e2ef36f607a4bab81aa6ce42a13dc3f03dd
+urllib3==2.6.3 \
+    --hash=sha256:1b62b6884944a57dbe321509ab94fd4d3b307075e0c2eae991ac71ee15ad38ed \
+    --hash=sha256:bf272323e553dfb2e87d9bfd225ca7b0f467b919d7bbd355436d3fd37cb0acd4
     # via
     #   requests
     #   tuf
