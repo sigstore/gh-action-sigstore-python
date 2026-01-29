@@ -411,7 +411,7 @@ mypy==1.19.1 \
     --hash=sha256:f7cee03c9a2e2ee26ec07479f38ea9c884e301d42c6d43a19d20fb014e3ba925 \
     --hash=sha256:f859fb09d9583a985be9a493d5cfc5515b56b08f7447759a0c5deaf68d80506e \
     --hash=sha256:ffcebe56eb09ff0c0885e750036a095e23793ba6c2e894e7e63f6d89ad51f22e
-    # via -r dev.in
+    # via -r requirements/dev.in
 mypy-extensions==1.1.0 \
     --hash=sha256:1be4cccdb0f2482337c4743e60421de3a356cd97508abadd57d47403e94f5505 \
     --hash=sha256:52e68efc3284861e772bbcd66823fde5ae21fd2fdb51c62a211403730b916558
@@ -428,9 +428,9 @@ pyasn1==0.6.2 \
     --hash=sha256:1eb26d860996a18e9b6ed05e7aae0e9fc21619fcee6af91cca9bad4fbea224bf \
     --hash=sha256:9b59a2b25ba7e4f8197db7686c09fb33e658b98339fadb826e9512629017833b
     # via sigstore
-pycparser==2.23 \
-    --hash=sha256:78816d4f24add8f10a06d6f05b4d424ad9e96cfebf68a4ddc99c65c0720d00c2 \
-    --hash=sha256:e5c6e8d3fbad53479cab09ac03729e0a9faf2bee3db8208a550daf5af81a5934
+pycparser==3.0 \
+    --hash=sha256:600f49d217304a5902ac3c37e1281c9fe94e4d0489de643a9504c5cdfdfc6b29 \
+    --hash=sha256:b727414169a36b7d524c1c3e31839a521725078d7b2ff038656844266160a992
     # via cffi
 pydantic[email]==2.12.2 \
     --hash=sha256:25ff718ee909acd82f1ff9b1a4acfd781bb23ab3739adaa7144f19a6a4e231ae \
@@ -574,7 +574,7 @@ requests==2.32.5 \
     --hash=sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6 \
     --hash=sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf
     # via
-    #   -r dev.in
+    #   -r requirements/dev.in
     #   id
     #   sigstore
 rfc3161-client==1.0.5 \
@@ -620,7 +620,7 @@ ruff==0.14.13 \
     --hash=sha256:d24899478c35ebfa730597a4a775d430ad0d5631b8647a3ab368c29b7e7bd063 \
     --hash=sha256:e399341472ce15237be0c0ae5fbceca4b04cd9bebab1a2b2c979e015455d8f0c \
     --hash=sha256:ef720f529aec113968b45dfdb838ac8934e519711da53a0456038a0efecbd680
-    # via -r dev.in
+    # via -r requirements/dev.in
 securesystemslib==1.3.1 \
     --hash=sha256:2e5414bbdde33155a91805b295cbedc4ae3f12b48dccc63e1089093537f43c81 \
     --hash=sha256:ca915f4b88209bb5450ac05426b859d74b7cd1421cafcf73b8dd3418a0b17486
@@ -628,7 +628,7 @@ securesystemslib==1.3.1 \
 sigstore==4.2.0 \
     --hash=sha256:bdbb49a42fd5f0ea6765919adb42ccee7254c482330764d0842eec4e11ad78d7 \
     --hash=sha256:ed2e0f50aae85148a8aa4fc0f57c298927fce430ad1f988f38611ce90c85829f
-    # via -r dev.in
+    # via -r requirements/dev.in
 sigstore-models==0.0.6 \
     --hash=sha256:5201a68f4d7d0f8bec1e2f4378eb646b084c52609a4e31db8c385095fff68b2e \
     --hash=sha256:c766c09470c2a7e8a4a333c893f07e2001c56a3ff1757b1a246119f53169a849
@@ -644,7 +644,7 @@ tuf==6.0.0 \
 types-requests==2.32.4.20260107 \
     --hash=sha256:018a11ac158f801bfa84857ddec1650750e393df8a004a8a9ae2a9bec6fcb24f \
     --hash=sha256:b703fe72f8ce5b31ef031264fe9395cac8f46a04661a79f7ed31a80fb308730d
-    # via -r dev.in
+    # via -r requirements/dev.in
 typing-extensions==4.15.0 \
     --hash=sha256:0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466 \
     --hash=sha256:f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548
