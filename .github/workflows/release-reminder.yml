@@ -1,0 +1,46 @@
+name: Release Reminder
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'requirements/main.txt'
+
+permissions: {}
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0 # Fetch all history and tags
+          persist-credentials: false
+
+      - name: Check for sigstore version bump, file issue if needed
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LATEST_TAG=$(gh release view --json tagName --jq .tagName)
+
+          CURRENT_SIGSTORE_PYTHON=$(grep -E '^sigstore==' requirements/main.txt | cut -d'=' -f3 | cut -d' ' -f1)
+          echo "Current sigstore-python==$CURRENT_SIGSTORE_PYTHON"
+
+          RELEASED_SIGSTORE_PYTHON=$(git show "$LATEST_TAG":requirements/main.txt | grep -E '^sigstore==' | cut -d'=' -f3 | cut -d' ' -f1)
+          echo "In the last release ($LATEST_TAG) sigstore-python==$RELEASED_SIGSTORE_PYTHON"
+
+          # Only file issue if one isn't open and version has actually bumped
+          if [[ "$CURRENT_SIGSTORE_PYTHON" != "$RELEASED_SIGSTORE_PYTHON" ]]; then
+            COUNT=$(gh issue list --search "Release Reminder: in:title" --json id --jq 'length' --limit 1)
+            if [[ "$COUNT" -eq 0 ]]; then
+              gh issue create \
+                --title "Release Reminder: sigstore-python version has been bumped" \
+                --body "sigstore-python version changed since last release ($RELEASED_SIGSTORE_PYTHON -> $CURRENT_SIGSTORE_PYTHON), maybe time to make a release?"
+            fi
+          fi
