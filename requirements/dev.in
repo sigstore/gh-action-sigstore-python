@@ -4,4 +4,4 @@ types-requests
 
 # copied from main.in
 sigstore ~= 4.2
-requests ~= 2.32
+requests ~= 2.33
