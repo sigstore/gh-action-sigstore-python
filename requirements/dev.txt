@@ -930,9 +930,9 @@ tuf==6.0.0 \
     --hash=sha256:458f663a233d95cc76dde0e1a3d01796516a05ce2781fefafebe037f7729601a \
     --hash=sha256:9eed0f7888c5fff45dc62164ff243a05d47fb8a3208035eb268974287e0aee8d
     # via sigstore
-types-requests==2.33.0.20260408 \
-    --hash=sha256:81f31d5ea4acb39f03be7bc8bed569ba6d5a9c5d97e89f45ac43d819b68ca50f \
-    --hash=sha256:95b9a86376807a216b2fb412b47617b202091c3ea7c078f47cc358d5528ccb7b
+types-requests==2.33.0.20260508 \
+    --hash=sha256:81b2ae5f0d20967714a6aa5ef9284c05570d7cb06b7de8f2a77b918b63ddd411 \
+    --hash=sha256:fa01459cca184229713df03709db46a905325906d27e042cd4fd7ea3d15d3400
     # via -r requirements/dev.in
 typing-extensions==4.15.0 \
     --hash=sha256:0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466 \
