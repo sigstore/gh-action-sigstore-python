@@ -1,2 +1,2 @@
 sigstore ~= 4.2
-requests ~= 2.33
+requests ~= 2.34
