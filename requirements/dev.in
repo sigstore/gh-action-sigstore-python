@@ -1,6 +1,5 @@
 ruff
 mypy
-types-requests
 
 # copied from main.in
 sigstore ~= 4.3
