@@ -2,5 +2,5 @@ ruff
 mypy
 
 # copied from main.in
-sigstore ~= 4.3
+sigstore ~= 4.4
 requests ~= 2.34
