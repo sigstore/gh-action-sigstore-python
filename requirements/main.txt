@@ -579,9 +579,9 @@ mdurl==0.1.2 \
     --hash=sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8 \
     --hash=sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba
     # via markdown-it-py
-platformdirs==4.11.3 \
-    --hash=sha256:5ed065d443751de711da036041a7a214122efc4a4de393b3f4137ba5576540e7 \
-    --hash=sha256:66a73d38a849810252df809a3d8bcbda8e26f6c189920e7535ad608a48dbb5ab
+platformdirs==4.11.4 \
+    --hash=sha256:e34ff91a24bcddc6d939b878bdf3f5c437c9c46fe9e212b1bf455fdf1ee57586 \
+    --hash=sha256:f3373be828247211d0febabea97e238c3dfde8a60b3c90c32756fb52cb21556d
     # via sigstore
 pyasn1==0.6.4 \
     --hash=sha256:9c447d8431c947fe4c8febc4ed9e760bc29011a5b01e5c74b67025bd9fb8ce81 \
@@ -894,9 +894,9 @@ rich==15.0.0 \
     --hash=sha256:33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb \
     --hash=sha256:edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36
     # via sigstore
-securesystemslib==1.4.0 \
-    --hash=sha256:a0743a3d978cf26e98a70a57e3fbd5a18e0a74c20cabe615f6a55b02ef0272b3 \
-    --hash=sha256:faea87be0f9c4b4277a5fa1b54bf9bfd807be9a94ab11be6c557dc8b75c43285
+securesystemslib==1.5.0 \
+    --hash=sha256:3701219c8149a0b1b45f4298d672efc78cd15c0d7d83d5a18bf585e1fce1320d \
+    --hash=sha256:66d2ea40ae150fb938767935a67252f5cfe37ec7cc2ec6e1d28c2509377014f6
     # via tuf
 sigstore==4.5.0 \
     --hash=sha256:020d3e07f622b2916bf453e66ff6ff0711e1fdc5ab69e8bd8902f71d9fcb316f \

@@ -896,9 +896,9 @@ pathspec==1.1.1 \
     --hash=sha256:17db5ecd524104a120e173814c90367a96a98d07c45b2e10c2f3919fff91bf5a \
     --hash=sha256:a00ce642f577bf7f473932318056212bc4f8bfdf53128c78bbd5af0b9b20b189
     # via mypy
-platformdirs==4.11.3 \
-    --hash=sha256:5ed065d443751de711da036041a7a214122efc4a4de393b3f4137ba5576540e7 \
-    --hash=sha256:66a73d38a849810252df809a3d8bcbda8e26f6c189920e7535ad608a48dbb5ab
+platformdirs==4.11.4 \
+    --hash=sha256:e34ff91a24bcddc6d939b878bdf3f5c437c9c46fe9e212b1bf455fdf1ee57586 \
+    --hash=sha256:f3373be828247211d0febabea97e238c3dfde8a60b3c90c32756fb52cb21556d
     # via sigstore
 pyasn1==0.6.4 \
     --hash=sha256:9c447d8431c947fe4c8febc4ed9e760bc29011a5b01e5c74b67025bd9fb8ce81 \
@@ -1249,9 +1249,9 @@ ruff==0.16.4 \
     --hash=sha256:fbd85d2875fdd67e833213a651f613bbf25303abf6aa822a5121f4531195678d \
     --hash=sha256:fbd85d2875fdd67e833213a651f613bbf25303abf6aa822a5121f4531195678d
     # via -r requirements/dev.in
-securesystemslib==1.4.0 \
-    --hash=sha256:a0743a3d978cf26e98a70a57e3fbd5a18e0a74c20cabe615f6a55b02ef0272b3 \
-    --hash=sha256:faea87be0f9c4b4277a5fa1b54bf9bfd807be9a94ab11be6c557dc8b75c43285
+securesystemslib==1.5.0 \
+    --hash=sha256:3701219c8149a0b1b45f4298d672efc78cd15c0d7d83d5a18bf585e1fce1320d \
+    --hash=sha256:66d2ea40ae150fb938767935a67252f5cfe37ec7cc2ec6e1d28c2509377014f6
     # via tuf
 sigstore==4.5.0 \
     --hash=sha256:020d3e07f622b2916bf453e66ff6ff0711e1fdc5ab69e8bd8902f71d9fcb316f \
