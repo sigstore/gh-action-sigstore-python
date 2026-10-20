@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - 'requirements/main.txt'
+      - 'uv.lock'
 
 permissions: {}
 
@@ -29,10 +29,19 @@ jobs:
         run: |
           LATEST_TAG=$(gh release view --json tagName --jq .tagName)
 
-          CURRENT_SIGSTORE_PYTHON=$(grep -E '^sigstore==' requirements/main.txt | cut -d'=' -f3 | cut -d' ' -f1)
+          sigstore_version() {
+            python3 -c 'import sys, tomllib; print(next(p["version"] for p in tomllib.load(sys.stdin.buffer)["package"] if p["name"] == "sigstore"))'
+          }
+
+          CURRENT_SIGSTORE_PYTHON=$(sigstore_version < uv.lock)
           echo "Current sigstore-python==$CURRENT_SIGSTORE_PYTHON"
 
-          RELEASED_SIGSTORE_PYTHON=$(git show "$LATEST_TAG":requirements/main.txt | grep -E '^sigstore==' | cut -d'=' -f3 | cut -d' ' -f1)
+          if git cat-file -e "$LATEST_TAG":uv.lock 2>/dev/null; then
+            RELEASED_SIGSTORE_PYTHON=$(git show "$LATEST_TAG":uv.lock | sigstore_version)
+          else
+            # Releases before the uv migration used requirements files.
+            RELEASED_SIGSTORE_PYTHON=$(git show "$LATEST_TAG":requirements/main.txt | grep -E '^sigstore==' | cut -d'=' -f3 | cut -d' ' -f1)
+          fi
           echo "In the last release ($LATEST_TAG) sigstore-python==$RELEASED_SIGSTORE_PYTHON"
 
           # Only file issue if one isn't open and version has actually bumped

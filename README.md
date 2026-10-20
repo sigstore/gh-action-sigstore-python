@@ -47,6 +47,9 @@ This can be done by setting `id-token: write` on your job (as above) or workflow
 More information about permission settings can be found
 [here](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#adding-permissions-settings).
 
+The action sets up the latest uv (0.13.4 or newer) to manage its Python runtime and
+dependencies; you do not need to set up Python first.
+
 ## Configuration
 
 `gh-action-sigstore-python` takes a variety of configuration inputs, most of which are

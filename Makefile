@@ -3,17 +3,12 @@
 all:
 	@echo "Run my targets individually!"
 
-.venv/pyvenv.cfg: requirements/dev.txt
-	setup/create-venv.sh .venv
-	. ./.venv/bin/activate && \
-	uv pip install -r requirements/dev.txt
-
 .PHONY: dev
-dev: .venv/pyvenv.cfg
+dev:
+	uv sync --locked
 
 .PHONY: lint
-lint: .venv/pyvenv.cfg action.py
-	. ./.venv/bin/activate && \
-	ruff format --diff action.py && \
-	ruff check action.py && \
-	mypy action.py
+lint:
+	uv run --locked --dev ruff format --check action.py
+	uv run --locked --dev ruff check action.py
+	uv run --locked --dev mypy action.py
