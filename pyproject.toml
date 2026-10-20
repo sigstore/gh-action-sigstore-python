@@ -1,2 +1,30 @@
+[project]
+name = "gh-action-sigstore-python"
+version = "0.0.0"
+description = "Use sigstore-python to sign Python packages"
+requires-python = ">=3.14"
+dependencies = [
+    "requests~=2.34",
+    "sigstore~=4.5.1",
+]
+classifiers = [
+    # This is a GitHub Action, not a PyPI package.
+    "Private :: Do Not Upload",
+]
+
+[dependency-groups]
+dev = [
+    "mypy",
+    "ruff",
+]
+
+[tool.uv]
+required-version = ">=0.13.4"
+exclude-newer = "P7D"
+
+[tool.uv.exclude-newer-package]
+certifi = false
+sigstore = false
+
 [tool.ruff]
 lint.select = ["ANN", "E", "F", "FA", "I", "N", "PIE", "PYI", "RET", "RUF", "UP", "W"]

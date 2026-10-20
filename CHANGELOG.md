@@ -8,6 +8,10 @@ All versions prior to 3.0.0 are untracked.
 
 ## [Unreleased]
 
+### Changed
+
+* Use uv to manage the action's runtime and dependencies with `uv.lock`.
+
 ## [3.2.0]
 
 `gh-action-sigstore-python` now manages the used Python version internally, improving reliability.

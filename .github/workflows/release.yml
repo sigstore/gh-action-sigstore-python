@@ -20,7 +20,7 @@ jobs:
           persist-credentials: false
 
       - name: sign
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           inputs: action.yml action.py

@@ -11,7 +11,7 @@ jobs:
     permissions:
       id-token: write # for OIDC in selftest
 
-    uses: ./.github/workflows/selftest.yml
+    uses: $/.github/workflows/selftest.yml
   open-issue:
     permissions:
       issues: write # for opening the issue
