@@ -33,7 +33,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Sign artifact and publish signature
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
@@ -63,7 +63,7 @@ jobs:
           version: "0.9.17"
           python-version: "3.10"
       - name: Sign artifact and publish signature
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
@@ -93,7 +93,7 @@ jobs:
         with:
           python-version: "3.x"
       - name: Sign artifact and publish signature
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           inputs: |
@@ -126,7 +126,7 @@ jobs:
           persist-credentials: false
       - name: Sign artifact and publish signature
         continue-on-error: true
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           inputs: ${{ matrix.input }}
@@ -150,14 +150,14 @@ jobs:
         with:
           persist-credentials: false
       - name: Sign artifact and publish signature
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
           staging: true
           internal-be-careful-debug: true
       - name: Sign artifact with non-default rekor-version and publish signature
-        uses: ./
+        uses: $/
         with:
           inputs: ./test/artifact2.txt
           staging: true
@@ -177,7 +177,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Sign artifacts and publish signatures
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           inputs: ./test/*.txt
@@ -202,7 +202,7 @@ jobs:
           persist-credentials: false
       - name: Sign artifacts and publish signatures
         continue-on-error: true
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           # This should fail since we should never directly expand ${TEST_DIR};
@@ -229,7 +229,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Sign artifacts and publish signatures
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           inputs: ./test/artifact*.txt ./test/another*.txt ./test/subdir/*.txt
@@ -256,7 +256,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Sign artifact and publish signature
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
@@ -283,7 +283,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Sign artifact and publish signature
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
@@ -324,7 +324,7 @@ jobs:
           persist-credentials: false
       - name: Sign artifact and publish signature
         continue-on-error: true
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
@@ -364,7 +364,7 @@ jobs:
           echo "identity-token=$identity_token" >> $GITHUB_OUTPUT
         shell: bash
       - name: Sign artifact and publish signature
-        uses: ./
+        uses: $/
         id: sigstore-python
         with:
           inputs: ./test/artifact.txt
