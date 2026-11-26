@@ -151,6 +151,23 @@ Example:
     staging: true
 ```
 
+### `rekor-version`
+
+**Default**: `1`, or `2` when [`staging`](#staging) is enabled
+
+The `rekor-version` setting controls which Rekor transparency log instance version is used
+during signing. Valid values are `1` and `2`. Verifying clients must be compatible with the
+Rekor version used.
+
+Example:
+
+```yaml
+- uses: sigstore/gh-action-sigstore-python@v3.4.0
+  with:
+    inputs: file.txt
+    rekor-version: 2
+```
+
 ### `verify`
 
 **Default**: `false`
